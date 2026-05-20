@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+<BaseLayout title="404 — John Cornelius" description="Nothing here.">
+  <section class="shell page-404">
+    <p class="h-eyebrow t-mono">SYS / ROUTE NOT FOUND</p>
+    <h1 class="h-display">404</h1>
+    <p class="t-lead">No record matches. The page either never existed or was archived.</p>
+    <ul class="actions" role="list">
+      <li><a href="/" class="t-mono">/ &mdash; back to index</a></li>
+      <li><a href="/work" class="t-mono">/work &mdash; all systems</a></li>
+      <li><a href="/contact" class="t-mono">/contact &mdash; reach the operator</a></li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-404 {
+    min-height: 64svh;
+    display: grid;
+    place-content: center;
+    gap: var(--space-5);
+    text-align: center;
+    padding-block: var(--space-9);
+  }
+  .page-404 .h-display { font-size: clamp(6rem, 18vw, 11rem); color: var(--fg); }
+  .page-404 .t-lead { max-width: 36rem; margin: 0 auto; }
+  .actions { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); font-size: var(--fs-sm); color: var(--fg-2); }
+  .actions a { color: var(--fg-2); }
+  .actions a:hover { color: var(--accent); }
+</style>
