@@ -51,6 +51,64 @@ export function mountAgent(root: HTMLElement): void {
   let voiceActive = false;
   let voiceSession: VoiceSession | null = null;
   let cancelStream: AbortController | null = null;
+  let ttsCancel: AbortController | null = null;
+  // Auto-replay assistant responses in John's cloned voice by default.
+  // Users can toggle off via the mute button (data-agent-mute).
+  let autoSpeak = (() => {
+    try { return localStorage.getItem('agent-mute') !== '1'; } catch { return true; }
+  })();
+  const muteBtn = root.querySelector<HTMLButtonElement>('[data-agent-mute]');
+  if (muteBtn) {
+    muteBtn.setAttribute('aria-pressed', autoSpeak ? 'false' : 'true');
+    muteBtn.textContent = autoSpeak ? 'Mute' : 'Unmute';
+    muteBtn.addEventListener('click', () => {
+      autoSpeak = !autoSpeak;
+      try { localStorage.setItem('agent-mute', autoSpeak ? '0' : '1'); } catch {}
+      muteBtn.setAttribute('aria-pressed', autoSpeak ? 'false' : 'true');
+      muteBtn.textContent = autoSpeak ? 'Mute' : 'Unmute';
+      if (!autoSpeak) {
+        ttsCancel?.abort();
+        audioEl.pause();
+        audioEl.src = '';
+      }
+    });
+  }
+
+  function stripCitations(text: string): string {
+    // Strip [1], [2], [01] etc. so TTS doesn't say "bracket one".
+    return text.replace(/\s*\[(?:\d+)\]/g, '').replace(/\s{2,}/g, ' ').trim();
+  }
+
+  async function speak(text: string): Promise<void> {
+    if (!autoSpeak) return;
+    const clean = stripCitations(text);
+    if (!clean) return;
+    ttsCancel?.abort();
+    ttsCancel = new AbortController();
+    try {
+      setMode('speaking');
+      const res = await fetch(TTS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: clean }),
+        signal: ttsCancel.signal,
+      });
+      if (!res.ok) throw new Error('tts ' + res.status);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      audioEl.src = url;
+      audioEl.onended = () => {
+        URL.revokeObjectURL(url);
+        setMode(voiceActive ? 'listening' : 'idle');
+      };
+      await audioEl.play().catch(() => undefined);
+    } catch (err) {
+      if ((err as Error)?.name !== 'AbortError') {
+        console.warn('[agent] tts failed', err);
+      }
+      setMode(voiceActive ? 'listening' : 'idle');
+    }
+  }
 
   const setMode = (mode: AgentMode) => {
     state.textContent = labelFor(mode);
@@ -110,13 +168,18 @@ export function mountAgent(root: HTMLElement): void {
           break;
         }
       }
-      if (acc) history.push({ role: 'assistant', text: acc });
+      if (acc) {
+        history.push({ role: 'assistant', text: acc });
+        // Auto-replay assistant text in John's cloned voice (unless muted or in voice mode).
+        if (!voiceActive) void speak(acc);
+      }
     } catch (err) {
       if ((err as Error)?.name !== 'AbortError') {
         renderError(assistant, err);
       }
     } finally {
-      setMode(voiceActive ? 'listening' : 'idle');
+      if (!voiceActive) setMode(autoSpeak ? 'speaking' : 'idle');
+      else setMode('listening');
     }
   }
 

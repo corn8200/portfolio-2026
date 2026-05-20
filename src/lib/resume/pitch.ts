@@ -1,20 +1,20 @@
-// Pitch generation. Streams a Markdown pitch from gpt-4o-mini given the
-// visitor's resume text, the chosen direction, and John's CV as system
-// context.
+// Role-fit pitch. Streams a Markdown pitch from gpt-4o-mini given a visitor's
+// job posting / role description and John's CV as system context.
 //
-// The prompt is opinionated: it must call out gaps, not flatter, and use the
-// `[John]` / `[you]` citation convention so the reader can trace any claim
-// back to its source.
+// Single direction: visitor describes a role; the model returns an honest
+// pitch on whether and how John fits. Calls out gaps explicitly.
 
 import { getCvRaw } from '../content';
 import type { PitchDirection } from './types';
 
 export interface PitchOptions {
   apiKey: string;
+  /** Kept for back-compat with the existing endpoint shape. Only one direction is used. */
   direction: PitchDirection;
+  /** Body of the job posting / role description / company info pasted by the visitor. */
   resumeText: string;
+  /** Visitor's name or company. */
   visitorName?: string;
-  /** Caller-supplied AbortSignal (e.g. when the SSE client disconnects). */
   signal?: AbortSignal;
 }
 
@@ -24,60 +24,33 @@ export interface PitchUsage {
 }
 
 export interface PitchStream {
-  /** Async iterable of UTF-8 text deltas. */
   deltas: AsyncGenerator<string, void, void>;
-  /** Resolves after the stream completes with whatever usage we could parse. */
   usage(): Promise<PitchUsage>;
 }
 
 const SYSTEM_PREAMBLE = [
-  'You are the Resume Mirror for John Cornelius\' portfolio site.',
-  'Your job is to produce an honest, opinionated pitch in Markdown.',
+  'You are the Role-Fit Pitch for John Cornelius\' portfolio site.',
+  'The visitor has provided a job posting, role description, or company overview.',
+  'John is NOT hiring — John is the candidate. Your job is to produce an honest,',
+  'opinionated pitch in Markdown on whether and how John fits the role.',
   '',
   'Rules:',
   '- No preamble, no sign-off, no "Sure, here is" framing.',
   '- Markdown only. No code fences around the whole output.',
-  '- Format: one bold verdict line, then 3-5 numbered points, then a short',
-  '  closing CTA paragraph (1-2 sentences).',
-  '- Cite the source of every concrete claim. Use `[John]` when the claim',
-  '  comes from John\'s CV, `[you]` when it comes from the visitor\'s resume.',
-  '- Honesty over flattery. If John has no Kubernetes experience visible,',
-  '  say so. If the visitor\'s years at FAANG do not outweigh John shipping',
-  '  eight solo systems this year, say so. Real overlap > fake symmetry.',
-  '- Surface gaps in the direction the pitch is going. A "hire John" pitch',
-  '  should still name where John is thin. A "John should hire you" pitch',
-  '  should still name where the visitor is thin.',
-  '- Concrete examples beat adjectives. Pull specific systems, dates, and',
-  '  metrics from both documents.',
+  '- Format: one bold verdict line ("Strong fit", "Partial fit", "Mismatch — here\'s why"), then 3-5 numbered points mapping John\'s actual experience to specific requirements in the role, then a short closing CTA.',
+  '- Cite using `[John]` for claims drawn from John\'s CV, `[role]` for the role description.',
+  '- Honesty over flattery. If the role requires Kubernetes and John has no visible Kubernetes experience, name it. If a "5+ years FAANG" line item is missing from John\'s record, name it. Real overlap > fake symmetry.',
+  '- Lead with the strongest, most specific overlap. Examples beat adjectives: pull metrics, dates, system names from John\'s CV.',
+  '- The CTA should suggest a 20-minute intro call to `corn82@icloud.com`, optionally naming one specific aspect of the role to discuss first.',
   '- Maximum ~280 words. Tight, scannable, no filler.',
 ].join('\n');
 
-function directionInstructions(direction: PitchDirection, name?: string): string {
-  const visitor = name && name.trim() ? name.trim() : 'the visitor';
-  if (direction === 'pitch-them-to-john') {
-    return [
-      `DIRECTION: Pitch JOHN to ${visitor} — i.e. ${visitor} is considering`,
-      'hiring John or bringing him onto a project. Lead with the strongest',
-      'overlap between John\'s actual work and what the visitor\'s resume',
-      'implies they need. End with a CTA inviting them to reach out',
-      '(`corn82@icloud.com`) with one specific question or scope.',
-    ].join('\n');
-  }
-  return [
-    `DIRECTION: Pitch ${visitor} to JOHN — i.e. argue whether John should`,
-    'hire or collaborate with the visitor based on their resume. Be candid',
-    'about fit: what they bring that John currently lacks, what looks',
-    'redundant, and where they\'re thin for the kind of operator-grade',
-    'systems John ships. End with a CTA telling the visitor what one piece',
-    'of evidence (a repo, a write-up, a metric) would tip the scale.',
-  ].join('\n');
-}
-
 function buildSystemMessage(direction: PitchDirection, name: string | undefined, cv: string): string {
+  // direction parameter retained for back-compat; we only do one direction now.
+  void direction;
+  void name;
   return [
     SYSTEM_PREAMBLE,
-    '',
-    directionInstructions(direction, name),
     '',
     '--- BEGIN John\'s CV ---',
     cv.trim(),
@@ -85,19 +58,14 @@ function buildSystemMessage(direction: PitchDirection, name: string | undefined,
   ].join('\n');
 }
 
-function buildUserMessage(resumeText: string, name?: string): string {
-  const header = name && name.trim() ? `Visitor name: ${name.trim()}\n\n` : '';
+function buildUserMessage(roleText: string, name?: string): string {
+  const header = name && name.trim() ? `Company or team: ${name.trim()}\n\n` : '';
   return (
-    `${header}--- BEGIN visitor's resume ---\n${resumeText.trim()}\n--- END visitor's resume ---\n\n` +
+    `${header}--- BEGIN role description ---\n${roleText.trim()}\n--- END role description ---\n\n` +
     'Produce the pitch now. Markdown only.'
   );
 }
 
-/**
- * Open a streaming chat completion. Returns an async iterable of text deltas.
- * Throws synchronously only on the initial HTTP failure; per-chunk parsing
- * errors are swallowed (we just stop yielding).
- */
 export async function streamPitch(opts: PitchOptions): Promise<PitchStream> {
   const cv = getCvRaw();
   if (!cv) throw new Error('pitch: CV source not available at build time');
@@ -148,7 +116,6 @@ export async function streamPitch(opts: PitchOptions): Promise<PitchStream> {
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
 
-        // SSE frames separated by blank lines.
         let idx: number;
         while ((idx = buffer.indexOf('\n\n')) !== -1) {
           const frame = buffer.slice(0, idx);
@@ -172,7 +139,7 @@ export async function streamPitch(opts: PitchOptions): Promise<PitchStream> {
                 };
               }
             } catch {
-              // Ignore non-JSON frames (comments, keepalives).
+              // ignore
             }
           }
         }

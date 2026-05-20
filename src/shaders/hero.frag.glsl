@@ -90,14 +90,19 @@ void main() {
   float introMask = step(1.0 - intro - hash21(floor(uv * 22.0)) * 0.25, uv.y);
   lines *= introMask;
 
+  // Vignette so isolines fade out at the edges (and behind text-heavy regions).
   float vignette = smoothstep(1.20, 0.45, length((uv - 0.5) * vec2(1.4, 1.0)));
-  float grain = (hash21(uv * u_resolution * 0.5) - 0.5) * 0.008;
 
-  vec3 col = u_bg + grain;
+  // Line color: ink-on-paper blended with a touch of accent at high-gradient spots.
   vec3 lineCol = mix(u_fg, u_accent, accentMix);
 
-  col = mix(col, lineCol, lines * 0.55 * vignette);
-  col = mix(col, u_accent, mouseFalloff * 0.06 * intro);
+  // Alpha-aware composite. The canvas is transparent (alpha:true) so the body
+  // bg paints behind it. We only "draw" the isolines, dimmed by the vignette
+  // and the cursor-halo. Keep total alpha low so text stays readable.
+  float lineAlpha = lines * 0.18 * vignette;
+  float haloAlpha = mouseFalloff * 0.05 * intro;
+  float a = clamp(lineAlpha + haloAlpha, 0.0, 0.45);
+  vec3 outCol = mix(lineCol, u_accent, haloAlpha / max(a, 1e-4));
 
-  fragColor = vec4(col, 1.0);
+  fragColor = vec4(outCol, a);
 }

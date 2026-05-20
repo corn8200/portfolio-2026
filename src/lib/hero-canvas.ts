@@ -99,7 +99,8 @@ function deriveSeed(): number {
 export function mountHeroCanvas(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext('webgl2', {
     antialias: false,
-    alpha: false,
+    alpha: true,
+    premultipliedAlpha: true,
     powerPreference: 'low-power',
     preserveDrawingBuffer: false,
   });
@@ -108,6 +109,9 @@ export function mountHeroCanvas(canvas: HTMLCanvasElement) {
     return () => {};
   }
   const gl: WebGL2RenderingContext = ctx;
+  gl.enable(gl.BLEND);
+  gl.blendFuncSeparate(gl.ONE, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+  gl.clearColor(0, 0, 0, 0);
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -251,6 +255,7 @@ export function mountHeroCanvas(canvas: HTMLCanvasElement) {
     gl.uniform1f(u.u_dpr!, state.dpr);
     gl.uniform1f(u.u_reduced!, state.reduced ? 1 : 0);
 
+    gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
 

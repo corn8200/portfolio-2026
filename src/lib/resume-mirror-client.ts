@@ -17,6 +17,7 @@ type Direction = PitchDirection;
 
 interface MountState {
   file: File | null;
+  text: string;
   direction: Direction;
   busy: boolean;
 }
@@ -119,6 +120,7 @@ function renderMarkdown(md: string): string {
 function setState(root: HTMLElement, partial: Partial<MountState>): void {
   const cur = (root as HTMLElement & { _mirrorState?: MountState })._mirrorState ?? {
     file: null,
+    text: '',
     direction: 'pitch-them-to-john',
     busy: false,
   };
@@ -131,6 +133,7 @@ function getState(root: HTMLElement): MountState {
   return (
     (root as HTMLElement & { _mirrorState?: MountState })._mirrorState ?? {
       file: null,
+      text: '',
       direction: 'pitch-them-to-john',
       busy: false,
     }
@@ -142,7 +145,8 @@ function renderState(root: HTMLElement, state: MountState): void {
   const submitBtn = $(root, '[data-mirror-submit]') as HTMLButtonElement | null;
   const dropLabel = $(root, '[data-mirror-droplabel]');
 
-  if (submitBtn) submitBtn.disabled = !state.file || state.busy;
+  const hasInput = !!state.file || state.text.trim().length > 0;
+  if (submitBtn) submitBtn.disabled = !hasInput || state.busy;
 
   if (status) {
     if (state.busy) {
@@ -152,14 +156,17 @@ function renderState(root: HTMLElement, state: MountState): void {
       const kb = Math.max(1, Math.round(state.file.size / 1024));
       status.textContent = `${state.file.name} · ${kb} KB`;
       status.dataset.state = 'ready';
+    } else if (state.text.trim().length > 0) {
+      status.textContent = `${state.text.trim().length} chars pasted`;
+      status.dataset.state = 'ready';
     } else {
-      status.textContent = 'no file';
+      status.textContent = 'paste a role';
       status.dataset.state = 'idle';
     }
   }
 
   if (dropLabel) {
-    dropLabel.textContent = state.file ? 'replace file' : 'drop a pdf or text resume here';
+    dropLabel.textContent = state.file ? 'replace file' : 'or drop a PDF / .txt / .md of the role';
   }
 
   for (const btn of root.querySelectorAll<HTMLButtonElement>('[data-mirror-direction]')) {
@@ -171,7 +178,8 @@ function renderState(root: HTMLElement, state: MountState): void {
 
 async function submitMirror(root: HTMLElement): Promise<void> {
   const state = getState(root);
-  if (!state.file || state.busy) return;
+  const hasInput = !!state.file || state.text.trim().length > 0;
+  if (!hasInput || state.busy) return;
 
   const result = $(root, '[data-mirror-result]');
   if (!result) return;
@@ -180,11 +188,21 @@ async function submitMirror(root: HTMLElement): Promise<void> {
   const name = nameInput?.value?.trim() ?? '';
 
   setState(root, { busy: true });
-  result.innerHTML = '<p class="mirror-result__waiting t-meta">extracting resume…</p>';
+  while (result.firstChild) result.removeChild(result.firstChild);
+  const waiting = document.createElement('p');
+  waiting.className = 'mirror-result__waiting t-meta';
+  waiting.textContent = 'reading the role…';
+  result.appendChild(waiting);
   result.classList.add('is-streaming');
 
+  // Prefer pasted text. Fall back to file upload.
+  const useText = state.text.trim().length > 0;
   const form = new FormData();
-  form.append('resume', state.file);
+  if (useText) {
+    form.append('resume', state.text.trim());
+  } else if (state.file) {
+    form.append('resume', state.file);
+  }
   form.append('direction', state.direction);
   if (name) form.append('name', name);
 
@@ -272,7 +290,15 @@ async function submitMirror(root: HTMLElement): Promise<void> {
 }
 
 export function mountResumeMirror(root: HTMLElement): void {
-  setState(root, { file: null, direction: 'pitch-them-to-john', busy: false });
+  setState(root, { file: null, text: '', direction: 'pitch-them-to-john', busy: false });
+
+  // Textarea: live-update state so the submit button enables when text is pasted.
+  const textInput = $(root, '[data-mirror-text]') as HTMLTextAreaElement | null;
+  if (textInput) {
+    textInput.addEventListener('input', () => {
+      setState(root, { text: textInput.value });
+    });
+  }
 
   const drop = $(root, '[data-mirror-drop]');
   const fileInput = $(root, '[data-mirror-file]') as HTMLInputElement | null;
@@ -303,7 +329,13 @@ export function mountResumeMirror(root: HTMLElement): void {
       const err = validateFile(file);
       if (err) {
         const result = $(root, '[data-mirror-result]');
-        if (result) result.innerHTML = `<p class="mirror-result__error">${escapeHtml(err)}</p>`;
+        if (result) {
+          while (result.firstChild) result.removeChild(result.firstChild);
+          const p = document.createElement('p');
+          p.className = 'mirror-result__error';
+          p.textContent = err;
+          result.appendChild(p);
+        }
         return;
       }
       setState(root, { file });
@@ -315,8 +347,14 @@ export function mountResumeMirror(root: HTMLElement): void {
       const err = validateFile(file);
       if (err) {
         const result = $(root, '[data-mirror-result]');
-        if (result) result.innerHTML = `<p class="mirror-result__error">${escapeHtml(err)}</p>`;
-        fileInput.value = '';
+        if (result) {
+          while (result.firstChild) result.removeChild(result.firstChild);
+          const p = document.createElement('p');
+          p.className = 'mirror-result__error';
+          p.textContent = err;
+          result.appendChild(p);
+        }
+        if (fileInput) fileInput.value = '';
         return;
       }
       setState(root, { file });

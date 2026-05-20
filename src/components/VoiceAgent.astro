@@ -5,8 +5,11 @@
 ---
 <div class="agent" data-agent>
   <div class="agent__chrome">
-    <span class="t-meta">VOICE / TEXT · CITED RAG · STREAMING</span>
-    <span class="t-meta agent__state" data-agent-state>idle</span>
+    <span class="t-meta">VOICE / TEXT · CITED RAG · CLONED VOICE</span>
+    <span class="agent__chrome-right">
+      <button type="button" class="agent__mute t-meta" data-agent-mute aria-pressed="false">Mute</button>
+      <span class="t-meta agent__state" data-agent-state>idle</span>
+    </span>
   </div>
 
   <div class="agent__log" role="log" aria-live="polite" aria-label="Conversation history" data-agent-log></div>
@@ -34,8 +37,8 @@
   </form>
 
   <p class="agent__hint t-meta">
-    Voice mode is opt-in. Sub-800ms perceived latency target. Cite chips
-    <span class="cite-chip">[01]</span> link to the source role or project.
+    Every answer replays in John's cloned voice (mute to silence).
+    Cite chips <span class="cite-chip">[01]</span> link to the source section.
   </p>
 </div>
 
@@ -63,11 +66,18 @@
     border-bottom: 1px solid var(--rule);
     padding-bottom: var(--space-3);
   }
+  .agent__chrome-right { display: inline-flex; align-items: center; gap: var(--space-3); }
+  .agent__mute {
+    padding: 2px 8px; border-radius: var(--r-pill); border: 1px solid var(--rule-strong);
+    cursor: pointer; color: var(--fg-2); background: transparent;
+  }
+  .agent__mute:hover, .agent__mute:focus-visible { color: var(--fg); border-color: var(--fg); }
+  .agent__mute[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
   .agent__state {
     padding: 2px 8px; border-radius: var(--r-pill); border: 1px solid var(--rule-strong);
     text-transform: lowercase;
   }
-  .agent__state[data-mode="listening"], .agent__state[data-mode="streaming"] { color: var(--accent); border-color: var(--accent); }
+  .agent__state[data-mode="listening"], .agent__state[data-mode="streaming"], .agent__state[data-mode="speaking"] { color: var(--accent); border-color: var(--accent); }
 
   .agent__log {
     min-height: 8rem;

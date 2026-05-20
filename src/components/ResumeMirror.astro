@@ -12,24 +12,36 @@
 ---
 <div class="mirror" data-mirror-root>
   <div class="mirror__chrome">
-    <span class="t-meta">RESUME / MIRROR · OPINIONATED · STREAMED</span>
-    <span class="t-meta mirror__status" data-mirror-status data-state="idle">no file</span>
+    <span class="t-meta">ROLE-FIT PITCH · OPINIONATED · STREAMED</span>
+    <span class="t-meta mirror__status" data-mirror-status data-state="idle">paste a role</span>
   </div>
 
   <form class="mirror__form" data-mirror-form>
+    <label class="mirror__paste">
+      <span class="t-meta">Paste the role description, job posting, or company brief</span>
+      <textarea
+        class="mirror__textarea"
+        data-mirror-text
+        placeholder="Paste here — bullets, a link's job description, a one-paragraph problem statement, anything. The more concrete, the more honest the pitch."
+        rows="8"
+        maxlength="16000"
+      ></textarea>
+      <span class="t-meta mirror__hint-inline">or drop a PDF / .txt / .md below</span>
+    </label>
+
     <div
       class="mirror__drop"
       data-mirror-drop
       tabindex="0"
       role="button"
-      aria-label="Choose or drop a resume file"
+      aria-label="Choose or drop a job posting file"
     >
       <svg class="mirror__icon" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
         <path d="M11 3v10m0 0l-4-4m4 4l4-4M4 16v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2"
               fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
-      <span class="mirror__drop-label" data-mirror-droplabel>drop a pdf or text resume here</span>
-      <span class="t-meta">or click · pdf · txt · md · max 4 MB</span>
+      <span class="mirror__drop-label" data-mirror-droplabel>or drop a PDF / .txt / .md of the role</span>
+      <span class="t-meta">click · pdf · txt · md · max 4 MB</span>
       <input
         type="file"
         accept=".pdf,.txt,.md,application/pdf,text/plain,text/markdown"
@@ -38,31 +50,17 @@
       />
     </div>
 
-    <fieldset class="mirror__direction" aria-label="Choose pitch direction">
-      <legend class="visually-hidden">Pitch direction</legend>
-      <button type="button"
-              class="mirror__tab"
-              data-mirror-direction="pitch-them-to-john"
-              aria-pressed="true">
-        <span class="mirror__tab-title">Why you should hire John</span>
-        <span class="t-meta">pitches John to you</span>
-      </button>
-      <button type="button"
-              class="mirror__tab"
-              data-mirror-direction="pitch-john-to-them"
-              aria-pressed="false">
-        <span class="mirror__tab-title">Why John should hire you</span>
-        <span class="t-meta">pitches you to John</span>
-      </button>
-    </fieldset>
+    <!-- Direction is fixed: visitor describes a role, model pitches John for it.
+         The hidden input preserves the server contract. -->
+    <input type="hidden" data-mirror-direction value="pitch-them-to-john" />
 
     <label class="mirror__name">
-      <span class="t-meta">Your name (optional)</span>
+      <span class="t-meta">Your name or company (optional)</span>
       <input
         type="text"
-        autocomplete="name"
+        autocomplete="organization"
         maxlength="120"
-        placeholder="e.g. Ada Lovelace"
+        placeholder="e.g. Acme Manufacturing"
         data-mirror-name
       />
     </label>
@@ -79,7 +77,7 @@
   </form>
 
   <div class="mirror__result" data-mirror-result aria-live="polite" aria-atomic="false">
-    <p class="t-meta mirror__hint">Drop a resume, pick a direction, hit generate.</p>
+    <p class="t-meta mirror__hint">Paste a role or drop a job posting. The pitch streams live, in John's voice, citing specific lines from his CV and yours.</p>
   </div>
 </div>
 

@@ -51,13 +51,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://portfolio-2
   <link rel="manifest" href="/manifest.webmanifest" />
 
   <script is:inline>
-    // FOUC-free theme bootstrapping; reads stored preference, otherwise honors prefers-color-scheme.
+    // Theme bootstrap. Light by default (highest reliable contrast across browsers).
+    // Dark mode is opt-in, only applied if the user has explicitly stored 'dark'.
     (function () {
       try {
-        const stored = localStorage.getItem('theme');
-        const sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', stored || sys);
-      } catch (_) {}
+        var stored = localStorage.getItem('theme');
+        if (stored === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+        else document.documentElement.setAttribute('data-theme', 'light');
+      } catch (_) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
     })();
   </script>
 
