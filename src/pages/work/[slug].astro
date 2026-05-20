@@ -1,0 +1,107 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getAllProjects, getProjectBySlug } from '@lib/content';
+
+export async function getStaticPaths() {
+  const projects = getAllProjects();
+  return projects.map((p) => ({ params: { slug: p.frontmatter.slug } }));
+}
+
+const { slug } = Astro.params;
+const project = slug ? getProjectBySlug(slug) : undefined;
+
+if (!project) {
+  return new Response('Not Found', { status: 404 });
+}
+
+const all = getAllProjects();
+const idx = all.findIndex((p) => p.frontmatter.slug === slug);
+const prev = idx > 0 ? all[idx - 1] : null;
+const next = idx < all.length - 1 ? all[idx + 1] : null;
+
+const f = project.frontmatter;
+const Content = project.Content as any;
+---
+<BaseLayout title={`${f.title} — John Cornelius`} description={f.summary}>
+  <article class="shell-wide proj-page">
+    <header class="proj-page__head">
+      <a class="t-meta" href="/work" style="display:inline-block; margin-bottom: var(--space-4);">&larr; All work</a>
+      <p class="h-eyebrow">{String(idx + 1).padStart(2, '0')} / Dossier</p>
+      <h1 class="h-display" style={`view-transition-name: project-${f.slug};`}>{f.title}</h1>
+      <p class="t-lead">{f.summary}</p>
+      <dl class="meta-row proj-page__meta">
+        {f.year && <><dt>year</dt><dd>{f.year}</dd></>}
+        {f.status && <><dt>status</dt><dd>{f.status}</dd></>}
+        {f.stack && <><dt>stack</dt><dd>{f.stack.join(' · ')}</dd></>}
+        {f.links?.repo && <><dt>repo</dt><dd><a href={f.links.repo}>{f.links.repo}</a></dd></>}
+      </dl>
+    </header>
+
+    <div class="proj-page__body">
+      {Content ? <Content /> : <pre class="t-mono">{project.rawContent}</pre>}
+    </div>
+
+    <nav class="proj-nav" aria-label="Project pagination">
+      {prev ? (
+        <a class="proj-nav__a proj-nav__a--prev" href={prev.url}>
+          <span class="t-meta">&larr; previous</span>
+          <span class="h-3">{prev.frontmatter.title}</span>
+        </a>
+      ) : <span />}
+      {next ? (
+        <a class="proj-nav__a proj-nav__a--next" href={next.url}>
+          <span class="t-meta">next &rarr;</span>
+          <span class="h-3">{next.frontmatter.title}</span>
+        </a>
+      ) : <span />}
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .proj-page { padding-block: var(--space-9) var(--space-10); display: grid; gap: var(--space-8); }
+  .proj-page__head { display: grid; gap: var(--space-4); max-width: 64rem; }
+  .proj-page__meta {
+    grid-template-columns: 6rem 1fr;
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    max-width: 52rem;
+  }
+
+  .proj-page__body {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 56rem;
+    font-size: var(--fs-md);
+    line-height: var(--lh-md);
+    color: var(--fg-2);
+  }
+  .proj-page__body :global(h2) { font: 520 var(--fs-xl)/var(--lh-xl) var(--font-display); color: var(--fg); margin-top: var(--space-6); letter-spacing: var(--tracking-xl); }
+  .proj-page__body :global(h3) { font: 540 var(--fs-lg)/var(--lh-lg) var(--font-display); color: var(--fg); margin-top: var(--space-5); }
+  .proj-page__body :global(p) { color: var(--fg-2); }
+  .proj-page__body :global(ul), .proj-page__body :global(ol) { padding-left: 1.25em; }
+  .proj-page__body :global(li) { color: var(--fg-2); margin-bottom: var(--space-2); }
+  .proj-page__body :global(code) { font-family: var(--font-mono); font-size: 0.9em; background: var(--bg-2); padding: 1px 6px; border-radius: var(--r-1); color: var(--fg); }
+  .proj-page__body :global(strong) { color: var(--fg); font-weight: 570; }
+  .proj-page__body :global(a) { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .proj-page__body :global(blockquote) { border-left: 2px solid var(--accent); padding-left: var(--space-4); color: var(--fg); }
+
+  .proj-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-6);
+  }
+  .proj-nav__a {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-4) 0;
+    color: var(--fg-2);
+    transition: color var(--dur-fast) var(--ease-standard);
+  }
+  .proj-nav__a:hover, .proj-nav__a:focus-visible { color: var(--fg); }
+  .proj-nav__a:hover .h-3, .proj-nav__a:focus-visible .h-3 { color: var(--accent); }
+  .proj-nav__a--next { text-align: right; justify-items: end; }
+</style>

@@ -1,0 +1,32 @@
+/*
+ * Self-hosted variable fonts.
+ * Inter Variable: covers display + body in one file (axes: wght 100-900, ital).
+ * JetBrains Mono: code/mono accents and the dynamic-axis effect element.
+ *
+ * Files are fetched at build time and placed under /public/fonts/.
+ * Preload strategy: only the weight range we actually paint at FCP.
+ */
+
+@font-face {
+  font-family: "InterVariable";
+  src: url("/fonts/InterVariable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "InterVariable";
+  src: url("/fonts/InterVariable-Italic.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Variable.woff2") format("woff2-variations");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}

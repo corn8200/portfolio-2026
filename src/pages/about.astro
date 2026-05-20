@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCvRaw } from '@lib/content';
+
+const cv = getCvRaw();
+// Pull the "About" section out of the markdown.
+function section(name: string): string {
+  const re = new RegExp(`##\\s+${name}\\s*\\n([\\s\\S]*?)(?:\\n## |$)`, 'i');
+  const m = cv.match(re);
+  return (m?.[1] ?? '').trim();
+}
+const aboutMd = section('About');
+const principlesMd = section('Operating principles');
+const currentMd = section('Currently into');
+
+// Split paragraphs and principle bullets.
+const aboutParas = aboutMd.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+const principles = principlesMd
+  .split('\n')
+  .map(s => s.replace(/^[-*]\s+/, '').trim())
+  .filter(Boolean);
+const currentParas = currentMd.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+---
+<BaseLayout
+  title="About — John Cornelius"
+  description="Most of what I build sits between things — brains, queues, memory layers, approval gates."
+>
+  <article class="shell-wide page">
+    <header class="page__head">
+      <p class="h-eyebrow">03 / About</p>
+      <h1 class="h-display">About</h1>
+    </header>
+
+    <section class="page__col">
+      {aboutParas.map((p) => <p class="t-body">{p}</p>)}
+    </section>
+
+    <section class="page__col">
+      <h2 class="h-1">Operating principles</h2>
+      <ol class="principles">
+        {principles.map((p, i) => (
+          <li>
+            <span class="principles__num t-mono">{String(i + 1).padStart(2, '0')}</span>
+            <span class="principles__txt">{p}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="page__col">
+      <h2 class="h-1">Currently into</h2>
+      {currentParas.map((p) => <p class="t-body">{p}</p>)}
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .page { padding-block: var(--space-9) var(--space-10); display: grid; gap: var(--space-9); }
+  .page__head { display: grid; gap: var(--space-3); max-width: 56rem; }
+  .page__col { display: grid; gap: var(--space-5); max-width: 56rem; }
+  .principles { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); border-top: 1px solid var(--rule); }
+  .principles li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: var(--fs-md);
+    line-height: var(--lh-md);
+    color: var(--fg);
+  }
+  .principles__num { color: var(--fg-3); }
+</style>

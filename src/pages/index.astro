@@ -1,0 +1,182 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import VoiceAgent from '@components/VoiceAgent.astro';
+import ProjectList from '@components/ProjectList.astro';
+import { getAllProjects } from '@lib/content';
+
+const projects = getAllProjects();
+const projectCount = projects.length;
+const buildId = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
+---
+<BaseLayout title="John Cornelius — Builds operator-grade systems">
+  <section class="hero shell-wide" aria-labelledby="hero-name">
+    <div class="hero__inner">
+      <div class="hero__chrome t-meta">
+        <span>SYS / HOMEPAGE</span>
+        <span>BUILD {buildId}</span>
+        <span><span class="dot-live" aria-hidden="true"></span> ONLINE</span>
+      </div>
+
+      <h1 id="hero-name" class="hero__h1">
+        <span class="hero__line">Builds operator-grade systems</span>
+        <span class="hero__line"><span class="hero__accent">for one human and many agents.</span></span>
+      </h1>
+
+      <p class="hero__lede t-lead">
+        I design and ship the orchestration, memory, and approval layers
+        that let a single operator run a fleet of LLM-driven agents
+        without losing the thread.
+      </p>
+
+      <dl class="hero__meta meta-row">
+        <dt>focus</dt><dd>brain · gateway · memory · queue · MCP surface</dd>
+        <dt>stack</dt><dd>python · typescript · postgres · cloudflare · anthropic · openai</dd>
+        <dt>location</dt><dd>remote · ET · US-eligible</dd>
+        <dt>signal</dt><dd>building <span class="hero__accent">OpJune cutover</span> · 2026-06-15</dd>
+      </dl>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="#talk">
+          <span>Talk to John</span>
+          <span class="t-meta">voice · rag · cite</span>
+        </a>
+        <a class="btn btn--ghost" href="/work">
+          <span>See the work</span>
+          <span class="t-meta">{projectCount} dossiers</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="shell-wide section section--work" aria-labelledby="sect-work">
+    <header class="section__head">
+      <p class="h-eyebrow">02 / Work</p>
+      <h2 id="sect-work" class="h-1">Eight systems in production. Each one earns its place.</h2>
+      <p class="t-body">
+        Built across the last twelve months. Each project is a tool I use daily,
+        not a one-off for a demo. Click into a row for the dossier.
+      </p>
+    </header>
+    <ProjectList projects={projects} />
+  </section>
+
+  <hr class="rule" />
+
+  <section id="talk" class="shell section section--talk" aria-labelledby="sect-talk">
+    <header class="section__head">
+      <p class="h-eyebrow">03 / Conversation</p>
+      <h2 id="sect-talk" class="h-1">Ask the operator anything.</h2>
+      <p class="t-body">
+        Real-time voice or text. The answer cites which role or project it pulled from.
+        Voice runs on a polished ElevenLabs voice; cloned-voice slot is reserved until John drops a 30-second sample.
+        Text mode is the always-on accessibility fallback.
+      </p>
+    </header>
+    <VoiceAgent />
+  </section>
+
+  <hr class="rule" />
+
+  <section class="shell section section--mirror" aria-labelledby="sect-mirror">
+    <header class="section__head">
+      <p class="h-eyebrow">04 / Resume mirror</p>
+      <h2 id="sect-mirror" class="h-1">Drop your resume. Get a tailored pitch.</h2>
+      <p class="t-body">
+        Drop your CV (PDF or text) and choose a direction.
+        A vision-capable GPT either pitches you to me, or pitches me to you — your call.
+        Rate-limited per IP. No data stored.
+      </p>
+    </header>
+    <div class="mirror-mount">
+      <div id="resume-mirror" data-hydrate="resume-mirror">
+        <!-- Component hydrates below -->
+        <noscript>
+          <p class="t-small">Resume mirror requires JavaScript. Email <a href="mailto:corn82@icloud.com">corn82@icloud.com</a> for a direct pitch.</p>
+        </noscript>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(var(--space-7), 12vh, var(--space-10)) var(--space-9);
+  }
+  .hero__inner {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 56rem;
+  }
+  .hero__chrome {
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+    color: var(--fg-3);
+  }
+  .hero__chrome > span:first-child { color: var(--fg-2); }
+  .hero__h1 {
+    font: 480 var(--fs-4xl)/var(--lh-4xl) var(--font-display);
+    letter-spacing: var(--tracking-4xl);
+    color: var(--fg);
+    margin: 0;
+  }
+  .hero__line { display: block; }
+  .hero__accent { color: var(--accent); }
+  .hero__lede {
+    color: var(--fg);
+    font-size: var(--fs-md);
+    max-width: 48ch;
+  }
+  .hero__meta {
+    grid-template-columns: 6rem 1fr;
+    max-width: 48rem;
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__cta {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    margin-top: var(--space-2);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-3);
+    font: 500 var(--fs-sm)/1 var(--font-display);
+    color: var(--fg);
+    background: var(--bg-3);
+    transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+  }
+  .btn .t-meta { color: var(--fg-3); }
+  .btn:hover, .btn:focus-visible {
+    background: var(--bg);
+    border-color: var(--fg);
+  }
+  .btn--primary {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .btn--primary .t-meta { color: color-mix(in oklch, var(--bg) 70%, var(--fg)); }
+  .btn--primary:hover, .btn--primary:focus-visible {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+  }
+  .btn--ghost { background: transparent; }
+
+  .section { padding-block: var(--space-9); }
+  .section__head { display: grid; gap: var(--space-3); max-width: 56rem; margin-bottom: var(--space-7); }
+
+  @media (max-width: 720px) {
+    .hero__h1 { font-size: clamp(2.5rem, 11vw, 4rem); }
+    .hero__meta { grid-template-columns: 5rem 1fr; }
+  }
+</style>

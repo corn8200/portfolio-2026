@@ -1,0 +1,159 @@
+/*
+ * Design tokens — aligned with DESIGN.md (operations-console-rendered-editorially).
+ * Accent: amber-ember. Neutrals: warm-paper / warm-ink.
+ * Authoritative reference: /DESIGN.md sections 2-6.
+ */
+
+:root, :root[data-theme="light"] {
+  /* ---------- color: light ---------- */
+  --color-bg:              oklch(98.5% 0.005 100);
+  --color-surface:         oklch(96%   0.006 100);
+  --color-surface-elev:    oklch(100%  0     0);
+  --color-border:          oklch(88%   0.008 100);
+  --color-border-strong:   oklch(75%   0.010 100);
+  --color-text:            oklch(22%   0.010 80);
+  --color-text-muted:      oklch(48%   0.012 80);
+  --color-text-subtle:     oklch(62%   0.010 80);
+  --color-accent:          oklch(64%   0.165 55);
+  --color-accent-press:    oklch(56%   0.170 50);
+  --color-accent-fg:       oklch(98%   0.005 100);
+  --color-success:         oklch(58%   0.130 150);
+  --color-warning:         oklch(70%   0.150 85);
+  --color-danger:          oklch(55%   0.180 25);
+  --color-focus-ring:      oklch(64%   0.165 55);
+
+  /* short aliases for body usage */
+  --bg:    var(--color-bg);
+  --bg-2:  var(--color-surface);
+  --bg-3:  var(--color-surface-elev);
+  --fg:    var(--color-text);
+  --fg-2:  var(--color-text-muted);
+  --fg-3:  var(--color-text-subtle);
+  --rule:  var(--color-border);
+  --rule-strong: var(--color-border-strong);
+  --accent:  var(--color-accent);
+  --accent-fg: var(--color-accent-fg);
+
+  /* ---------- type ---------- */
+  --font-display: "InterVariable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-text:    "InterVariable", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  /* size scale — 1.250 ratio, per DESIGN.md §3 */
+  --fs-xs:   0.75rem;    /* 12 */
+  --fs-sm:   0.875rem;   /* 14 */
+  --fs-base: 1rem;       /* 16 */
+  --fs-md:   1.125rem;   /* 18 */
+  --fs-lg:   1.375rem;   /* 22 */
+  --fs-xl:   1.75rem;    /* 28 */
+  --fs-2xl:  2.25rem;    /* 36 */
+  --fs-3xl:  3rem;       /* 48 */
+  --fs-4xl:  4.5rem;     /* 72  hero / wordmark */
+  --fs-5xl:  7rem;       /* 112 reserved */
+
+  --lh-xs: 1.4;
+  --lh-sm: 1.5;
+  --lh-base: 1.6;
+  --lh-md: 1.5;
+  --lh-lg: 1.4;
+  --lh-xl: 1.3;
+  --lh-2xl: 1.2;
+  --lh-3xl: 1.1;
+  --lh-4xl: 1.05;
+  --lh-5xl: 1.0;
+
+  --tracking-xs:  0.02em;
+  --tracking-sm:  0.005em;
+  --tracking-md:  0;
+  --tracking-lg:  -0.005em;
+  --tracking-xl:  -0.010em;
+  --tracking-2xl: -0.015em;
+  --tracking-3xl: -0.020em;
+  --tracking-4xl: -0.025em;
+  --tracking-5xl: -0.030em;
+  --tracking-caps: 0.08em;
+
+  /* ---------- spacing — 4 8 12 16 24 32 48 64 96 128 192 ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --space-11: 12rem;
+
+  /* ---------- layout ---------- */
+  --content-w: 76rem;
+  --reading-w: 38rem;
+  --gutter:    clamp(1rem, 4vw, 2.5rem);
+
+  /* ---------- motion ---------- */
+  --dur-fast:    120ms;
+  --dur-base:    240ms;
+  --dur-slow:    480ms;
+  --dur-hero:    900ms;
+  --dur-route:   600ms;
+
+  --ease-standard:    cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized:  cubic-bezier(0.3, 0, 0, 1);
+  --ease-exit:        cubic-bezier(0.4, 0, 1, 1);
+  --ease-enter:       cubic-bezier(0, 0, 0, 1);
+
+  /* ---------- elevation ---------- */
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04), 0 0 1px oklch(0% 0 0 / 0.06);
+  --shadow-md: 0 6px 24px oklch(0% 0 0 / 0.07), 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-lg: 0 24px 64px oklch(0% 0 0 / 0.10), 0 2px 8px oklch(0% 0 0 / 0.05);
+
+  /* radii — small and consistent */
+  --r-1: 2px;
+  --r-2: 4px;
+  --r-3: 8px;
+  --r-pill: 9999px;
+
+  color-scheme: light dark;
+}
+
+:root[data-theme="dark"], :root.dark {
+  --color-bg:              oklch(16%   0.008 80);
+  --color-surface:         oklch(20%   0.010 80);
+  --color-surface-elev:    oklch(25%   0.012 80);
+  --color-border:          oklch(32%   0.012 80);
+  --color-border-strong:   oklch(45%   0.012 80);
+  --color-text:            oklch(94%   0.008 90);
+  --color-text-muted:      oklch(72%   0.010 85);
+  --color-text-subtle:     oklch(56%   0.010 85);
+  --color-accent:          oklch(76%   0.160 65);
+  --color-accent-press:    oklch(82%   0.150 70);
+  --color-accent-fg:       oklch(16%   0.008 80);
+  --color-success:         oklch(72%   0.130 150);
+  --color-warning:         oklch(80%   0.140 85);
+  --color-danger:          oklch(70%   0.165 25);
+  --color-focus-ring:      oklch(76%   0.160 65);
+  --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.40), 0 0 1px oklch(0% 0 0 / 0.30);
+  --shadow-md: 0 6px 24px oklch(0% 0 0 / 0.50), 0 1px 2px oklch(0% 0 0 / 0.30);
+  --shadow-lg: 0 24px 64px oklch(0% 0 0 / 0.60), 0 2px 8px oklch(0% 0 0 / 0.40);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg:              oklch(16%   0.008 80);
+    --color-surface:         oklch(20%   0.010 80);
+    --color-surface-elev:    oklch(25%   0.012 80);
+    --color-border:          oklch(32%   0.012 80);
+    --color-border-strong:   oklch(45%   0.012 80);
+    --color-text:            oklch(94%   0.008 90);
+    --color-text-muted:      oklch(72%   0.010 85);
+    --color-text-subtle:     oklch(56%   0.010 85);
+    --color-accent:          oklch(76%   0.160 65);
+    --color-accent-press:    oklch(82%   0.150 70);
+    --color-accent-fg:       oklch(16%   0.008 80);
+    --color-focus-ring:      oklch(76%   0.160 65);
+    --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.40), 0 0 1px oklch(0% 0 0 / 0.30);
+    --shadow-md: 0 6px 24px oklch(0% 0 0 / 0.50), 0 1px 2px oklch(0% 0 0 / 0.30);
+    --shadow-lg: 0 24px 64px oklch(0% 0 0 / 0.60), 0 2px 8px oklch(0% 0 0 / 0.40);
+  }
+}

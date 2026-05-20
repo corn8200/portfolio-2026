@@ -1,0 +1,43 @@
+---
+const year = new Date().getFullYear();
+const buildTime = new Date().toISOString();
+---
+<footer class="site-footer">
+  <div class="shell-wide site-footer__inner">
+    <dl class="site-footer__meta meta-row">
+      <dt>build</dt><dd>{buildTime.slice(0, 16).replace('T', ' ')}Z</dd>
+      <dt>region</dt><dd>cloudflare / global</dd>
+      <dt>status</dt><dd><span class="dot-live" aria-hidden="true"></span> <span class="t-mono">operational</span></dd>
+      <dt>signal</dt><dd class="t-mono">amber-ember · oklch(64% 0.165 55)</dd>
+    </dl>
+    <div class="site-footer__line">
+      <span class="t-meta">&copy; {year} John Cornelius</span>
+      <span class="t-meta">corn82@icloud.com</span>
+      <a class="t-meta" href="https://github.com/corn8200" rel="noopener noreferrer">github / corn8200</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    margin-top: var(--space-11);
+    padding-block: var(--space-7) var(--space-8);
+    background: color-mix(in oklch, var(--bg) 96%, transparent);
+  }
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .site-footer__line {
+    display: flex;
+    gap: var(--space-5);
+    flex-wrap: wrap;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--rule);
+  }
+  .site-footer__line a:hover { color: var(--fg); }
+  @media (min-width: 720px) {
+    .site-footer__meta { grid-template-columns: 6rem 1fr 6rem 1fr; }
+  }
+</style>

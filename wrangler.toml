@@ -8,7 +8,7 @@ pages_build_output_dir = "./dist"
 # Populated by setup script; do not commit live IDs to this file.
 [[kv_namespaces]]
 binding = "CACHE"
-id = "PLACEHOLDER_CACHE_KV_ID"
+id = "30d085f5916d4611ac86db26fe1bc94a"
 
 # Vectorize index for CV RAG embeddings.
 [[vectorize]]

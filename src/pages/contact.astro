@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="Contact — John Cornelius"
+  description="Email, GitHub, business surface."
+>
+  <article class="shell page">
+    <header class="page__head">
+      <p class="h-eyebrow">04 / Contact</p>
+      <h1 class="h-display">Contact</h1>
+      <p class="t-lead">Email is fastest. I read everything; I reply to the things that fit.</p>
+    </header>
+
+    <dl class="contact-list">
+      <dt class="h-eyebrow">Email</dt>
+      <dd><a class="contact-link h-2" href="mailto:corn82@icloud.com">corn82@icloud.com</a></dd>
+
+      <dt class="h-eyebrow">GitHub</dt>
+      <dd><a class="contact-link h-2" href="https://github.com/corn8200" rel="noopener noreferrer">github.com/corn8200</a></dd>
+
+      <dt class="h-eyebrow">Business</dt>
+      <dd><a class="contact-link h-2" href="https://sentryaithermal.com">sentryaithermal.com</a></dd>
+
+      <dt class="h-eyebrow">Public MCP</dt>
+      <dd><span class="contact-link h-2 t-mono" style="font-size: var(--fs-md);">mcp.sentryaithermal.com/mcp</span></dd>
+
+      <dt class="h-eyebrow">Voice / RAG</dt>
+      <dd><a class="contact-link h-2" href="/#talk">Talk to the operator &rarr;</a></dd>
+    </dl>
+
+    <p class="t-meta contact-foot">
+      If you're recruiting: drop a resume at <a href="/#resume-mirror">/#resume-mirror</a>
+      for an honest tailored pitch — both directions.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page { padding-block: var(--space-9) var(--space-10); display: grid; gap: var(--space-8); max-width: 60rem; margin-inline: auto; }
+  .page__head { display: grid; gap: var(--space-3); }
+  .contact-list {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: var(--space-4) var(--space-6);
+    align-items: baseline;
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-6);
+  }
+  .contact-list dt { color: var(--fg-3); }
+  .contact-list dd { margin: 0; }
+  .contact-link { color: var(--fg); transition: color var(--dur-fast) var(--ease-standard); }
+  .contact-link:hover, .contact-link:focus-visible { color: var(--accent); }
+  .contact-foot { padding-top: var(--space-5); border-top: 1px solid var(--rule); color: var(--fg-3); }
+  .contact-foot a { color: var(--fg-2); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 600px) { .contact-list { grid-template-columns: 1fr; } }
+</style>

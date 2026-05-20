@@ -1,0 +1,78 @@
+---
+import type { ProjectEntry } from '@lib/content';
+export interface Props { projects: ProjectEntry[] }
+const { projects } = Astro.props;
+---
+<ol class="proj-list" role="list">
+  {projects.map((p, idx) => (
+    <li class="proj-row">
+      <a class="proj-row__a" href={p.url}>
+        <span class="proj-row__idx t-mono">{String(idx + 1).padStart(2, '0')}</span>
+        <div class="proj-row__main">
+          <h3 class="h-2">{p.frontmatter.title}</h3>
+          <p class="t-body">{p.frontmatter.summary}</p>
+          {p.frontmatter.stack && (
+            <ul class="proj-row__stack" role="list">
+              {p.frontmatter.stack.map((s) => <li class="t-meta">{s}</li>)}
+            </ul>
+          )}
+        </div>
+        <div class="proj-row__status">
+          {p.frontmatter.year && <span class="t-meta">{p.frontmatter.year}</span>}
+          {p.frontmatter.status && (
+            <span class="t-meta proj-row__state" data-state={p.frontmatter.status.toLowerCase().includes('production') || p.frontmatter.status.toLowerCase().includes('live') ? 'live' : 'wip'}>
+              {p.frontmatter.status}
+            </span>
+          )}
+          <span class="proj-row__arrow" aria-hidden="true">&rarr;</span>
+        </div>
+      </a>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .proj-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--rule); }
+  .proj-row { border-bottom: 1px solid var(--rule); }
+  .proj-row__a {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: var(--space-5);
+    padding: var(--space-6) 0;
+    align-items: start;
+    color: var(--fg);
+    transition: background var(--dur-fast) var(--ease-standard);
+  }
+  .proj-row__a:hover, .proj-row__a:focus-visible {
+    background: color-mix(in oklch, var(--accent) 6%, transparent);
+  }
+  .proj-row__a:hover .proj-row__arrow, .proj-row__a:focus-visible .proj-row__arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+  .proj-row__idx { color: var(--fg-3); font-size: var(--fs-xs); padding-top: 0.4rem; }
+  .proj-row__main { display: grid; gap: var(--space-3); }
+  .proj-row__main .h-2 { color: var(--fg); }
+  .proj-row__stack { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .proj-row__stack > li { color: var(--fg-3); }
+  .proj-row__status { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-2); padding-top: 0.4rem; }
+  .proj-row__state {
+    padding: 2px 8px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--rule-strong);
+    text-transform: lowercase;
+  }
+  .proj-row__state[data-state="live"] {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .proj-row__arrow {
+    font-size: var(--fs-md);
+    color: var(--fg-2);
+    transition: transform var(--dur-base) var(--ease-emphasized), color var(--dur-base) var(--ease-standard);
+  }
+  @media (max-width: 720px) {
+    .proj-row__a { grid-template-columns: 2.2rem 1fr; }
+    .proj-row__status { grid-column: 1 / -1; padding-top: 0; align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+  }
+</style>

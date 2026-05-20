@@ -1,0 +1,29 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ProjectList from '@components/ProjectList.astro';
+import { getAllProjects } from '@lib/content';
+
+const projects = getAllProjects();
+---
+<BaseLayout
+  title="Work — John Cornelius"
+  description="Eight systems in production. Brain. Gateway. Memory. Queue. MCP. Each one earns its place."
+>
+  <section class="shell-wide page-head">
+    <p class="h-eyebrow">02 / Work</p>
+    <h1 class="h-display">Work</h1>
+    <p class="t-lead">
+      Eight systems in production. Brain. Gateway. Memory. Queue. MCP surface.
+      Built across the last twelve months. I use every one of them daily.
+    </p>
+  </section>
+
+  <section class="shell-wide section">
+    <ProjectList projects={projects} />
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head { padding-block: var(--space-9) var(--space-7); display: grid; gap: var(--space-4); max-width: 60rem; }
+  .section { padding-block: var(--space-4) var(--space-10); }
+</style>

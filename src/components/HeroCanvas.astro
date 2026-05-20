@@ -1,0 +1,26 @@
+---
+// Persistent full-viewport WebGL canvas.
+// Renders the 2D signal-field hero (isolines over a domain-warped FBM scalar field).
+// The element stays mounted across View Transitions; only the foreground DOM swaps.
+---
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<script>
+  import { mountHeroCanvas } from '@/lib/hero-canvas';
+
+  function init() {
+    const c = document.getElementById('bg-canvas');
+    if (c instanceof HTMLCanvasElement && !(c as any).__mounted) {
+      (c as any).__mounted = true;
+      const dispose = mountHeroCanvas(c);
+      // Survive View Transitions: dispose only on real unload.
+      window.addEventListener('beforeunload', () => dispose());
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
+</script>
