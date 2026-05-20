@@ -305,30 +305,53 @@ async function* parseSse(body: ReadableStream<Uint8Array>): AsyncIterable<AskEve
     while ((idx = buffer.indexOf('\n\n')) >= 0) {
       const frame = buffer.slice(0, idx);
       buffer = buffer.slice(idx + 2);
-      const evt = parseSseFrame(frame);
-      if (evt) yield evt;
+      for (const evt of parseSseFrame(frame)) yield evt;
     }
   }
   yield { type: 'done' };
 }
 
-function parseSseFrame(frame: string): AskEvent | null {
+function parseSseFrame(frame: string): AskEvent[] {
   let event = 'message';
   const dataLines: string[] = [];
   for (const line of frame.split('\n')) {
     if (line.startsWith('event:')) event = line.slice(6).trim();
     else if (line.startsWith('data:')) dataLines.push(line.slice(5).trim());
   }
-  if (dataLines.length === 0) return null;
+  if (dataLines.length === 0) return [];
   const payload = dataLines.join('\n');
+
+  // Try JSON-with-kind shape first (what /api/ask emits).
   try {
-    if (event === 'token') return { type: 'token', value: JSON.parse(payload) as string };
-    if (event === 'citations') return { type: 'citations', value: JSON.parse(payload) as AskCitation[] };
-    if (event === 'done') return { type: 'done' };
-    if (event === 'error') return { type: 'error', value: payload };
-    return { type: 'token', value: payload };
+    const parsed = JSON.parse(payload);
+    if (parsed && typeof parsed === 'object') {
+      if (parsed.kind === 'delta' && typeof parsed.delta === 'string') {
+        return [{ type: 'token', value: parsed.delta as string }];
+      }
+      if (parsed.kind === 'done') {
+        const citations = Array.isArray(parsed.citations) ? (parsed.citations as AskCitation[]) : [];
+        const out: AskEvent[] = [];
+        if (citations.length) out.push({ type: 'citations', value: citations });
+        out.push({ type: 'done' });
+        return out;
+      }
+      if (parsed.kind === 'error') {
+        return [{ type: 'error', value: String(parsed.message ?? 'unknown error') }];
+      }
+    }
   } catch {
-    return null;
+    // not JSON — fall through to event-name dispatch
+  }
+
+  // Fallback: legacy named-event shape.
+  try {
+    if (event === 'token') return [{ type: 'token', value: JSON.parse(payload) as string }];
+    if (event === 'citations') return [{ type: 'citations', value: JSON.parse(payload) as AskCitation[] }];
+    if (event === 'done') return [{ type: 'done' }];
+    if (event === 'error') return [{ type: 'error', value: payload }];
+    return [{ type: 'token', value: payload }];
+  } catch {
+    return [];
   }
 }
 

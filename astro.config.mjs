@@ -4,7 +4,7 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   output: 'server',
   adapter: cloudflare({
-    platformProxy: { enabled: true },
+    platformProxy: { enabled: true, experimentalRemote: false },
     imageService: 'passthrough',
   }),
   site: 'https://portfolio-2026.pages.dev',
