@@ -20,7 +20,12 @@ const { projects } = Astro.props;
         <div class="proj-row__status">
           {p.frontmatter.year && <span class="t-meta">{p.frontmatter.year}</span>}
           {p.frontmatter.status && (
-            <span class="t-meta proj-row__state" data-state={p.frontmatter.status.toLowerCase().includes('production') || p.frontmatter.status.toLowerCase().includes('live') ? 'live' : 'wip'}>
+            <span class="t-meta proj-row__state" data-state={
+              ['current','live','delivered'].includes(String(p.frontmatter.status).toLowerCase()) ? 'live' :
+              String(p.frontmatter.status).toLowerCase() === 'veteran' ? 'past' :
+              String(p.frontmatter.status).toLowerCase() === 'credentialed' ? 'past' :
+              'wip'
+            }>
               {p.frontmatter.status}
             </span>
           )}
@@ -65,6 +70,10 @@ const { projects } = Astro.props;
   .proj-row__state[data-state="live"] {
     color: var(--accent);
     border-color: var(--accent);
+  }
+  .proj-row__state[data-state="past"] {
+    color: var(--fg-2);
+    border-color: var(--fg-3);
   }
   .proj-row__arrow {
     font-size: var(--fs-md);

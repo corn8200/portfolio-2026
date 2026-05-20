@@ -9,20 +9,20 @@ import VoiceAgent from '@components/VoiceAgent.astro';
   <section class="shell talk">
     <header class="page-head">
       <p class="h-eyebrow">/ Conversation</p>
-      <h1 class="h-display">Talk to the operator.</h1>
+      <h1 class="h-display">Talk to me.</h1>
       <p class="t-lead">
-        Voice or text. Sub-800ms first-token-to-audio target. The model is
-        grounded in the CV and the project case studies — answers cite which
-        section they pulled from.
+        Voice or text. The voice you hear is mine — cloned via ElevenLabs from
+        two voice memos. Ask about my Army career, my Tamko work, my degrees,
+        or my approach to manufacturing AI. The model is grounded in this CV
+        and cites the section it pulled from.
       </p>
     </header>
 
     <VoiceAgent />
 
     <p class="t-meta foot">
-      Voice mode runs on a polished ElevenLabs voice. A cloned-voice slot is
-      ready in <code>ELEVENLABS_VOICE_ID</code> — drop in a 30-second sample
-      via 1Password and the next request picks it up. No code change.
+      Voice runs on my own ElevenLabs Instant Voice Clone. Want to know what I sound like before
+      hopping on a call? Hit the voice button.
     </p>
   </section>
 </BaseLayout>

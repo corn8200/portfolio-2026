@@ -21,13 +21,13 @@ export const GET: APIRoute = () => {
   <rect width="1200" height="630" fill="url(#g)"/>
   <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
   <g transform="translate(80, 90)">
-    <text x="0" y="0" font-family="ui-monospace, monospace" font-size="20" letter-spacing="3" fill="#8A8175">SYS / OPERATOR</text>
+    <text x="0" y="0" font-family="ui-monospace, monospace" font-size="20" letter-spacing="3" fill="#8A8175">AI &amp; SIX SIGMA LEAD · TAMKO</text>
     <text x="0" y="180" font-family="ui-sans-serif, -apple-system, system-ui" font-weight="480" font-size="84" fill="#ECE7DD">
-      <tspan x="0" dy="0">Builds operator-grade systems</tspan>
-      <tspan x="0" dy="98" fill="#E89A3F">for one human and many agents.</tspan>
+      <tspan x="0" dy="0">Twenty years airborne.</tspan>
+      <tspan x="0" dy="98" fill="#E89A3F">Now bringing precision to AI.</tspan>
     </text>
     <text x="0" y="450" font-family="ui-monospace, monospace" font-size="20" letter-spacing="2" fill="#B4AB9C">
-      JOHN CORNELIUS  &#x2022;  corn82@icloud.com  &#x2022;  sentryaithermal.com
+      JOHN CORNELIUS  &#x2022;  HARPERS FERRY WV  &#x2022;  corn82@icloud.com
     </text>
   </g>
   <circle cx="1080" cy="120" r="6" fill="#E89A3F"/>

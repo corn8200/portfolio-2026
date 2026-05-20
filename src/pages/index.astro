@@ -13,36 +13,38 @@ const buildId = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
   <section class="hero shell-wide" aria-labelledby="hero-name">
     <div class="hero__inner">
       <div class="hero__chrome t-meta">
-        <span>SYS / HOMEPAGE</span>
+        <span>JOHN CORNELIUS · HARPERS FERRY WV</span>
         <span>BUILD {buildId}</span>
-        <span><span class="dot-live" aria-hidden="true"></span> ONLINE</span>
+        <span><span class="dot-live" aria-hidden="true"></span> AVAILABLE</span>
       </div>
 
       <h1 id="hero-name" class="hero__h1">
-        <span class="hero__line">Builds operator-grade systems</span>
-        <span class="hero__line"><span class="hero__accent">for one human and many agents.</span></span>
+        <span class="hero__line">Twenty years airborne.</span>
+        <span class="hero__line"><span class="hero__accent">Now bringing precision to manufacturing AI.</span></span>
       </h1>
 
-      <p class="hero__lede t-lead">
-        I design and ship the orchestration, memory, and approval layers
-        that let a single operator run a fleet of LLM-driven agents
-        without losing the thread.
+      <p class="hero__lede t-lede">
+        Paratrooper. Sniper. Night Stalker pilot. Standardization Instructor.
+        Today: AI and Six Sigma Lead at Tamko Building Products,
+        scaling AI-driven process optimization across nine plants.
+        Small-town West Virginia kid who decided to do something about 9/11 — and never stopped.
       </p>
 
       <dl class="hero__meta meta-row">
-        <dt>focus</dt><dd>brain · gateway · memory · queue · MCP surface</dd>
-        <dt>stack</dt><dd>python · typescript · postgres · cloudflare · anthropic · openai</dd>
-        <dt>location</dt><dd>remote · ET · US-eligible</dd>
-        <dt>signal</dt><dd>building <span class="hero__accent">OpJune cutover</span> · 2026-06-15</dd>
+        <dt>role</dt><dd>AI &amp; Six Sigma Lead · Tamko Corporate</dd>
+        <dt>service</dt><dd>U.S. Army · 20 years · 160th SOAR · 14 countries</dd>
+        <dt>education</dt><dd>MS Unmanned Systems · BS Aeronautics · Embry-Riddle</dd>
+        <dt>based</dt><dd>Harpers Ferry, West Virginia · US-eligible</dd>
+        <dt>signal</dt><dd><span class="hero__accent">From the ground up.</span> That's how I've built everything.</dd>
       </dl>
 
       <div class="hero__cta">
         <a class="btn btn--primary" href="#talk">
-          <span>Talk to John</span>
-          <span class="t-meta">voice · rag · cite</span>
+          <span>Talk to John (in his voice)</span>
+          <span class="t-meta">cloned · cited · sub-1s</span>
         </a>
         <a class="btn btn--ghost" href="/work">
-          <span>See the work</span>
+          <span>See the career</span>
           <span class="t-meta">{projectCount} dossiers</span>
         </a>
       </div>
@@ -53,11 +55,13 @@ const buildId = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
 
   <section class="shell-wide section section--work" aria-labelledby="sect-work">
     <header class="section__head">
-      <p class="h-eyebrow">02 / Work</p>
-      <h2 id="sect-work" class="h-1">Eight systems in production. Each one earns its place.</h2>
+      <p class="h-eyebrow">02 / Career</p>
+      <h2 id="sect-work" class="h-1">Two careers, one operating system.</h2>
       <p class="t-body">
-        Built across the last twelve months. Each project is a tool I use daily,
-        not a one-off for a demo. Click into a row for the dossier.
+        Two decades in Army aviation taught me that the smallest variable can be the decisive one,
+        and the only way to find it is to keep looking. That instinct is what I bring to
+        manufacturing operations now — and what I'm scaling across the Tamko enterprise.
+        Click any row for the full dossier.
       </p>
     </header>
     <ProjectList projects={projects} />
@@ -68,11 +72,12 @@ const buildId = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
   <section id="talk" class="shell section section--talk" aria-labelledby="sect-talk">
     <header class="section__head">
       <p class="h-eyebrow">03 / Conversation</p>
-      <h2 id="sect-talk" class="h-1">Ask the operator anything.</h2>
+      <h2 id="sect-talk" class="h-1">Talk to me.</h2>
       <p class="t-body">
-        Real-time voice or text. The answer cites which role or project it pulled from.
-        Voice runs on a polished ElevenLabs voice; cloned-voice slot is reserved until John drops a 30-second sample.
-        Text mode is the always-on accessibility fallback.
+        Real-time voice or text. The voice you hear is mine — cloned via ElevenLabs from
+        two voice memos. Ask anything about my background, career, or
+        operating philosophy; the model is grounded in this CV and cites the
+        section it pulled from. Text mode is the always-on accessibility fallback.
       </p>
     </header>
     <VoiceAgent />
@@ -83,10 +88,11 @@ const buildId = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
   <section class="shell section section--mirror" aria-labelledby="sect-mirror">
     <header class="section__head">
       <p class="h-eyebrow">04 / Resume mirror</p>
-      <h2 id="sect-mirror" class="h-1">Drop your resume. Get a tailored pitch.</h2>
+      <h2 id="sect-mirror" class="h-1">Drop your resume. Get an honest pitch.</h2>
       <p class="t-body">
         Drop your CV (PDF or text) and choose a direction.
-        A vision-capable GPT either pitches you to me, or pitches me to you — your call.
+        A vision-capable model will either pitch you to me, or pitch me to you — your call.
+        The pitch is honest, not flattering. It will name the gaps and the genuine overlap.
         Rate-limited per IP. No data stored.
       </p>
     </header>
