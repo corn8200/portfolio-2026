@@ -21,13 +21,15 @@ export const GET: APIRoute = () => {
   <rect width="1200" height="630" fill="url(#g)"/>
   <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
   <g transform="translate(80, 90)">
-    <text x="0" y="0" font-family="ui-monospace, monospace" font-size="20" letter-spacing="3" fill="#8A8175">AI &amp; SIX SIGMA LEAD · TAMKO</text>
-    <text x="0" y="180" font-family="ui-sans-serif, -apple-system, system-ui" font-weight="480" font-size="84" fill="#ECE7DD">
-      <tspan x="0" dy="0">Twenty years airborne.</tspan>
-      <tspan x="0" dy="98" fill="#E89A3F">Now bringing precision to AI.</tspan>
+    <text x="0" y="0" font-family="ui-monospace, monospace" font-size="20" letter-spacing="3" fill="#8A8175">HARPERS FERRY, WV</text>
+    <text x="0" y="180" font-family="ui-sans-serif, -apple-system, system-ui" font-weight="460" font-size="120" fill="#ECE7DD" letter-spacing="-3">
+      John Cornelius
+    </text>
+    <text x="0" y="320" font-family="ui-sans-serif, -apple-system, system-ui" font-weight="450" font-size="34" fill="#C7BEAD">
+      AI &amp; Six Sigma Lead, Tamko &middot; Veteran, 160th SOAR
     </text>
     <text x="0" y="450" font-family="ui-monospace, monospace" font-size="20" letter-spacing="2" fill="#B4AB9C">
-      JOHN CORNELIUS  &#x2022;  HARPERS FERRY WV  &#x2022;  corn82@icloud.com
+      cv.jcornelius.net  &#x2022;  corn82@icloud.com
     </text>
   </g>
   <circle cx="1080" cy="120" r="6" fill="#E89A3F"/>

@@ -1,18 +1,17 @@
 ---
 const items = [
   { href: '/', label: 'Home' },
-  { href: '/work', label: 'Career' },
+  { href: '/talk', label: 'Talk' },
   { href: '/cv', label: 'CV' },
-  { href: '/about', label: 'About' },
+  { href: '/work', label: 'Career' },
   { href: '/contact', label: 'Contact' },
 ];
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 <header class="site-header">
   <div class="shell-wide site-header__inner">
-    <a class="masthead" href="/" aria-label="John Cornelius — home" style="view-transition-name: masthead;">
+    <a class="masthead" href="/" aria-label="Home" style="view-transition-name: masthead;">
       <span class="masthead__name">John Cornelius</span>
-      <span class="masthead__role t-mono">AI &amp; SIX SIGMA LEAD · TAMKO</span>
     </a>
     <nav aria-label="Primary">
       <ul class="site-nav">
