@@ -114,11 +114,46 @@ function buildCitations(matches: RetrievedChunk[]): Citation[] {
 const NO_HITS_FALLBACK =
   "I don't have a verifiable answer about that in the portfolio. Try /work for the project case studies, or contact corn82@icloud.com directly.";
 
+export interface VisitorContext {
+  /** Name the visitor offered (or null). */
+  name?: string | null;
+  /** Free-form company/role/note the visitor offered (or null). */
+  org?: string | null;
+  /** CDN-derived geo. Never directly named back to the visitor unsolicited. */
+  city?: string | null;
+  region?: string | null;
+  country?: string | null;
+  timezone?: string | null;
+}
+
 export interface AnswerOptions {
   env: Pick<RuntimeEnv, 'CACHE' | 'CV_INDEX' | 'OPENAI_API_KEY' | 'OPENAI_DAILY_BUDGET_USD'>;
   query: string;
   history?: AskMessage[];
   k?: number;
+  visitor?: VisitorContext;
+}
+
+/** Build a visitor-context system block that the model can use casually. */
+function renderVisitor(v?: VisitorContext): string | null {
+  if (!v) return null;
+  const lines: string[] = [];
+  if (v.name) lines.push(`Name (offered by them): ${v.name}`);
+  if (v.org) lines.push(`Company / role (offered by them): ${v.org}`);
+  const geoBits = [v.city, v.region, v.country].filter(Boolean).join(', ');
+  if (geoBits) lines.push(`Rough geo (from CDN — NOT stated by them): ${geoBits}`);
+  if (v.timezone) lines.push(`Likely timezone: ${v.timezone}`);
+  if (lines.length === 0) return null;
+  return [
+    'Visitor context (use this — the visitor will notice if you do not):',
+    ...lines,
+    '',
+    'Rules for using this context:',
+    '- If they offered a name, open your first reply with it once ("Sarah — good question." or "Hey Sarah,"). Use it again only if it’s natural. Never repeat it more than twice.',
+    '- If they offered a company or role, name it once early in the reply and connect it to a specific concrete from the CV. Examples: a manufacturing company → cite the Allmine $189K analytics or 35% downtime numbers; a defense org → cite the 160th SOAR or Standardization Instructor record; a tech company → cite the AI/Six Sigma integration work or the self-built memory pipeline.',
+    '- CDN geo is approximate and they did NOT tell you where they are. Do NOT name the city back to them. You MAY reference timezone obliquely if scheduling comes up ("happy to do your morning"). That is the only allowed use.',
+    '- If they have NOT introduced themselves and this is the first exchange, do not interrogate them — just answer. After your answer is done, you may add a single short closer like "Who am I talking to, by the way?". Don’t demand; one ask is enough.',
+  ].join('\n');
 }
 
 export interface AnswerResult {
@@ -155,6 +190,8 @@ export async function answer(opts: AnswerOptions): Promise<AnswerResult> {
     { role: 'system', content: SYSTEM_PROMPT },
     { role: 'system', content: `Context:\n\n${context}` },
   ];
+  const visitorBlock = renderVisitor(opts.visitor);
+  if (visitorBlock) messages.push({ role: 'system', content: visitorBlock });
   if (opts.history?.length) {
     for (const h of opts.history.slice(-6)) {
       messages.push({ role: h.role, content: h.content });
@@ -187,6 +224,8 @@ export async function answer(opts: AnswerOptions): Promise<AnswerResult> {
 export interface StreamAnswerOptions extends AnswerOptions {
   /** Called for each token delta as it arrives. */
   onDelta: (delta: string) => void | Promise<void>;
+  /** Visitor context block passed to system prompt. */
+  visitor?: VisitorContext;
 }
 
 export interface StreamAnswerResult {
@@ -220,20 +259,22 @@ export async function streamAnswer(opts: StreamAnswerOptions): Promise<StreamAns
   const context = renderContext(matches);
   const citations = buildCitations(matches);
   const client = new OpenAI({ apiKey: opts.env.OPENAI_API_KEY });
-  const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
+  const streamMessages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
     { role: 'system', content: SYSTEM_PROMPT },
     { role: 'system', content: `Context:\n\n${context}` },
   ];
+  const streamVisitorBlock = renderVisitor(opts.visitor);
+  if (streamVisitorBlock) streamMessages.push({ role: 'system', content: streamVisitorBlock });
   if (opts.history?.length) {
     for (const h of opts.history.slice(-6)) {
-      messages.push({ role: h.role, content: h.content });
+      streamMessages.push({ role: h.role, content: h.content });
     }
   }
-  messages.push({ role: 'user', content: opts.query });
+  streamMessages.push({ role: 'user', content: opts.query });
 
   const stream = await client.chat.completions.create({
     model: ANSWER_MODEL,
-    messages,
+    messages: streamMessages,
     temperature: 0.2,
     max_tokens: 500,
     stream: true,

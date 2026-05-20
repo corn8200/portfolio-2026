@@ -125,6 +125,25 @@ export async function POST(ctx: APIContext): Promise<Response> {
         .slice(-6)
     : undefined;
 
+  // Visitor context: name/org from body if the agent client shared them;
+  // geo from the Cloudflare request object (always present in Workers runtime).
+  const extra = body as unknown as { name?: unknown; org?: unknown };
+  const visitorName = typeof extra.name === 'string'
+    ? extra.name.trim().slice(0, 80) || null
+    : null;
+  const visitorOrg = typeof extra.org === 'string'
+    ? extra.org.trim().slice(0, 120) || null
+    : null;
+  const cf = (ctx.request as Request & { cf?: Record<string, unknown> }).cf ?? {};
+  const visitor = {
+    name: visitorName,
+    org: visitorOrg,
+    city: typeof cf.city === 'string' ? cf.city : null,
+    region: typeof cf.region === 'string' ? cf.region : null,
+    country: typeof cf.country === 'string' ? cf.country : null,
+    timezone: typeof cf.timezone === 'string' ? cf.timezone : null,
+  };
+
   const ip = clientIp(ctx.request);
   const rate = await checkRate(env.CACHE, ip);
   if (!rate.allowed) {
@@ -142,7 +161,9 @@ export async function POST(ctx: APIContext): Promise<Response> {
 
   const url = new URL(ctx.request.url);
   const noCache = url.searchParams.get('nocache') === '1';
-  const cacheKey = `ask:v1:${await sha256Hex(`${query}\n${historySignature(history)}`)}`;
+  // Cache key includes visitor name/org so personalized answers don't bleed across visitors.
+  const visitorSig = `${visitor.name ?? ''}|${visitor.org ?? ''}`;
+  const cacheKey = `ask:v2:${await sha256Hex(`${query}\n${historySignature(history)}\n${visitorSig}`)}`;
 
   // Cache hit short-circuits to a single SSE flush with the saved payload.
   if (!noCache) {
@@ -182,6 +203,7 @@ export async function POST(ctx: APIContext): Promise<Response> {
           env,
           query,
           history,
+          visitor,
           onDelta: (delta) => {
             enqueue({ kind: 'delta', delta });
           },

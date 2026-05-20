@@ -46,6 +46,28 @@ export function mountAgent(root: HTMLElement): void {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const audioEl = ensureAudioElement(root);
 
+  // Persisted visitor inputs (name + org). Bound to inputs in the intro card.
+  const nameInput = root.querySelector<HTMLInputElement>('[data-agent-name]');
+  const orgInput = root.querySelector<HTMLInputElement>('[data-agent-org]');
+  if (nameInput) {
+    try { nameInput.value = localStorage.getItem('agent-visitor-name') || ''; } catch {}
+    nameInput.addEventListener('change', () => {
+      try { localStorage.setItem('agent-visitor-name', nameInput.value.trim().slice(0, 80)); } catch {}
+    });
+    nameInput.addEventListener('blur', () => {
+      try { localStorage.setItem('agent-visitor-name', nameInput.value.trim().slice(0, 80)); } catch {}
+    });
+  }
+  if (orgInput) {
+    try { orgInput.value = localStorage.getItem('agent-visitor-org') || ''; } catch {}
+    orgInput.addEventListener('change', () => {
+      try { localStorage.setItem('agent-visitor-org', orgInput.value.trim().slice(0, 120)); } catch {}
+    });
+    orgInput.addEventListener('blur', () => {
+      try { localStorage.setItem('agent-visitor-org', orgInput.value.trim().slice(0, 120)); } catch {}
+    });
+  }
+
   const history: { role: LogRole; text: string }[] = [];
   const entries: LogEntry[] = [];
   let voiceActive = false;
@@ -339,15 +361,32 @@ type AskEvent =
   | { type: 'done' }
   | { type: 'error'; value: string };
 
+function readVisitor(): { name: string; org: string } {
+  try {
+    return {
+      name: localStorage.getItem('agent-visitor-name') || '',
+      org: localStorage.getItem('agent-visitor-org') || '',
+    };
+  } catch {
+    return { name: '', org: '' };
+  }
+}
+
 async function openAskStream(
   query: string,
   history: { role: LogRole; text: string }[],
   signal?: AbortSignal
 ): Promise<AsyncIterable<AskEvent>> {
+  const visitor = readVisitor();
   const res = await fetch(ASK_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
-    body: JSON.stringify({ query, history }),
+    body: JSON.stringify({
+      query,
+      history: history.map((h) => ({ role: h.role, content: h.text })),
+      name: visitor.name || undefined,
+      org: visitor.org || undefined,
+    }),
     signal,
   });
   if (!res.ok || !res.body) {
