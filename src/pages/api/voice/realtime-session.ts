@@ -88,14 +88,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 
-  const session = (await upstream.json().catch(() => null)) as
-    | RealtimeSessionResponse extends { session: infer S } ? S : never
-    | null;
-  if (!session || typeof session !== 'object') {
+  type OkSession = Extract<RealtimeSessionResponse, { ok: true }>['session'];
+  const session = (await upstream.json().catch(() => null)) as OkSession | null;
+  if (!session || typeof session !== 'object' || !session.client_secret?.value) {
     return json({ ok: false, reason: 'malformed-session' }, 502);
   }
 
-  const payload: RealtimeSessionResponse = { ok: true, session: session as never };
+  const payload: RealtimeSessionResponse = { ok: true, session };
   return json(payload, 200);
 };
 

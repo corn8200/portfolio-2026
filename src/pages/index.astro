@@ -2,6 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import VoiceAgent from '@components/VoiceAgent.astro';
 import ProjectList from '@components/ProjectList.astro';
+import ResumeMirror from '@components/ResumeMirror.astro';
 import { getAllProjects } from '@lib/content';
 
 const projects = getAllProjects();
@@ -90,12 +91,12 @@ const buildId = new Date().toISOString().slice(0, 10).replace(/-/g, '.');
       </p>
     </header>
     <div class="mirror-mount">
-      <div id="resume-mirror" data-hydrate="resume-mirror">
-        <!-- Component hydrates below -->
-        <noscript>
-          <p class="t-small">Resume mirror requires JavaScript. Email <a href="mailto:corn82@icloud.com">corn82@icloud.com</a> for a direct pitch.</p>
-        </noscript>
-      </div>
+      <ResumeMirror />
+      <noscript>
+        <p class="t-small" style="text-align: center; margin-top: var(--space-4); color: var(--fg-3);">
+          Resume mirror requires JavaScript. Email <a href="mailto:corn82@icloud.com">corn82@icloud.com</a> for a direct pitch.
+        </p>
+      </noscript>
     </div>
   </section>
 </BaseLayout>

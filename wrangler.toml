@@ -10,6 +10,10 @@ pages_build_output_dir = "./dist"
 binding = "CACHE"
 id = "30d085f5916d4611ac86db26fe1bc94a"
 
+[[kv_namespaces]]
+binding = "SESSION"
+id = "2fcfc27f452041d1968fabc5f5bcff0d"
+
 # Vectorize index for CV RAG embeddings.
 [[vectorize]]
 binding = "CV_INDEX"

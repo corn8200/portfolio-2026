@@ -15,7 +15,7 @@ export default defineConfig({
   vite: {
     ssr: { external: ['node:buffer', 'node:crypto'] },
     build: {
-      cssMinify: 'lightningcss',
+      cssMinify: 'esbuild',
       assetsInlineLimit: 4096,
     },
     server: { host: '0.0.0.0' },

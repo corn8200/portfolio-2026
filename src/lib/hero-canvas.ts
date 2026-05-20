@@ -97,16 +97,17 @@ function deriveSeed(): number {
 }
 
 export function mountHeroCanvas(canvas: HTMLCanvasElement) {
-  const gl = canvas.getContext('webgl2', {
+  const ctx = canvas.getContext('webgl2', {
     antialias: false,
     alpha: false,
     powerPreference: 'low-power',
     preserveDrawingBuffer: false,
   });
-  if (!gl) {
+  if (!ctx) {
     canvas.style.background = 'var(--bg)';
     return () => {};
   }
+  const gl: WebGL2RenderingContext = ctx;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

@@ -1,0 +1,300 @@
+---
+// Resume Mirror — drop a CV (PDF / text / markdown), pick a direction,
+// stream a tailored pitch from gpt-4o-mini.
+//
+// This component renders the inner content of the slot defined in
+// `src/pages/index.astro`:
+//   <div id="resume-mirror" data-hydrate="resume-mirror">
+//     <ResumeMirror />
+//   </div>
+// The hydration script targets `[data-mirror-root]` so the component is
+// self-contained — wherever it's mounted, the client picks it up.
+---
+<div class="mirror" data-mirror-root>
+  <div class="mirror__chrome">
+    <span class="t-meta">RESUME / MIRROR · OPINIONATED · STREAMED</span>
+    <span class="t-meta mirror__status" data-mirror-status data-state="idle">no file</span>
+  </div>
+
+  <form class="mirror__form" data-mirror-form>
+    <div
+      class="mirror__drop"
+      data-mirror-drop
+      tabindex="0"
+      role="button"
+      aria-label="Choose or drop a resume file"
+    >
+      <svg class="mirror__icon" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <path d="M11 3v10m0 0l-4-4m4 4l4-4M4 16v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2"
+              fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="mirror__drop-label" data-mirror-droplabel>drop a pdf or text resume here</span>
+      <span class="t-meta">or click · pdf · txt · md · max 4 MB</span>
+      <input
+        type="file"
+        accept=".pdf,.txt,.md,application/pdf,text/plain,text/markdown"
+        data-mirror-file
+        hidden
+      />
+    </div>
+
+    <fieldset class="mirror__direction" aria-label="Choose pitch direction">
+      <legend class="visually-hidden">Pitch direction</legend>
+      <button type="button"
+              class="mirror__tab"
+              data-mirror-direction="pitch-them-to-john"
+              aria-pressed="true">
+        <span class="mirror__tab-title">Why you should hire John</span>
+        <span class="t-meta">pitches John to you</span>
+      </button>
+      <button type="button"
+              class="mirror__tab"
+              data-mirror-direction="pitch-john-to-them"
+              aria-pressed="false">
+        <span class="mirror__tab-title">Why John should hire you</span>
+        <span class="t-meta">pitches you to John</span>
+      </button>
+    </fieldset>
+
+    <label class="mirror__name">
+      <span class="t-meta">Your name (optional)</span>
+      <input
+        type="text"
+        autocomplete="name"
+        maxlength="120"
+        placeholder="e.g. Ada Lovelace"
+        data-mirror-name
+      />
+    </label>
+
+    <div class="mirror__cta">
+      <button type="submit" class="btn btn--primary" data-mirror-submit disabled>
+        <span>Generate pitch</span>
+        <span class="t-meta">stream · gpt-4o-mini</span>
+      </button>
+      <p class="t-meta mirror__legal">
+        Rate-limited 5 / hour / IP. No data stored beyond a 24h hash-keyed cache.
+      </p>
+    </div>
+  </form>
+
+  <div class="mirror__result" data-mirror-result aria-live="polite" aria-atomic="false">
+    <p class="t-meta mirror__hint">Drop a resume, pick a direction, hit generate.</p>
+  </div>
+</div>
+
+<script>
+  import { mountResumeMirror } from '@/lib/resume-mirror-client';
+  // Mount every instance in the page — the page typically has one, but this
+  // is robust if a future layout duplicates the slot.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-mirror-root]')) {
+    mountResumeMirror(root);
+  }
+</script>
+
+<style>
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+  .mirror {
+    border: 1px solid var(--rule);
+    border-radius: var(--r-3);
+    background: color-mix(in oklch, var(--bg-3) 88%, transparent);
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-4);
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+  .mirror__chrome {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--space-3);
+  }
+  .mirror__status {
+    padding: 2px 8px; border-radius: var(--r-pill); border: 1px solid var(--rule-strong);
+    text-transform: lowercase;
+  }
+  .mirror__status[data-state="ready"] { color: var(--accent); border-color: var(--accent); }
+  .mirror__status[data-state="busy"] { color: var(--accent); border-color: var(--accent); animation: mirror-pulse 1.4s ease-in-out infinite; }
+
+  @keyframes mirror-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+  .mirror__form {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .mirror__drop {
+    display: grid;
+    place-items: center;
+    gap: var(--space-2);
+    padding: var(--space-6) var(--space-4);
+    border: 1px dashed var(--rule-strong);
+    border-radius: var(--r-3);
+    background: var(--bg);
+    color: var(--fg-2);
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-standard),
+                background var(--dur-fast) var(--ease-standard),
+                color var(--dur-fast) var(--ease-standard);
+    text-align: center;
+  }
+  .mirror__drop:hover, .mirror__drop:focus-visible, .mirror__drop.is-drag {
+    border-color: var(--accent);
+    background: color-mix(in oklch, var(--accent) 6%, var(--bg));
+    color: var(--fg);
+    outline: none;
+  }
+  .mirror__drop-label {
+    font: 500 var(--fs-base)/1.3 var(--font-display);
+    color: var(--fg);
+  }
+  .mirror__icon { color: var(--fg-2); }
+
+  .mirror__direction {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .mirror__tab {
+    display: grid;
+    gap: var(--space-1);
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-2);
+    background: var(--bg);
+    color: var(--fg);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard),
+                color var(--dur-fast) var(--ease-standard),
+                border-color var(--dur-fast) var(--ease-standard);
+  }
+  .mirror__tab:hover, .mirror__tab:focus-visible {
+    border-color: var(--fg);
+  }
+  .mirror__tab[aria-pressed="true"] {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .mirror__tab[aria-pressed="true"] .t-meta {
+    color: color-mix(in oklch, var(--bg) 70%, var(--fg));
+  }
+  .mirror__tab-title {
+    font: 500 var(--fs-sm)/1.2 var(--font-display);
+  }
+
+  .mirror__name {
+    display: grid;
+    gap: var(--space-1);
+  }
+  .mirror__name input {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule-strong);
+    background: var(--bg);
+    border-radius: var(--r-2);
+    color: var(--fg);
+    font: var(--fs-base)/1.3 var(--font-text);
+    transition: border-color var(--dur-fast) var(--ease-standard);
+  }
+  .mirror__name input:focus-visible { border-color: var(--accent); outline: none; }
+
+  .mirror__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .mirror__legal { color: var(--fg-3); }
+
+  .mirror__result {
+    border: 1px solid var(--rule);
+    border-radius: var(--r-2);
+    background: var(--bg);
+    padding: var(--space-4) var(--space-5);
+    min-height: 6rem;
+    font-size: var(--fs-base);
+    line-height: var(--lh-base);
+    color: var(--fg);
+  }
+  .mirror__result.is-streaming { border-color: var(--accent); }
+  .mirror__hint { color: var(--fg-3); margin: 0; }
+  .mirror__result h3, .mirror__result h4, .mirror__result h5 {
+    font: 540 var(--fs-lg)/var(--lh-lg) var(--font-display);
+    letter-spacing: var(--tracking-lg);
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+  .mirror__result p { margin-bottom: var(--space-3); }
+  .mirror__result p:last-child { margin-bottom: 0; }
+  .mirror__result ol, .mirror__result ul {
+    padding-left: var(--space-5);
+    margin: var(--space-2) 0 var(--space-3);
+    display: grid;
+    gap: var(--space-2);
+  }
+  .mirror__result li { padding-left: var(--space-1); }
+  .mirror__result code {
+    font: var(--fs-sm)/1.3 var(--font-mono);
+    background: var(--bg-2);
+    padding: 0 4px;
+    border-radius: var(--r-1);
+  }
+  .mirror__result a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .mirror__result strong { color: var(--fg); }
+  .mirror-cite {
+    display: inline-block;
+    font: 500 0.72rem/1.2 var(--font-mono);
+    padding: 0 6px;
+    margin: 0 2px;
+    border: 1px solid var(--accent);
+    border-radius: var(--r-pill);
+    color: var(--accent);
+    vertical-align: 1px;
+  }
+  .mirror-cite--John { border-color: var(--fg); color: var(--fg); }
+  .mirror-result__error { color: var(--color-danger); }
+  .mirror-result__meta { color: var(--fg-3); margin-top: var(--space-3); }
+  .mirror-result__waiting { color: var(--fg-3); }
+
+  /* Inherit the .btn styling from index.astro; replicate a slim baseline so
+     the button works when this component is mounted elsewhere too. */
+  .mirror .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-3);
+    font: 500 var(--fs-sm)/1 var(--font-display);
+    color: var(--fg);
+    background: var(--bg-3);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard),
+                color var(--dur-fast) var(--ease-standard),
+                border-color var(--dur-fast) var(--ease-standard);
+  }
+  .mirror .btn--primary {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .mirror .btn--primary:hover:not(:disabled),
+  .mirror .btn--primary:focus-visible:not(:disabled) {
+    background: var(--accent); color: var(--accent-fg); border-color: var(--accent);
+  }
+  .mirror .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .mirror .btn .t-meta { color: color-mix(in oklch, var(--bg) 70%, var(--fg)); }
+
+  @media (max-width: 600px) {
+    .mirror__direction { grid-template-columns: 1fr; }
+    .mirror__cta { flex-direction: column; align-items: stretch; }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import VoiceAgent from '@components/VoiceAgent.astro';
+---
+<BaseLayout
+  title="Talk — John Cornelius"
+  description="Real-time voice or text. Ask anything. Every answer cites which role or project it pulled from."
+>
+  <section class="shell talk">
+    <header class="page-head">
+      <p class="h-eyebrow">/ Conversation</p>
+      <h1 class="h-display">Talk to the operator.</h1>
+      <p class="t-lead">
+        Voice or text. Sub-800ms first-token-to-audio target. The model is
+        grounded in the CV and the project case studies — answers cite which
+        section they pulled from.
+      </p>
+    </header>
+
+    <VoiceAgent />
+
+    <p class="t-meta foot">
+      Voice mode runs on a polished ElevenLabs voice. A cloned-voice slot is
+      ready in <code>ELEVENLABS_VOICE_ID</code> — drop in a 30-second sample
+      via 1Password and the next request picks it up. No code change.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .talk { padding-block: var(--space-9) var(--space-10); display: grid; gap: var(--space-7); }
+  .page-head { display: grid; gap: var(--space-3); max-width: 56rem; }
+  .foot { color: var(--fg-3); max-width: 56rem; margin-inline: auto; }
+  .foot code { font-family: var(--font-mono); background: var(--bg-2); padding: 1px 6px; border-radius: var(--r-1); color: var(--fg-2); }
+</style>
