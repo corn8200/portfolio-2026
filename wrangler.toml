@@ -1,0 +1,35 @@
+name = "portfolio-2026"
+compatibility_date = "2025-05-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
+
+# === Bindings ===
+# KV namespace for AI response + per-visitor seed caching.
+# Populated by setup script; do not commit live IDs to this file.
+[[kv_namespaces]]
+binding = "CACHE"
+id = "PLACEHOLDER_CACHE_KV_ID"
+
+# Vectorize index for CV RAG embeddings.
+[[vectorize]]
+binding = "CV_INDEX"
+index_name = "portfolio-cv"
+
+# AI binding for Workers AI fallback (if we need it for embeddings as a cheap fallback).
+[ai]
+binding = "AI"
+
+# Per-environment overrides
+[env.preview]
+name = "portfolio-2026-preview"
+
+[env.production]
+name = "portfolio-2026"
+
+# Vars (non-secret). Secrets are set via wrangler secret put or `.dev.vars` for local.
+[vars]
+SITE_NAME = "John Cornelius"
+OPENAI_DAILY_BUDGET_USD = "25"
+ELEVENLABS_DAILY_BUDGET_USD = "15"
+RATE_LIMIT_VOICE_PER_IP_PER_HOUR = "20"
+RATE_LIMIT_RESUME_PER_IP_PER_HOUR = "5"
