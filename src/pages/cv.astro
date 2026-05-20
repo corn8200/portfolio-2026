@@ -1,0 +1,177 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCvRaw } from '@lib/content';
+
+// Render CV markdown to clean HTML. Tiny in-page renderer so we don't pull a Markdown lib.
+const md = getCvRaw();
+
+type Block =
+  | { kind: 'h1'; text: string }
+  | { kind: 'h2'; text: string }
+  | { kind: 'h3'; text: string }
+  | { kind: 'p';  text: string }
+  | { kind: 'li'; text: string; ordered: boolean }
+  | { kind: 'blockquote'; text: string };
+
+function parseInline(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener">$1</a>');
+}
+
+function renderMd(src: string): string {
+  // Strip HTML comments (positioning defense)
+  const cleaned = src.replace(/<!--[\s\S]*?-->/g, '').trim();
+  const lines = cleaned.split('\n');
+  const out: string[] = [];
+  let inList: 'ul' | 'ol' | null = null;
+  const closeList = () => { if (inList) { out.push(`</${inList}>`); inList = null; } };
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    if (!line.trim()) { closeList(); continue; }
+    let m: RegExpMatchArray | null = null;
+    if ((m = line.match(/^#\s+(.+)/))) { closeList(); out.push(`<h1>${parseInline(m[1])}</h1>`); continue; }
+    if ((m = line.match(/^##\s+(.+)/))) { closeList(); out.push(`<h2>${parseInline(m[1])}</h2>`); continue; }
+    if ((m = line.match(/^###\s+(.+)/))) { closeList(); out.push(`<h3>${parseInline(m[1])}</h3>`); continue; }
+    if ((m = line.match(/^>\s*(.+)/))) { closeList(); out.push(`<blockquote>${parseInline(m[1])}</blockquote>`); continue; }
+    if ((m = line.match(/^[-*]\s+(.+)/))) {
+      if (inList !== 'ul') { closeList(); out.push('<ul>'); inList = 'ul'; }
+      out.push(`<li>${parseInline(m[1])}</li>`);
+      continue;
+    }
+    if ((m = line.match(/^\d+\.\s+(.+)/))) {
+      if (inList !== 'ol') { closeList(); out.push('<ol>'); inList = 'ol'; }
+      out.push(`<li>${parseInline(m[1])}</li>`);
+      continue;
+    }
+    out.push(`<p>${parseInline(line)}</p>`);
+  }
+  closeList();
+  return out.join('\n');
+}
+
+const bodyHtml = renderMd(md);
+const today = new Date().toISOString().slice(0, 10);
+---
+<BaseLayout
+  title="CV — John Cornelius"
+  description="Full curriculum vitae for John Cornelius — AI & Six Sigma Lead at Tamko Building Products. Twenty years US Army aviation (160th SOAR), Embry-Riddle MS Unmanned Systems."
+  showCanvas={false}
+>
+  <article class="shell cv">
+    <header class="cv__head">
+      <div class="cv__head-bar t-meta">
+        <span>CURRICULUM VITAE · v.{today}</span>
+        <span class="cv__actions">
+          <button type="button" class="cv__btn" onclick="window.print()">Save / Print as PDF</button>
+          <a class="cv__btn" href="/cv.md" download="john-cornelius-cv.md">Download .md</a>
+        </span>
+      </div>
+    </header>
+
+    <Fragment set:html={bodyHtml} />
+  </article>
+</BaseLayout>
+
+<style>
+  .cv { padding-block: var(--space-7) var(--space-10); max-width: 52rem; margin-inline: auto; }
+
+  .cv__head {
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+  }
+  .cv__head-bar { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
+  .cv__actions { display: inline-flex; gap: var(--space-3); }
+  .cv__btn {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-2);
+    background: var(--bg-3);
+    color: var(--fg);
+    font: 500 var(--fs-sm)/1 var(--font-display);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+  }
+  .cv__btn:hover, .cv__btn:focus-visible {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+  }
+
+  .cv :global(h1) {
+    font: 480 var(--fs-3xl)/var(--lh-3xl) var(--font-display);
+    letter-spacing: var(--tracking-3xl);
+    color: var(--fg);
+    margin: 0 0 var(--space-2);
+  }
+  .cv :global(h2) {
+    font: 540 var(--fs-xl)/var(--lh-xl) var(--font-display);
+    letter-spacing: var(--tracking-xl);
+    color: var(--fg);
+    margin-top: var(--space-7);
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .cv :global(h3) {
+    font: 540 var(--fs-lg)/var(--lh-lg) var(--font-display);
+    letter-spacing: var(--tracking-lg);
+    color: var(--fg);
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-2);
+  }
+  .cv :global(p) {
+    color: var(--fg);
+    font-size: var(--fs-base);
+    line-height: var(--lh-base);
+    margin: 0 0 var(--space-3);
+    max-width: 68ch;
+  }
+  .cv :global(strong) { color: var(--fg); font-weight: 600; }
+  .cv :global(em) { color: var(--fg); }
+  .cv :global(code) { font-family: var(--font-mono); font-size: 0.9em; background: var(--bg-2); padding: 1px 6px; border-radius: var(--r-1); color: var(--fg); }
+  .cv :global(ul), .cv :global(ol) {
+    padding-left: 1.4em;
+    color: var(--fg);
+    margin: 0 0 var(--space-4);
+  }
+  .cv :global(li) { margin-bottom: var(--space-2); line-height: var(--lh-base); }
+  .cv :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    padding-left: var(--space-4);
+    margin: var(--space-5) 0;
+    color: var(--fg);
+    font-size: var(--fs-md);
+    line-height: var(--lh-md);
+  }
+  .cv :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cv :global(a:hover) { color: var(--color-accent-press); }
+
+  /* ---------- print ---------- */
+  @media print {
+    @page { size: Letter; margin: 0.6in 0.7in; }
+    :root { color-scheme: light; }
+    html, body { background: #ffffff !important; color: #000000 !important; }
+    .site-header, .site-footer, .cv__head-bar, #bg-canvas { display: none !important; }
+    .cv { padding: 0 !important; max-width: none !important; }
+    .cv :global(h1) { font-size: 32pt; margin-bottom: 4pt; }
+    .cv :global(h2) { font-size: 16pt; margin-top: 18pt; padding-bottom: 4pt; border-bottom: 1px solid #999; break-after: avoid; }
+    .cv :global(h3) { font-size: 13pt; margin-top: 12pt; break-after: avoid; }
+    .cv :global(p), .cv :global(li) { font-size: 10.5pt; line-height: 1.45; color: #000; }
+    .cv :global(a) { color: #000; text-decoration: underline; }
+    .cv :global(blockquote) { border-left: 2px solid #000; }
+    .cv :global(strong) { color: #000; }
+    .cv :global(code) { background: transparent; padding: 0; color: #000; font-family: ui-monospace, monospace; }
+  }
+</style>

@@ -7,7 +7,7 @@ export default defineConfig({
     platformProxy: { enabled: true, experimentalRemote: false },
     imageService: 'passthrough',
   }),
-  site: 'https://portfolio-2026.pages.dev',
+  site: 'https://cv.jcornelius.net',
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   experimental: {
     clientPrerender: true,

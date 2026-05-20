@@ -8,6 +8,7 @@ export const GET: APIRoute = ({ site }) => {
   const projects = getAllProjects();
   const urls = [
     { loc: `${base}/`,        cf: 'weekly' },
+    { loc: `${base}/cv`,      cf: 'weekly' },
     { loc: `${base}/work`,    cf: 'monthly' },
     { loc: `${base}/about`,   cf: 'monthly' },
     { loc: `${base}/contact`, cf: 'yearly' },
