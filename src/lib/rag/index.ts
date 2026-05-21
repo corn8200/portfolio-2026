@@ -145,14 +145,15 @@ function renderVisitor(v?: VisitorContext): string | null {
   if (v.timezone) lines.push(`Likely timezone: ${v.timezone}`);
   if (lines.length === 0) return null;
   return [
-    'Visitor context (use this — the visitor will notice if you do not):',
+    'Visitor context (this is real signal — use it):',
     ...lines,
     '',
-    'Rules for using this context:',
-    '- If they offered a name, open your first reply with it once ("Sarah — good question." or "Hey Sarah,"). Use it again only if it’s natural. Never repeat it more than twice.',
-    '- If they offered a company or role, name it once early in the reply and connect it to a specific concrete from the CV. Examples: a manufacturing company → cite the Allmine $189K analytics or 35% downtime numbers; a defense org → cite the 160th SOAR or Standardization Instructor record; a tech company → cite the AI/Six Sigma integration work or the self-built memory pipeline.',
-    '- CDN geo is approximate and they did NOT tell you where they are. Do NOT name the city back to them. You MAY reference timezone obliquely if scheduling comes up ("happy to do your morning"). That is the only allowed use.',
-    '- If they have NOT introduced themselves and this is the first exchange, do not interrogate them — just answer. After your answer is done, you may add a single short closer like "Who am I talking to, by the way?". Don’t demand; one ask is enough.',
+    'Rules:',
+    '- If a Name was offered, address them by it in your VERY FIRST sentence of this reply. Examples: "Hey Sarah —", "Sarah,", "Sarah — short answer:". This is not optional. Do NOT say "thanks for sharing your name" or "good to meet you" — just use it like a normal person. Use it again only if natural. Cap two total mentions.',
+    '- If a Company / role was offered, name it once early — first or second sentence — and connect it to one specific CV item. Examples: a manufacturing company → reference the Allmine plant work and the AI/Six Sigma role at Tamko; a defense org → reference the Standardization Instructor record; a tech company → reference the operational AI integration work.',
+    '- DO NOT specifically cite dollar amounts or percent figures from the CV. The public copy keeps those private; mirror that posture.',
+    '- CDN geo is approximate and they did NOT tell you where they are. Never name their city. You MAY hint at timezone if scheduling comes up.',
+    '- If no Name was offered, just answer. You may add a single short closer like "Who am I talking to, by the way?" — but only once across the conversation.',
   ].join('\n');
 }
 

@@ -47,26 +47,35 @@ export function mountAgent(root: HTMLElement): void {
   const audioEl = ensureAudioElement(root);
 
   // Persisted visitor inputs (name + org). Bound to inputs in the intro card.
+  // We also expose them as window-globals so openAskStream can pull the LIVE
+  // input value at submit time — relying on localStorage alone misses the case
+  // where the user types into the field and hits Send without blurring.
   const nameInput = root.querySelector<HTMLInputElement>('[data-agent-name]');
   const orgInput = root.querySelector<HTMLInputElement>('[data-agent-org]');
   if (nameInput) {
     try { nameInput.value = localStorage.getItem('agent-visitor-name') || ''; } catch {}
-    nameInput.addEventListener('change', () => {
+    const persistName = () => {
       try { localStorage.setItem('agent-visitor-name', nameInput.value.trim().slice(0, 80)); } catch {}
-    });
-    nameInput.addEventListener('blur', () => {
-      try { localStorage.setItem('agent-visitor-name', nameInput.value.trim().slice(0, 80)); } catch {}
-    });
+    };
+    // Persist on EVERY keystroke so a Send without blurring still has the latest value.
+    nameInput.addEventListener('input', persistName);
+    nameInput.addEventListener('change', persistName);
+    nameInput.addEventListener('blur', persistName);
   }
   if (orgInput) {
     try { orgInput.value = localStorage.getItem('agent-visitor-org') || ''; } catch {}
-    orgInput.addEventListener('change', () => {
+    const persistOrg = () => {
       try { localStorage.setItem('agent-visitor-org', orgInput.value.trim().slice(0, 120)); } catch {}
-    });
-    orgInput.addEventListener('blur', () => {
-      try { localStorage.setItem('agent-visitor-org', orgInput.value.trim().slice(0, 120)); } catch {}
-    });
+    };
+    orgInput.addEventListener('input', persistOrg);
+    orgInput.addEventListener('change', persistOrg);
+    orgInput.addEventListener('blur', persistOrg);
   }
+  // Expose live readers so openAskStream can prefer DOM-truth over localStorage.
+  (root as HTMLElement & { __visitor?: () => { name: string; org: string } }).__visitor = () => ({
+    name: nameInput?.value.trim().slice(0, 80) || '',
+    org: orgInput?.value.trim().slice(0, 120) || '',
+  });
 
   const history: { role: LogRole; text: string }[] = [];
   const entries: LogEntry[] = [];
@@ -362,6 +371,11 @@ type AskEvent =
   | { type: 'error'; value: string };
 
 function readVisitor(): { name: string; org: string } {
+  // Prefer the live DOM inputs (the mount function attaches a __visitor() reader to the agent root).
+  // Fall back to localStorage if the inputs aren't found (e.g. text-only embed).
+  const root = document.querySelector('[data-agent]') as
+    (HTMLElement & { __visitor?: () => { name: string; org: string } }) | null;
+  if (root?.__visitor) return root.__visitor();
   try {
     return {
       name: localStorage.getItem('agent-visitor-name') || '',
