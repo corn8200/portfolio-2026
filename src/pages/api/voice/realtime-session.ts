@@ -16,7 +16,9 @@ export const prerender = false;
 
 const REALTIME_TIMEOUT_MS = 12_000;
 const REALTIME_LIMIT_PER_IP_PER_HOUR = 6;
-const REALTIME_MODEL = 'gpt-4o-realtime-preview-2024-12-17';
+// OpenAI Realtime GA model. `gpt-4o-realtime-preview-2024-12-17` was deprecated;
+// `gpt-realtime` is the rolling GA alias.
+const REALTIME_MODEL = 'gpt-realtime';
 
 const SYSTEM_PROMPT = [
   'You are the live voice agent for John Cornelius\' engineering portfolio.',
