@@ -2,11 +2,15 @@
 // Voice + text agent UI mount.
 // Hydrates the conversation surface client-side; the page itself stays SSR.
 // Real endpoints live at /api/ask and /api/voice/* (defined separately).
+import OnboardingWizard from './OnboardingWizard.astro';
 ---
 <div class="agent" data-agent>
+  <OnboardingWizard />
+
   <div class="agent__chrome">
     <span class="t-meta">VOICE / TEXT · CITED RAG · CLONED VOICE</span>
     <span class="agent__chrome-right">
+      <button type="button" class="agent__edit t-meta" data-onboarding-edit aria-label="Edit your context">Edit context</button>
       <button type="button" class="agent__mute t-meta" data-agent-mute aria-pressed="false">Mute</button>
       <span class="t-meta agent__state" data-agent-state>idle</span>
     </span>
@@ -26,7 +30,8 @@
     </p>
   </div>
 
-  <div class="agent__log" role="log" aria-live="polite" aria-label="Conversation history" data-agent-log></div>
+  <div class="agent__log" role="log" aria-label="Conversation history" data-agent-log></div>
+  <div class="visually-hidden" role="status" aria-live="polite" aria-atomic="true" data-agent-announce></div>
 
   <form class="agent__form" data-agent-form>
     <label for="agent-input" class="visually-hidden">Type a question</label>
@@ -58,6 +63,7 @@
 
 <script>
   import { mountAgent } from '@/lib/agent';
+  import '@/lib/onboarding-client';
   const el = document.querySelector('[data-agent]') as HTMLElement | null;
   if (el) mountAgent(el);
 </script>
@@ -66,6 +72,7 @@
   .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
   .agent {
+    position: relative;
     border: 1px solid var(--rule);
     border-radius: var(--r-3);
     background: color-mix(in oklch, var(--bg-3) 88%, transparent);
@@ -102,11 +109,16 @@
   @media (max-width: 540px) { .agent__intro { grid-template-columns: 1fr; } }
 
   .agent__chrome-right { display: inline-flex; align-items: center; gap: var(--space-3); }
-  .agent__mute {
+  .agent__mute,
+  .agent__edit {
     padding: 2px 8px; border-radius: var(--r-pill); border: 1px solid var(--rule-strong);
     cursor: pointer; color: var(--fg-2); background: transparent;
+    transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
   }
-  .agent__mute:hover, .agent__mute:focus-visible { color: var(--fg); border-color: var(--fg); }
+  .agent__mute:hover, .agent__mute:focus-visible,
+  .agent__edit:hover, .agent__edit:focus-visible {
+    color: var(--fg); border-color: var(--fg); outline: none;
+  }
   .agent__mute[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
   .agent__state {
     padding: 2px 8px; border-radius: var(--r-pill); border: 1px solid var(--rule-strong);
@@ -125,7 +137,7 @@
     line-height: var(--lh-base);
   }
   .agent__log:empty::before {
-    content: "Try: 'How did Overseer's brain work?' or 'What's the OpJune budget gate?'";
+    content: "Try: 'What's your current role at Tamko?' or 'Tell me about your Army career.'";
     display: block;
     color: var(--fg-3);
     font-style: italic;

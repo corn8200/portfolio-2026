@@ -1,0 +1,346 @@
+---
+// On-first-use onboarding wizard that sits on top of the chat surface.
+// Renders 3 animated steps (name -> context -> first question) and bridges
+// the captured values into the existing [data-agent-name] / [data-agent-org]
+// inputs so the chat code (src/lib/agent.ts) keeps working unchanged.
+//
+// The server-rendered shell is hidden by default (data-onboarding-state="hidden")
+// and only flips visible from the client mount in src/lib/onboarding-client.ts
+// once we know whether the visitor has been onboarded.
+---
+<div
+  class="wiz"
+  data-onboarding
+  data-onboarding-state="hidden"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="wiz-title"
+  hidden
+>
+  <div class="wiz__backdrop" data-onboarding-backdrop aria-hidden="true"></div>
+
+  <section class="wiz__sheet" data-onboarding-sheet>
+    <header class="wiz__head">
+      <span class="t-meta wiz__crumbs" data-onboarding-crumbs aria-live="polite">
+        Step <span data-onboarding-step-num>1</span> of 3
+      </span>
+      <button
+        type="button"
+        class="wiz__close t-meta"
+        data-onboarding-close
+        aria-label="Skip and open the chat"
+      >Skip</button>
+    </header>
+
+    <div class="wiz__steps">
+      <!-- Step 1: name -->
+      <article
+        class="wiz__step"
+        data-onboarding-step="1"
+        data-active="true"
+        aria-hidden="false"
+      >
+        <h2 class="wiz__title" id="wiz-title">Who am I speaking with?</h2>
+        <p class="wiz__sub t-meta">First name is fine. Optional — skip if you'd rather stay anonymous.</p>
+        <label class="visually-hidden" for="wiz-name">First name</label>
+        <input
+          id="wiz-name"
+          class="wiz__input"
+          type="text"
+          autocomplete="given-name"
+          maxlength="60"
+          placeholder="e.g. Sam"
+          data-onboarding-field="name"
+          enterkeyhint="next"
+        />
+        <div class="wiz__nav">
+          <button type="button" class="wiz__btn wiz__btn--ghost" data-onboarding-skip>Skip</button>
+          <button type="button" class="wiz__btn wiz__btn--primary" data-onboarding-next>Continue</button>
+        </div>
+      </article>
+
+      <!-- Step 2: context -->
+      <article
+        class="wiz__step"
+        data-onboarding-step="2"
+        data-active="false"
+        aria-hidden="true"
+      >
+        <h2 class="wiz__title">A little about you?</h2>
+        <p class="wiz__sub t-meta">
+          Company, role, what you're working on, what brought you here — anything that helps John tailor the answers.
+        </p>
+        <label class="visually-hidden" for="wiz-org">About you</label>
+        <textarea
+          id="wiz-org"
+          class="wiz__input wiz__textarea"
+          rows="5"
+          maxlength="600"
+          placeholder="Optional. e.g. 'CTO at a 30-person roofing distributor, exploring AI for ops.'"
+          data-onboarding-field="org"
+        ></textarea>
+        <div class="wiz__nav">
+          <button type="button" class="wiz__btn wiz__btn--ghost" data-onboarding-skip>Skip</button>
+          <button type="button" class="wiz__btn wiz__btn--primary" data-onboarding-next>Continue</button>
+        </div>
+      </article>
+
+      <!-- Step 3: first question -->
+      <article
+        class="wiz__step"
+        data-onboarding-step="3"
+        data-active="false"
+        aria-hidden="true"
+      >
+        <h2 class="wiz__title">What would you like to ask first?</h2>
+        <p class="wiz__sub t-meta">Pick a starter or write your own. You can keep going from there.</p>
+
+        <div class="wiz__prompts" role="list">
+          <button type="button" class="wiz__prompt" role="listitem" data-onboarding-prompt="What did you do in the Army?">What did you do in the Army?</button>
+          <button type="button" class="wiz__prompt" role="listitem" data-onboarding-prompt="What's your current role at Tamko?">What's your current role at Tamko?</button>
+          <button type="button" class="wiz__prompt" role="listitem" data-onboarding-prompt="What are you looking to do next?">What are you looking to do next?</button>
+          <button type="button" class="wiz__prompt" role="listitem" data-onboarding-prompt="Tell me about your projects.">Tell me about your projects.</button>
+          <button type="button" class="wiz__prompt" role="listitem" data-onboarding-prompt="How do you approach AI in manufacturing?">How do you approach AI in manufacturing?</button>
+        </div>
+
+        <label class="visually-hidden" for="wiz-question">Your question</label>
+        <input
+          id="wiz-question"
+          class="wiz__input"
+          type="text"
+          autocomplete="off"
+          placeholder="Or type your own question…"
+          data-onboarding-field="question"
+          enterkeyhint="send"
+        />
+
+        <div class="wiz__nav">
+          <button type="button" class="wiz__btn wiz__btn--ghost" data-onboarding-skip>Just open the chat</button>
+          <button type="button" class="wiz__btn wiz__btn--primary" data-onboarding-finish>Ask John</button>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<style>
+  .visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  /* Hidden until JS flips data-onboarding-state. Prevents FOUC on cold load. */
+  .wiz[hidden] { display: none; }
+
+  .wiz {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: grid;
+    place-items: center;
+    padding: var(--space-4);
+    border-radius: var(--r-3);
+    overflow: hidden;
+  }
+
+  .wiz__backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in oklch, var(--bg) 70%, transparent);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .wiz__sheet {
+    position: relative;
+    width: min(36rem, 100%);
+    background: var(--bg-3);
+    color: var(--fg);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-3);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-5);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .wiz__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .wiz__crumbs { color: var(--fg-3); }
+  .wiz__close {
+    background: transparent;
+    border: 0;
+    color: var(--fg-3);
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: var(--r-pill);
+  }
+  .wiz__close:hover, .wiz__close:focus-visible {
+    color: var(--fg);
+    outline: none;
+  }
+
+  .wiz__steps {
+    position: relative;
+    display: grid;
+    /* Stack steps in the same grid cell so we can cross-fade between them. */
+    grid-template-areas: "step";
+    min-height: 14rem;
+  }
+
+  .wiz__step {
+    grid-area: step;
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    /* Inactive steps are visually + a11y hidden but stay in the DOM so focus
+       can be managed cleanly between steps. */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition:
+      opacity var(--dur-base) var(--ease-emphasized),
+      transform var(--dur-base) var(--ease-emphasized);
+  }
+  .wiz__step[data-active="true"] {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    animation: wiz-in var(--dur-base) var(--ease-emphasized);
+  }
+  .wiz__step[data-leaving="true"] {
+    animation: wiz-out var(--dur-base) var(--ease-exit);
+  }
+
+  @keyframes wiz-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes wiz-out {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(-6px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wiz__step,
+    .wiz__step[data-active="true"],
+    .wiz__step[data-leaving="true"] {
+      animation: none !important;
+      transition: opacity var(--dur-fast) linear !important;
+      transform: none !important;
+    }
+  }
+
+  .wiz__title {
+    margin: 0;
+    font: 600 var(--fs-lg)/var(--lh-lg) var(--font-display);
+    letter-spacing: var(--tracking-lg);
+    color: var(--fg);
+  }
+  .wiz__sub {
+    margin: 0;
+    color: var(--fg-2);
+    font: var(--fs-sm)/var(--lh-sm) var(--font-text);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .wiz__input {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule-strong);
+    background: var(--bg);
+    border-radius: var(--r-2);
+    color: var(--fg);
+    font: var(--fs-base)/1.3 var(--font-text);
+    transition: border-color var(--dur-fast) var(--ease-standard);
+    width: 100%;
+  }
+  .wiz__input:focus-visible {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 25%, transparent);
+  }
+  .wiz__textarea { resize: vertical; min-height: 6.5rem; font-family: var(--font-text); }
+
+  .wiz__prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .wiz__prompt {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-pill);
+    background: var(--bg);
+    color: var(--fg-2);
+    font: 500 var(--fs-sm)/1.2 var(--font-text);
+    cursor: pointer;
+    transition:
+      border-color var(--dur-fast) var(--ease-standard),
+      color var(--dur-fast) var(--ease-standard),
+      background var(--dur-fast) var(--ease-standard);
+  }
+  .wiz__prompt:hover, .wiz__prompt:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+    outline: none;
+  }
+  .wiz__prompt[data-selected="true"] {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+  }
+
+  .wiz__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+  .wiz__btn {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--r-2);
+    border: 1px solid var(--rule-strong);
+    background: var(--bg);
+    color: var(--fg);
+    font: 500 var(--fs-sm)/1 var(--font-display);
+    cursor: pointer;
+    transition:
+      background var(--dur-fast) var(--ease-standard),
+      color var(--dur-fast) var(--ease-standard),
+      border-color var(--dur-fast) var(--ease-standard);
+  }
+  .wiz__btn--ghost { background: transparent; border-color: var(--rule); color: var(--fg-3); }
+  .wiz__btn--ghost:hover, .wiz__btn--ghost:focus-visible {
+    color: var(--fg);
+    border-color: var(--fg);
+    outline: none;
+  }
+  .wiz__btn--primary {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .wiz__btn--primary:hover, .wiz__btn--primary:focus-visible {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+    outline: none;
+  }
+
+  /* Mount-driven visibility. */
+  .wiz[data-onboarding-state="hidden"] { display: none; }
+  .wiz[data-onboarding-state="visible"] { display: grid; }
+  .wiz[data-onboarding-state="closing"] { display: grid; opacity: 0; transition: opacity var(--dur-base) var(--ease-exit); }
+
+  @media (max-width: 540px) {
+    .wiz { padding: var(--space-2); }
+    .wiz__sheet { padding: var(--space-4); }
+    .wiz__nav { flex-direction: column-reverse; align-items: stretch; }
+    .wiz__btn { width: 100%; text-align: center; justify-content: center; }
+  }
+</style>

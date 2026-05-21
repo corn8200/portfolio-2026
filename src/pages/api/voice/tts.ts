@@ -71,19 +71,25 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return json({ ok: false, reason }, 502);
   }
 
-  // Best-effort spend bookkeeping. We can't await the full stream here without
-  // buffering, so we account by character count of the input — that's what
-  // ElevenLabs bills on anyway.
+  // Spend bookkeeping happens only AFTER the stream completes, so an aborted /
+  // disconnected client doesn't get billed against the daily cap. Same for the
+  // timeout handle — clear it in flush AND cancel paths to prevent leaks.
   const cost = estimateTtsCostUsd(text.length);
-  // Fire and forget; failures here must not break the streamed response.
-  addSpend(cache, 'elevenlabs', cost).catch(() => undefined);
+  let billed = false;
+  const settle = () => {
+    clearTimeout(timeout);
+    if (billed) return;
+    billed = true;
+    addSpend(cache, 'elevenlabs', cost).catch(() => undefined);
+  };
+  const cancelOnly = () => {
+    clearTimeout(timeout);
+  };
 
-  // Bridge stream so we can clear the timeout once the body completes/aborts.
   const bridged = upstream.stream.pipeThrough(
     new TransformStream<Uint8Array, Uint8Array>({
-      flush() {
-        clearTimeout(timeout);
-      },
+      flush() { settle(); },
+      cancel() { cancelOnly(); },
     })
   );
 

@@ -7,6 +7,7 @@
 
 import type { APIContext } from 'astro';
 import { streamAnswer } from '../../lib/rag';
+import { notifyVisitorAsync } from '../../lib/notify';
 import type {
   AskMessage,
   AskRequest,
@@ -127,13 +128,16 @@ export async function POST(ctx: APIContext): Promise<Response> {
 
   // Visitor context: name/org from body if the agent client shared them;
   // geo from the Cloudflare request object (always present in Workers runtime).
-  const extra = body as unknown as { name?: unknown; org?: unknown };
+  const extra = body as unknown as { name?: unknown; org?: unknown; session?: unknown };
   const visitorName = typeof extra.name === 'string'
     ? extra.name.trim().slice(0, 80) || null
     : null;
   const visitorOrg = typeof extra.org === 'string'
     ? extra.org.trim().slice(0, 120) || null
     : null;
+  const sessionId = typeof extra.session === 'string'
+    ? extra.session.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 64)
+    : '';
   const cf = (ctx.request as Request & { cf?: Record<string, unknown> }).cf ?? {};
   const visitor = {
     name: visitorName,
@@ -143,6 +147,27 @@ export async function POST(ctx: APIContext): Promise<Response> {
     country: typeof cf.country === 'string' ? cf.country : null,
     timezone: typeof cf.timezone === 'string' ? cf.timezone : null,
   };
+
+  // Fire-and-forget notification email — one per session per 24h.
+  if (sessionId && env.RESEND_API_KEY && env.NOTIFY_EMAIL_TO && env.NOTIFY_EMAIL_FROM) {
+    const exec = (ctx as unknown as { runtime?: { ctx?: { waitUntil: (p: Promise<unknown>) => void } } })
+      .runtime?.ctx?.waitUntil;
+    notifyVisitorAsync(
+      {
+        env: {
+          CACHE: env.CACHE,
+          RESEND_API_KEY: env.RESEND_API_KEY as string,
+          NOTIFY_EMAIL_TO: env.NOTIFY_EMAIL_TO as string,
+          NOTIFY_EMAIL_FROM: env.NOTIFY_EMAIL_FROM as string,
+        },
+        sessionId,
+        visitor,
+        firstQuery: query,
+        userAgent: ctx.request.headers.get('user-agent') ?? '',
+      },
+      exec,
+    );
+  }
 
   const ip = clientIp(ctx.request);
   const rate = await checkRate(env.CACHE, ip);

@@ -85,9 +85,13 @@ export function mountAgent(root: HTMLElement): void {
   let ttsCancel: AbortController | null = null;
   // Auto-replay assistant responses in John's cloned voice by default.
   // Users can toggle off via the mute button (data-agent-mute).
+  // We track a `userHasInteracted` flag so the very first autoplay doesn't
+  // hit Chrome's "no autoplay without gesture" silently — we only autoplay
+  // after the user has at least submitted one message.
   let autoSpeak = (() => {
     try { return localStorage.getItem('agent-mute') !== '1'; } catch { return true; }
   })();
+  let userHasInteracted = false;
   const muteBtn = root.querySelector<HTMLButtonElement>('[data-agent-mute]');
   if (muteBtn) {
     muteBtn.setAttribute('aria-pressed', autoSpeak ? 'false' : 'true');
@@ -112,10 +116,19 @@ export function mountAgent(root: HTMLElement): void {
 
   async function speak(text: string): Promise<void> {
     if (!autoSpeak) return;
+    // Browser autoplay policy: skip TTS if the user hasn't engaged yet on this page.
+    if (!userHasInteracted) return;
     const clean = stripCitations(text);
     if (!clean) return;
     ttsCancel?.abort();
     ttsCancel = new AbortController();
+    let blobUrl: string | null = null;
+    const cleanup = () => {
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+        blobUrl = null;
+      }
+    };
     try {
       setMode('speaking');
       const res = await fetch(TTS_ENDPOINT, {
@@ -126,13 +139,16 @@ export function mountAgent(root: HTMLElement): void {
       });
       if (!res.ok) throw new Error('tts ' + res.status);
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      audioEl.src = url;
+      blobUrl = URL.createObjectURL(blob);
+      audioEl.src = blobUrl;
+      // Single onended handler — assigning here replaces any prior (which is
+      // intentional; only one TTS clip plays at a time).
       audioEl.onended = () => {
-        URL.revokeObjectURL(url);
+        cleanup();
         setMode(voiceActive ? 'listening' : 'idle');
       };
-      await audioEl.play().catch(() => undefined);
+      audioEl.onerror = () => { cleanup(); };
+      await audioEl.play().catch(() => { cleanup(); });
     } catch (err) {
       if ((err as Error)?.name !== 'AbortError') {
         console.warn('[agent] tts failed', err);
@@ -151,11 +167,13 @@ export function mountAgent(root: HTMLElement): void {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) return;
+    userHasInteracted = true;
     input.value = '';
     await runTextTurn(text);
   });
 
   voiceBtn.addEventListener('click', async () => {
+    userHasInteracted = true;
     if (voiceActive) {
       await stopVoice();
     } else {
@@ -167,7 +185,9 @@ export function mountAgent(root: HTMLElement): void {
     if (e.key === 'Escape' && voiceActive) {
       e.preventDefault();
       void stopVoice();
-    } else if ((e.ctrlKey || e.metaKey) && (e.key === 'm' || e.key === 'M')) {
+    } else if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'm' || e.key === 'M')) {
+      // Ctrl/Cmd+Shift+M — chord avoids hijacking macOS Minimize (Cmd-M),
+      // browser bookmarks (Cmd/Ctrl-M), and common screen-reader chords.
       e.preventDefault();
       voiceBtn.click();
     }
@@ -201,6 +221,9 @@ export function mountAgent(root: HTMLElement): void {
       }
       if (acc) {
         history.push({ role: 'assistant', text: acc });
+        // Announce the final message ONCE to screen readers (rather than spamming on every delta).
+        const announce = root.querySelector<HTMLElement>('[data-agent-announce]');
+        if (announce) announce.textContent = acc.replace(/\s*\[\d+\]/g, '');
         // Auto-replay assistant text in John's cloned voice (unless muted or in voice mode).
         if (!voiceActive) void speak(acc);
       }
@@ -325,9 +348,9 @@ export function mountAgent(root: HTMLElement): void {
       chip.setAttribute('tabindex', '0');
       if (cite.url) {
         chip.style.cursor = 'pointer';
-        chip.addEventListener('click', () => window.open(cite.url!, '_blank', 'noopener'));
+        chip.addEventListener('click', () => window.open(cite.url!, '_blank', 'noopener,noreferrer'));
         chip.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') window.open(cite.url!, '_blank', 'noopener');
+          if (e.key === 'Enter') window.open(cite.url!, '_blank', 'noopener,noreferrer');
         });
       }
     }
@@ -386,12 +409,31 @@ function readVisitor(): { name: string; org: string } {
   }
 }
 
+/**
+ * Stable, anonymous session id (uuidv4-ish, stored in localStorage). Used by
+ * the server to gate email notifications: first /api/ask per session within
+ * 24h sends a one-shot email to the operator; subsequent turns silent.
+ */
+function readSessionId(): string {
+  try {
+    let id = localStorage.getItem('agent-session-id');
+    if (!id || !/^[a-f0-9-]{20,}$/i.test(id)) {
+      id = (crypto.randomUUID?.() ?? `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`);
+      localStorage.setItem('agent-session-id', id);
+    }
+    return id;
+  } catch {
+    return '';
+  }
+}
+
 async function openAskStream(
   query: string,
   history: { role: LogRole; text: string }[],
   signal?: AbortSignal
 ): Promise<AsyncIterable<AskEvent>> {
   const visitor = readVisitor();
+  const session = readSessionId();
   const res = await fetch(ASK_ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'text/event-stream' },
@@ -400,6 +442,7 @@ async function openAskStream(
       history: history.map((h) => ({ role: h.role, content: h.text })),
       name: visitor.name || undefined,
       org: visitor.org || undefined,
+      session: session || undefined,
     }),
     signal,
   });

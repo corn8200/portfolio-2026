@@ -18,6 +18,10 @@ export interface RuntimeEnv {
   ELEVENLABS_VOICE_ID?: string;
   SITE_VERSION?: string;
   OPENAI_DAILY_BUDGET_USD?: string;
+  // Visitor-conversation email notification (Resend).
+  RESEND_API_KEY?: string;
+  NOTIFY_EMAIL_TO?: string;
+  NOTIFY_EMAIL_FROM?: string;
 }
 
 /**

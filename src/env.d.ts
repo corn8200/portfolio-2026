@@ -15,6 +15,10 @@ interface Env {
   RATE_LIMIT_VOICE_PER_IP_PER_HOUR?: string;
   RATE_LIMIT_RESUME_PER_IP_PER_HOUR?: string;
   SITE_NAME?: string;
+  // Visitor-conversation email notification (Resend → owner inbox).
+  RESEND_API_KEY?: string;
+  NOTIFY_EMAIL_TO?: string;
+  NOTIFY_EMAIL_FROM?: string;
 }
 
 declare namespace App {

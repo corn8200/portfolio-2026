@@ -71,7 +71,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
         modalities: ['audio', 'text'],
         instructions: SYSTEM_PROMPT,
         turn_detection: { type: 'server_vad' },
-        input_audio_transcription: { model: 'whisper-1' },
+        // gpt-4o-transcribe is the current best-in-class STT for Realtime;
+        // whisper-1 still works but is the older path.
+        input_audio_transcription: { model: 'gpt-4o-transcribe' },
       }),
       signal: controller.signal,
     });
