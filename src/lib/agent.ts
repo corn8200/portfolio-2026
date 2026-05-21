@@ -26,7 +26,7 @@ type LogEntry = {
 
 type AgentMode = 'idle' | 'listening' | 'streaming' | 'speaking' | 'error';
 
-const REALTIME_MODEL = 'gpt-4o-realtime-preview-2024-12-17';
+const REALTIME_MODEL = 'gpt-realtime';
 const ASK_ENDPOINT = '/api/ask';
 const TTS_ENDPOINT = '/api/voice/tts';
 const TRANSCRIBE_ENDPOINT = '/api/voice/transcribe';
