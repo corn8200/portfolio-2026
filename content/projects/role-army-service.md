@@ -1,7 +1,7 @@
 ---
 title: "U.S. Army — Aviation & Service Leadership"
 slug: "army-service"
-summary: "Twenty years across infantry, sniper school, medevac crew, and rotary-wing aviation. Standardization Instructor Pilot in an elite aviation unit."
+summary: "Twenty years in U.S. Army aviation and operations. Warrant Officer pilot. Standardization Instructor for an elite aviation unit."
 stack: ["Standardization & evaluation", "Rotary-wing aviation", "Multi-country operations", "Asset and program management"]
 year: "2001 — 2021"
 status: "veteran"
@@ -11,7 +11,7 @@ links: {}
 
 ## Two decades, one operating principle
 
-Twenty years in uniform took me from infantry paratrooper to Warrant Officer pilot to Standardization Instructor — the pilot other pilots train and certify against. The unit is one of the elite rotary-wing aviation organizations in the U.S. military; the details of mission profile stay out of public documents.
+Twenty years in uniform took me from enlisted ground roles to Warrant Officer pilot to Standardization Instructor — the pilot other pilots train and certify against. The unit is one of the elite rotary-wing aviation organizations in the U.S. military; specifics stay in the conversation rather than the public page.
 
 What that career taught me, in a sentence: standardize, train to the standard, evaluate against the standard, and then improve the standard. Continuously. The vocabulary changed when I moved to manufacturing. The discipline did not.
 
