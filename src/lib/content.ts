@@ -30,7 +30,7 @@ export function getAllProjects(): ProjectEntry[] {
   return Object.values(projectModules)
     .map((m) => ({
       frontmatter: m.frontmatter,
-      url: `/work/${m.frontmatter.slug}`,
+      url: `/work/${m.frontmatter.slug}/`,
       rawContent: (m as unknown as { rawContent?: () => string }).rawContent?.() ?? '',
       Content: m.Content,
     }))

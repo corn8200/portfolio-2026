@@ -20,11 +20,11 @@ Most professional sites describe what someone can do. This one demonstrates it.
 - **The resume mirror** lets you drop your CV and asks GPT to give you an honest tailored pitch in either direction — why John should hire you, or why you should consider John. PDF or text. Vision-capable. Rate-limited.
 - **Page transitions** use the View Transitions API directly. No cross-fade libraries. The hero canvas persists across routes — only the foreground content swaps.
 
-## Why this matters for hiring
+## Why this matters
 
-AI engineering and operations leadership are converging. The shops that will win at deploying AI in industrial settings need leaders who understand both halves — the process-control discipline that comes from decades of operations, and the engineering reflex to build the tooling rather than wait for a vendor.
+AI engineering and operations leadership are converging. The teams that will win at deploying AI in industrial settings need people who understand both halves — the process-control discipline that comes from decades of operations, and the engineering reflex to build the tooling rather than wait for a vendor.
 
-I have both. This page is the proof.
+I've spent the last several years working on both. This page is what that looks like in practice.
 
 ## Stack notes for the technically curious
 
