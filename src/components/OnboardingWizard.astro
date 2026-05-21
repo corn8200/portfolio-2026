@@ -194,9 +194,9 @@
   .wiz__backdrop {
     position: absolute;
     inset: 0;
-    background: color-mix(in oklch, var(--fg) 38%, transparent);
-    backdrop-filter: blur(8px) saturate(1.1);
-    -webkit-backdrop-filter: blur(8px) saturate(1.1);
+    background: color-mix(in oklch, var(--fg) 62%, transparent);
+    backdrop-filter: blur(12px) saturate(1.1);
+    -webkit-backdrop-filter: blur(12px) saturate(1.1);
   }
 
   .wiz__sheet {
@@ -527,12 +527,26 @@
   }
 
   @media (max-width: 540px) {
-    .wiz { padding: var(--space-2); }
-    .wiz__sheet { padding: var(--space-5); }
-    .wiz__head { grid-template-columns: 1fr auto; }
+    /* Full-bleed sheet on mobile — feels like a native iOS-style sheet.
+       Takes the entire viewport so the chat underneath never peeks through. */
+    .wiz { padding: 0; place-items: stretch; }
+    .wiz__sheet {
+      width: 100%;
+      max-width: none;
+      max-height: 100dvh;
+      height: 100dvh;
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      padding: var(--space-5) var(--space-5) calc(var(--space-7) + env(safe-area-inset-bottom));
+      padding-top: calc(var(--space-5) + env(safe-area-inset-top));
+    }
+    .wiz__head { grid-template-columns: 1fr auto; align-items: start; }
     .wiz__dots { display: none; }
+    .wiz__title { font-size: clamp(2.1rem, 9vw, 2.6rem); }
     .wiz__nav { flex-direction: column-reverse; align-items: stretch; }
-    .wiz__btn { width: 100%; text-align: center; }
-    .wiz__prompt { grid-template-columns: 2.25rem 1fr; }
+    .wiz__btn { width: 100%; text-align: center; padding: var(--space-4); font-size: var(--fs-md); }
+    .wiz__prompt { grid-template-columns: 2.25rem 1fr; font-size: var(--fs-base); }
+    .wiz__foot { padding-top: var(--space-3); }
   }
 </style>

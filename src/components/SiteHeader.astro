@@ -101,9 +101,16 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
     height: 2px;
     background: var(--accent);
   }
-  @media (max-width: 640px) {
+  @media (max-width: 720px) {
     .masthead__role { display: none; }
-    .site-nav { gap: var(--space-4); }
+    .site-nav { gap: var(--space-3); }
     .site-nav__a > .t-mono { display: none; }
+    .site-nav__a { padding-inline: var(--space-1); font-size: var(--fs-xs); }
+    .masthead__name { font-size: var(--fs-sm); white-space: nowrap; }
+    .site-header__inner { gap: var(--space-3); padding-block: var(--space-2); min-height: 48px; }
+  }
+  @media (max-width: 420px) {
+    .site-nav { gap: 6px; }
+    .site-nav__a { padding-inline: 2px; }
   }
 </style>
