@@ -14,13 +14,13 @@
   --color-text:            #14110D;
   --color-text-muted:      #4A4239;
   --color-text-subtle:     #6B6053;
-  --color-accent:          #B4651D;
-  --color-accent-press:    #8E4F14;
+  --color-accent:          #A05A16;
+  --color-accent-press:    #7E4310;
   --color-accent-fg:       #F8F7F4;
   --color-success:         #3F7F4C;
   --color-warning:         #B57F1C;
   --color-danger:          #A53E33;
-  --color-focus-ring:      #B4651D;
+  --color-focus-ring:      #A05A16;
 
   /* short aliases */
   --bg:    var(--color-bg);
