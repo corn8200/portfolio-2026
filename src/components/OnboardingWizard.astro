@@ -74,11 +74,14 @@
         <textarea
           id="wiz-org"
           class="wiz__input wiz__textarea"
-          rows="5"
+          rows="4"
           maxlength="600"
           placeholder="Optional. e.g. 'CTO at a 30-person roofing distributor, exploring AI for ops.'"
           data-onboarding-field="org"
         ></textarea>
+        <p class="t-meta wiz__keyhint">
+          Press <kbd>Enter</kbd> to continue · <kbd>Shift+Enter</kbd> for a new line
+        </p>
         <div class="wiz__nav">
           <button type="button" class="wiz__btn wiz__btn--ghost" data-onboarding-skip>Skip</button>
           <button type="button" class="wiz__btn wiz__btn--primary" data-onboarding-next>Continue</button>
@@ -154,6 +157,8 @@
   .wiz__sheet {
     position: relative;
     width: min(36rem, 100%);
+    max-height: min(95%, 36rem);
+    overflow-y: auto;
     background: var(--bg-3);
     color: var(--fg);
     border: 1px solid var(--rule);
@@ -162,6 +167,19 @@
     padding: var(--space-5);
     display: grid;
     gap: var(--space-4);
+  }
+  .wiz__keyhint {
+    margin: 0;
+    color: var(--fg-3);
+    font-size: var(--fs-xs);
+  }
+  .wiz__keyhint kbd {
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-1);
+    padding: 1px 6px;
+    font: 500 var(--fs-xs)/1.2 var(--font-mono);
+    color: var(--fg-2);
   }
 
   .wiz__head {
@@ -188,7 +206,7 @@
     display: grid;
     /* Stack steps in the same grid cell so we can cross-fade between them. */
     grid-template-areas: "step";
-    min-height: 14rem;
+    min-height: 12rem;
   }
 
   .wiz__step {

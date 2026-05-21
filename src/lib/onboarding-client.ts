@@ -250,7 +250,8 @@ export function mountOnboarding(agentRoot: HTMLElement): void {
     });
   }
 
-  // Keyboard: Enter on a field advances; Esc closes.
+  // Keyboard: Enter advances; Shift+Enter inside a textarea = newline; Esc closes.
+  // (Cmd/Ctrl+Enter also advances, mirrors chat-app convention.)
   wizard.addEventListener('keydown', (e) => {
     const k = e.key;
     if (k === 'Escape') {
@@ -260,8 +261,8 @@ export function mountOnboarding(agentRoot: HTMLElement): void {
     }
     if (k !== 'Enter') return;
     const target = e.target as HTMLElement | null;
-    // Inside the textarea Enter should newline, not advance.
-    if (target?.tagName === 'TEXTAREA' && !e.metaKey && !e.ctrlKey) return;
+    // Shift+Enter inside a textarea inserts a newline — don't advance.
+    if (target?.tagName === 'TEXTAREA' && e.shiftKey) return;
     e.preventDefault();
     if (current === 1) {
       commitNameOrg();
