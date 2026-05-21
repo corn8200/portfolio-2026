@@ -1,89 +1,56 @@
 # John Cornelius
 
-## AI & Six Sigma Lead at Tamko Building Products
+AI & Six Sigma Lead, Tamko Building Products. Based in Harpers Ferry, West Virginia. US-eligible. Open to roles, advisory engagements, and conversations.
 
-Twenty years airborne — paratrooper, sniper, Night Stalker pilot. Now bringing the same precision to nine manufacturing plants. Husband. Father. From the ground up.
+corn82@icloud.com · github.com/corn8200
 
-## About
+## Summary
 
-I grew up in Frankford, West Virginia. Small town. The kind of place where everybody knows your name and probably what you had for dinner last night. It gave me grit, roots, and a deep connection to the mountains and rivers that I still carry with me today.
+Operations leader translating two decades of high-tempo aviation discipline into AI-driven process optimization on the factory floor. Current focus: scaling real-time analytics, predictive maintenance, AI-tuned process control, and operator-facing automation across nine manufacturing plants.
 
-September 11th, 2001. I was eighteen. I remember exactly where I was. I remember the feeling — anger, sadness, purpose, like a switch flipped. I walked into a recruiting office and signed up for the Delayed Entry Program while I was still in high school. Twenty years and fourteen countries later, I retired from the Army and started a second career bringing operational discipline to American manufacturing.
+## Experience
 
-I live in Harpers Ferry, West Virginia. I've been married to my wife Ashley for eight years. We have two boys — James, five, and Jude, three. After two decades of deployments, I don't leave their side. Everywhere I go, those boys go with me. Kayaking, biking, fishing — they're right there.
+### Tamko Building Products — AI & Six Sigma Lead (Corporate)
 
-## Current role
+*2024 — present.* Lead AI and Six Sigma practice across nine plants. Bring proven operational AI patterns out of one subsidiary and into the broader enterprise — real-time analytics, predictive control, digital-twin monitoring, automated reporting, and the human workflow that has to surround each of those for them to stick on a factory floor. The job is as much change management as it is engineering.
 
-**AI & Six Sigma Lead — Tamko Building Products** (corporate, nine plants). 2024–present.
+### Tamko Building Products / Allmine Paving — Operations Manager → AI & Six Sigma Lead
 
-I scale AI-driven process optimization across the enterprise. Real-time analytics, predictive maintenance, AI-tuned process control, automated reporting. The work that earned me promotion from one subsidiary to corporate gets multiplied across all nine plants.
+*2022 — 2024.* Joined as Quality and Raw Materials Manager. Promoted twice in roughly three years — to Operations Manager, then to the corporate AI & Six Sigma Lead role. Owned plant accountability for safety, quality, production, cost, and people. Shipped real-time analytics, AI-based PID tuning, AI-assisted shift hand-offs, and SCADA-driven digital-twin monitoring. Materially reduced process waste and unplanned downtime; sustained safety record across leadership tenure. Specific figures available in private conversation.
 
-## Career
+### U.S. Army — Aviation, Special Operations, and Service Leadership
 
-### Tamko Building Products / Allmine Paving — Sept 2022 to present
-
-Three promotions in three and a half years. Started as Quality and Raw Materials Manager. Promoted to Operations Manager — full plant accountability for safety, quality, production, cost, and people. Promoted again to AI and Six Sigma Lead for all of Tamko.
-
-What I shipped at the plant level before scaling:
-
-- Real-time analytics through BrainCube. Cut process waste by 70%. **$189,000 / year savings.**
-- AI-based PID tuning system. **$37,000 / year savings.**
-- Power Apps + AI shift briefs that eliminated 15 minutes of manual handover every shift. **$16,000 / year savings.**
-- SCADA digital twin monitoring. Reduced unplanned downtime by 35%.
-- Zero OSHA recordables across the operations leadership tenure.
-
-### United States Army — 2001 to 2021. Twenty years. Fourteen countries.
-
-Joined out of high school in direct response to 9/11. Retired as a Standardization Instructor Pilot — the pilot who trains and evaluates other pilots.
-
-- **82nd Airborne Division, Fort Bragg.** Paratrooper. Fallujah, Iraq, 2003. The early years of the war — sandbags in Humvee boxes, AT4s strapped on with quick-release. We slept on pallets in warehouses.
-- **Sniper school.** Patience, observation, data collection. Lying in a position for hours factoring in wind speed, humidity, elevation, the curvature of the earth. Six Sigma principles, just with a different vocabulary.
-- **Medevac crew chief and door gunner.** Flying into firefights, IED strikes, mass casualty events to bring people home alive.
-- **Warrant Officer flight school.** Made the jump from infantry/crew to pilot.
-- **160th Special Operations Aviation Regiment — the Night Stalkers.** The most elite helicopter unit in the United States military. The pilots who fly the missions that don't make the news. Tier-one support. Five-word motto: *Night Stalkers Don't Quit.*
-- Flew every model of Blackhawk the Army has: UH-60, MH-60, A model, L model, M model.
-- **Standardization Instructor Pilot** — the standard others trained against.
-- **$48M in aviation assets** under my management. **98% readiness rate.**
-- **$4.6M test and evaluation program** delivered on time, on budget, with zero safety incidents.
+*2001 — 2021.* Twenty years across infantry, sniper school, medevac crew, and rotary-wing aviation. Earned the Warrant Officer rating and qualified as a Standardization Instructor Pilot — the pilot who trains and evaluates other pilots — in an elite aviation unit. Deployed across multiple theaters, managed multi-million-dollar aviation assets and a multi-million-dollar test and evaluation program with no safety incidents. The thread across the career was the same one I bring to manufacturing now: standardization, precision under pressure, continuous improvement, and trust earned by performance.
 
 ## Education
 
-- **Master of Science in Unmanned Systems** — Embry-Riddle Aeronautical University.
-- **Bachelor of Science in Aeronautics** — Embry-Riddle Aeronautical University.
+**Embry-Riddle Aeronautical University**
+- Master of Science, Unmanned Systems
+- Bachelor of Science, Aeronautics
+
+Both completed during active military service. The Unmanned Systems graduate work was a useful bridge to current AI engineering — autonomous systems are a human-autonomy teaming problem long before they are a model problem.
 
 ## Skills
 
-**Manufacturing & operations.** Six Sigma. Lean. SCADA. PID control. BrainCube real-time analytics. Predictive maintenance. Digital twins. Plant safety and quality programs. P&L accountability.
+**Manufacturing & operations.** Six Sigma. Lean. SCADA. PID control. Real-time process analytics. Predictive maintenance. Digital twins. Plant safety and quality programs. P&L accountability.
 
-**AI & automation.** Anthropic API (Claude). OpenAI API. Prompt engineering. RAG over operational documents. Multi-agent orchestration. Voice cloning and TTS. Vector databases. MCP integrations. Power Apps + AI hybrid tooling.
+**AI & automation.** Anthropic and OpenAI APIs (Claude, GPT-5). Prompt engineering. Retrieval-augmented generation. Multi-agent orchestration. Voice cloning and streaming TTS. Vector databases. MCP-based integrations. Power Apps + AI hybrid tooling.
 
-**Engineering & data.** Python. TypeScript. SQL. Postgres with pgvector. Cloudflare Workers and Pages. WebGL. Modern frontend (Astro, Next.js). Git-based workflows. CI/CD.
+**Engineering & data.** Python. TypeScript. SQL. Postgres / pgvector. Cloudflare Workers and Pages. Modern frontend (Astro, Next.js). Git-based workflows. CI/CD.
 
-**Aviation & operations leadership.** Standardization instructor experience. Test & evaluation program management. Asset and budget accountability at $48M scale. Multi-country deployment experience.
+**Leadership.** Multi-plant operational management. Standardization instructor experience. Test and evaluation program management. Multi-country aviation operations.
 
-## How I'm wired
+## How I work
 
-Three different instruments, same signal:
-
-- **Color Code:** 51% Yellow, 28% Red. The optimistic motivator who keeps morale up — but flips to results-driven, decisive, direct when it's go-time.
-- **KAI score:** 89. Slightly toward the innovative side. I respect structure and process, but I'm always looking for a better way. I'm not going to blow up what works. I'm also not going to accept "that's how we've always done it."
-- **Myers-Briggs:** ENFJ-T. The Protagonist, Turbulent variant. Leads through inspiration, not authority. Never satisfied with "good enough."
-
-Paratrooper. Sniper. Night Stalker pilot. Six Sigma Lead. All three tests say the same thing: wired to lead, wired to optimize, wired to never stop improving.
-
-## Selected work outside the day job
-
-I build operator-grade AI infrastructure in my off-hours — the kind that runs my own life and pressure-tests what I deploy at Tamko. Multi-agent orchestrators, voice and calendar automation, RAG pipelines, MCP-based AI bridges. The site you're reading is one of those projects — Astro on Cloudflare with a cloned voice agent, RAG over this CV, and a custom WebGL hero. Ask the voice agent for details, or drop your own resume below for an honest tailored pitch in either direction.
+Three different instruments, one signal. The Color Code, KAI, and Myers-Briggs assessments I have taken converge on the same picture: motivator and connector first, results-driver second, slight innovator bias, never satisfied with "good enough." Whether that's lining up an aircraft for an instrument approach in zero visibility or rolling AI tooling out to operators who have run a process by feel for thirty years, the operating principle is the same — standardize, train, evaluate, improve.
 
 ## Outside work
 
-Kayaking. E-biking. West Virginia rivers. Saturdays floating with the boys. Some guys golf — I float. After twenty years of high-tempo operations where your heart rate is through the roof and the stakes are life and death, I've learned to appreciate the quiet, the slow, the simple.
+West Virginia rivers. Kayaking and e-biking, mostly with my two boys. Married to Ashley.
 
 ## Contact
 
 - Email: corn82@icloud.com
 - GitHub: [corn8200](https://github.com/corn8200)
-- Location: Harpers Ferry, West Virginia · US-eligible
-- Open to: AI/automation leadership roles, manufacturing operations transformation engagements, advisory work for veterans transitioning to industry
-
-> From the ground up. That's how I've built everything in my life. And I'm not done yet.
+- Based in Harpers Ferry, West Virginia. US-eligible, comfortable with travel.
+- Open to: AI/automation leadership in industrial or operational settings, advisory engagements, and conversations with veterans transitioning into industry.

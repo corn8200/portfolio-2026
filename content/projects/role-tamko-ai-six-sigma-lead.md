@@ -1,8 +1,8 @@
 ---
 title: "AI & Six Sigma Lead — Tamko Corporate"
 slug: "tamko-ai-six-sigma-lead"
-summary: "Scaling AI-driven process optimization across nine manufacturing plants. Real-time analytics, predictive maintenance, AI-tuned process control, automated reporting."
-stack: ["AI / GenAI", "Six Sigma", "SCADA", "BrainCube", "Power Apps", "PID control"]
+summary: "Scaling AI-driven process optimization across nine plants. Real-time analytics, predictive maintenance, AI-tuned process control, automated reporting."
+stack: ["AI / GenAI", "Six Sigma", "SCADA", "Real-time analytics", "Power Apps", "PID control"]
 year: "2024 — present"
 status: "current"
 order: 1
@@ -11,18 +11,16 @@ links: {}
 
 ## The role
 
-After three promotions in three and a half years — Quality and Raw Materials Manager, then Operations Manager, then this — I now lead AI and Six Sigma for all of Tamko Building Products. Nine manufacturing plants. My charter is to take the operational AI playbook I built at Allmine Paving and scale it across the enterprise.
+Lead AI and Six Sigma practice across nine manufacturing plants at Tamko Building Products. The charter is to take what worked at one subsidiary and make it work everywhere, each plant with its own equipment, processes, and people.
 
-## What I'm scaling
+## What's actually hard
 
-The work that earned me corporate promotion was, fundamentally, applying military-grade discipline to manufacturing data. Real-time analytics. Predictive control loops. Automation that removes friction without removing oversight. Now I'm pattern-matching that approach across nine very different plants, each with their own equipment, processes, and culture.
+Manufacturing AI fails when it is bolted on. It works when it is embedded — when operators on the floor see the model as the most reliable teammate they have. My job is the integration layer: the human-AI hand-off, the training, the trust. The tooling is the easy part. The change management is the work.
 
-## How I think about it
+## Pattern
 
-Manufacturing AI fails when it's bolted on. It works when it's embedded — when operators see the AI as the most reliable teammate on the floor, not a black box. My job is the integration layer: the human-AI hand-off, the training program, the trust-building. The tooling is the easy part.
+Each plant gets the same playbook in a different order: instrument the process, give the model the right signal, then engineer the human workflow around what the model can reliably do. Real-time analytics. AI-tuned process control. SCADA-driven digital-twin monitoring. AI-assisted shift hand-offs. Each one is a small change; together they shift how the floor operates.
 
-## Why it's the same job as flying
+## Why it scales
 
-In the Night Stalkers, I was the Standardization Instructor Pilot — the pilot other pilots trained against, the one who set the bar. Scaling AI across nine plants is the same exercise. Set the standard. Train to it. Evaluate against it. Continuously improve.
-
-The vocabulary changed. The discipline didn't.
+It was already proven once at the plant level inside one subsidiary. Three promotions in three and a half years was the company telling me to take that proof everywhere. Specific impact numbers are documented internally — happy to talk through them in person, but not on a public page.
