@@ -23,4 +23,4 @@ Each plant gets the same playbook in a different order: instrument the process, 
 
 ## Why it scales
 
-The playbook came from one subsidiary first — that subsidiary cut unplanned downtime roughly 25 percent over 18 months. Two promotions in roughly three years was the company asking me to take that pattern across all nine plants. The control-loop changes, the operator hand-off mechanics, and the adoption work behind the number are fair game in conversation.
+The playbook came from one subsidiary first — that subsidiary cut unplanned downtime roughly 35 percent over 18 months. Two promotions in roughly three years was the company asking me to take that pattern across all nine plants. The control-loop changes, the operator hand-off mechanics, and the adoption work behind the number are fair game in conversation.

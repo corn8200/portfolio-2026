@@ -26,7 +26,7 @@ test('cv copy removes weak or incorrect lines', () => {
   assert.doesNotMatch(cv, /as much change management as it is engineering/i);
   assert.doesNotMatch(cv, /trust earned by performance/i);
   assert.match(cv, /\$1\.5B-plus roofing manufacturing space/i);
-  assert.match(cv, /Cut unplanned downtime roughly 25 percent over an 18-month run/i);
+  assert.match(cv, /Cut unplanned downtime roughly 35 percent over an 18-month run/i);
   assert.match(cv, /roughly 3,500 rotary-wing flight hours/i);
 });
 
@@ -42,9 +42,10 @@ test('army summary fixes duplicated article and lands stronger claim', () => {
 test('paid role pages carry conservative impact numbers', () => {
   const aiLead = read('content/projects/role-tamko-ai-six-sigma-lead.md');
   const operations = read('content/projects/role-tamko-operations.md');
-  assert.match(aiLead, /cut unplanned downtime roughly 25 percent over 18 months/i);
+  assert.match(aiLead, /cut unplanned downtime roughly 35 percent over 18 months/i);
   assert.match(aiLead, /across all nine plants/i);
-  assert.match(operations, /roughly 25 percent reduction in unplanned downtime over 18 months/i);
+  assert.match(operations, /roughly 35 percent reduction in unplanned downtime over 18 months/i);
+  assert.doesNotMatch(read('content/projects/topic-narrative.md'), /twenty-five percent/i);
   assert.doesNotMatch(aiLead, /Impact numbers are documented internally/i);
   assert.doesNotMatch(operations, /Dollar and percent figures stay in internal documents/i);
 });

@@ -16,7 +16,7 @@ AI &amp; Six Sigma Lead at Tamko Building Products. I scale real-time analytics,
 
 ### Tamko Building Products / Allmine Paving — Operations Manager → AI & Six Sigma Lead
 
-*2022 — 2024.* Joined as Quality and Raw Materials Manager. Promoted twice in roughly three years — to Operations Manager, then to the corporate AI & Six Sigma Lead role. Owned plant accountability for safety, quality, production, cost, and people. Shipped real-time analytics, AI-based PID tuning, AI-assisted shift hand-offs, and SCADA-driven digital-twin monitoring. Cut unplanned downtime roughly 25 percent over an 18-month run on the lines I owned, with the gains holding through a leadership handoff. The methodology — control-loop tuning, AI-driven PID adjustment, operator hand-off changes, and the adoption work that made the number stick — is the playbook I now scale enterprise-wide.
+*2022 — 2024.* Joined as Quality and Raw Materials Manager. Promoted twice in roughly three years — to Operations Manager, then to the corporate AI & Six Sigma Lead role. Owned plant accountability for safety, quality, production, cost, and people. Shipped real-time analytics, AI-based PID tuning, AI-assisted shift hand-offs, and SCADA-driven digital-twin monitoring. Cut unplanned downtime roughly 35 percent over an 18-month run on the lines I owned, with the gains holding through a leadership handoff. The methodology — control-loop tuning, AI-driven PID adjustment, operator hand-off changes, and the adoption work that made the number stick — is the playbook I now scale enterprise-wide.
 
 ### U.S. Army — Aviation, Special Operations, and Service Leadership
 

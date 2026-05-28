@@ -35,7 +35,7 @@ Left active service. Knew I wanted to work in operations, in manufacturing, in a
 
 Promoted to Operations Manager. Full plant accountability for safety, quality, production, cost, and people. Started shipping the operational-AI playbook on the floor — real-time analytics first, then AI-based PID tuning, AI-assisted shift hand-offs, SCADA-driven digital-twin monitoring. The discipline from aviation translated directly into how I ran the shift, the rollout, and the operator hand-offs.
 
-Cut unplanned downtime on the lines I owned by roughly twenty-five percent over an eighteen-month run. The gains held through a leadership handoff, which is the harder test than the initial number.
+Cut unplanned downtime on the lines I owned by roughly thirty-five percent over an eighteen-month run. The gains held through a leadership handoff, which is the harder test than the initial number.
 
 ## Tamko AI & Six Sigma Lead, 2024 — present
 
