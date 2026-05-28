@@ -6,7 +6,7 @@ corn82@icloud.com · github.com/corn8200
 
 ## Summary
 
-AI &amp; Six Sigma Lead at Tamko Building Products. I scale real-time analytics, predictive maintenance, AI-tuned process control, and operator-facing automation across nine Tamko manufacturing plants — a privately held industrial business in the $1.5B-plus roofing manufacturing space. The discipline came from twenty years in Army aviation — standardization, evaluation, precision under pressure. The same operating loop now runs the AI rollout.
+AI & Six Sigma Lead at Tamko Building Products. I scale real-time analytics, predictive maintenance, AI-tuned process control, and operator-facing automation across nine Tamko manufacturing plants — a privately held industrial business in the $1.5B-plus roofing manufacturing space. The discipline came from twenty years in Army aviation — standardization, evaluation, precision under pressure. The same operating loop now runs the AI rollout.
 
 ## Experience
 

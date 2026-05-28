@@ -11,7 +11,7 @@ links: {}
 
 ## The role
 
-Joined as Quality and Raw Materials Manager. Promoted to Operations Manager — end-to-end plant accountability for safety, quality, production, cost, and people. Promoted again, this time out to corporate as AI &amp; Six Sigma Lead — two moves in roughly three years.
+Joined as Quality and Raw Materials Manager. Promoted to Operations Manager — end-to-end plant accountability for safety, quality, production, cost, and people. Promoted again, this time out to corporate as AI & Six Sigma Lead — two moves in roughly three years.
 
 ## What I shipped
 
