@@ -79,10 +79,11 @@ test('hidden RAG topic files stay in corpus but out of work routes', () => {
     assert.match(topic, /^summary: ".+"$/m);
   }
 
-  const detail = read('src/pages/work/[slug].astro');
+  // Hidden topics: filtered from the /work LISTING but still rendered as pages
+  // so the RAG agent's clickable citation chips resolve instead of 404ing.
+  const list = read('src/pages/work/index.astro');
   const content = read('src/lib/content.ts');
-  assert.match(detail, /getAllProjects\(\)\.filter\(\(p\) => !p\.frontmatter\.hidden\)/);
-  assert.match(detail, /!project \|\| project\.frontmatter\.hidden/);
+  assert.match(list, /!p\.frontmatter\.hidden/);
   assert.match(content, /hidden\?: boolean/);
 });
 

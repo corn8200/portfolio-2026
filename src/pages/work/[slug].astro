@@ -5,14 +5,15 @@ import { getAllProjects, getProjectBySlug } from '@lib/content';
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const projects = getAllProjects().filter((p) => !p.frontmatter.hidden);
+  // Hidden RAG topics still render so the agent's clickable citation chips resolve (see src/lib/agent.ts window.open(cite.url)).
+  const projects = getAllProjects();
   return projects.map((p) => ({ params: { slug: p.frontmatter.slug } }));
 }
 
 const { slug } = Astro.params;
 const project = slug ? getProjectBySlug(slug) : undefined;
 
-if (!project || project.frontmatter.hidden) {
+if (!project) {
   return new Response('Not Found', { status: 404 });
 }
 
