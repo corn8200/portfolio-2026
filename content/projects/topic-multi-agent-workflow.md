@@ -11,7 +11,7 @@ links: {}
 
 ## The setup
 
-A tmux session on a Mac mini and a parallel session on a VPS. Each pane is a long-running Claude Code or OpenAI Codex CLI process scoped to a specific role — chief-of-staff for personal-life surfaces, decision lead for Plaud voice-recording packets, command-router voice front-end, planning panes, build panes. An Overseer brain on the VPS reads events from a Postgres event bus and decides what to dispatch to which pane. Approvals route through a single one-tap channel.
+Day to day with AI agents, I work through a tmux session on a Mac mini and a parallel session on a VPS. Each pane is a long-running Claude Code or OpenAI Codex CLI process scoped to a specific role — chief-of-staff for personal-life surfaces, decision lead for Plaud voice-recording packets, command-router voice front-end, planning panes, build panes. An Overseer brain on the VPS reads events from a Postgres event bus and decides what to dispatch to which pane. Approvals route through a single one-tap channel.
 
 This is not a tech demo. It is the operating layer I run my life on.
 
