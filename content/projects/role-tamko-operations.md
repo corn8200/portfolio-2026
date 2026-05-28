@@ -27,4 +27,4 @@ Every one of these shipped the same way: instrument the process, feed the model 
 
 ## Why it earned the corporate role
 
-Tamko corporate watched a single subsidiary go from "we should probably do something with AI" to documented operational impact on the back of a small set of focused integrations. Scaling that playbook across nine plants is the current job. Specific dollar and percent figures stay in internal documents; happy to walk through them in person.
+Tamko corporate watched a single subsidiary go from "we should probably do something with AI" to documented operational impact on the back of a small set of focused integrations. Scaling that playbook across nine plants is the current job. Dollar and percent figures stay in internal documents; methodology is fair game on a call.

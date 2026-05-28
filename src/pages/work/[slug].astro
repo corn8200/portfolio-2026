@@ -16,10 +16,10 @@ if (!project) {
   return new Response('Not Found', { status: 404 });
 }
 
-const all = getAllProjects();
-const idx = all.findIndex((p) => p.frontmatter.slug === slug);
-const prev = idx > 0 ? all[idx - 1] : null;
-const next = idx < all.length - 1 ? all[idx + 1] : null;
+const navItems = getAllProjects().filter((p) => p.frontmatter.status !== 'credentialed');
+const idx = navItems.findIndex((p) => p.frontmatter.slug === slug);
+const prev = idx > 0 ? navItems[idx - 1] : null;
+const next = idx >= 0 && idx < navItems.length - 1 ? navItems[idx + 1] : null;
 
 const f = project.frontmatter;
 const Content = project.Content as any;
@@ -28,7 +28,7 @@ const Content = project.Content as any;
   <article class="shell-wide proj-page">
     <header class="proj-page__head">
       <a class="t-meta" href="/work" style="display:inline-block; margin-bottom: var(--space-4);">&larr; All work</a>
-      <p class="h-eyebrow">{String(idx + 1).padStart(2, '0')} / {f.status === 'veteran' ? 'Service record' : f.status === 'current' ? 'Current role' : f.status === 'delivered' ? 'Delivered work' : f.status === 'credentialed' ? 'Education' : 'Project'}</p>
+      <p class="h-eyebrow">{idx >= 0 ? String(idx + 1).padStart(2, '0') : 'CV'} / {f.status === 'veteran' ? 'Service record' : f.status === 'current' ? 'Current role' : f.status === 'delivered' ? 'Delivered work' : f.status === 'credentialed' ? 'Education' : 'Project'}</p>
       <h1 class="h-display" style={`view-transition-name: project-${f.slug};`}>{f.title}</h1>
       <p class="t-lead">{f.summary}</p>
       <dl class="meta-row proj-page__meta">

@@ -11,11 +11,6 @@ const { projects } = Astro.props;
         <div class="proj-row__main">
           <h3 class="h-2">{p.frontmatter.title}</h3>
           <p class="t-body">{p.frontmatter.summary}</p>
-          {p.frontmatter.stack && (
-            <ul class="proj-row__stack" role="list">
-              {p.frontmatter.stack.map((s) => <li class="t-meta">{s}</li>)}
-            </ul>
-          )}
         </div>
         <div class="proj-row__status">
           {p.frontmatter.year && <span class="t-meta">{p.frontmatter.year}</span>}
@@ -58,8 +53,6 @@ const { projects } = Astro.props;
   .proj-row__idx { color: var(--fg-3); font-size: var(--fs-xs); padding-top: 0.4rem; }
   .proj-row__main { display: grid; gap: var(--space-3); }
   .proj-row__main .h-2 { color: var(--fg); }
-  .proj-row__stack { list-style: none; padding: 0; margin: 0; display: flex; gap: var(--space-3); flex-wrap: wrap; }
-  .proj-row__stack > li { color: var(--fg-3); }
   .proj-row__status { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-2); padding-top: 0.4rem; }
   .proj-row__state {
     padding: 2px 8px;

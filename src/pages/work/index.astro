@@ -3,20 +3,20 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import ProjectList from '@components/ProjectList.astro';
 import { getAllProjects } from '@lib/content';
 
-const projects = getAllProjects();
+const projects = getAllProjects().filter((p) => p.frontmatter.status !== 'credentialed');
 ---
 <BaseLayout
   title="Work — John Cornelius"
-  description="Eight systems in production. Brain. Gateway. Memory. Queue. MCP. Each one earns its place."
+  description="Manufacturing AI, Army aviation, operations leadership, and the Overseer control plane behind John's agent work."
 >
   <section class="shell-wide page-head">
-    <p class="h-eyebrow">02 / Career</p>
-    <h1 class="h-display">Career</h1>
+    <p class="h-eyebrow">02 / Work</p>
+    <h1 class="h-display">Work</h1>
     <p class="t-lead">
       Promoted twice at Tamko in roughly three years, from a plant subsidiary to corporate AI &amp; Six Sigma Lead.
-      Twenty years of U.S. Army operations before that. Embry-Riddle for both degrees.
-      A few side projects that demonstrate the engineering, not just the management.
+      Twenty years of U.S. Army operations before that. The work below is the operating record, not a stack list.
     </p>
+    <p class="education-strip t-meta">Education: MS Unmanned Systems + BS Aeronautics, Embry-Riddle.</p>
   </section>
 
   <section class="shell-wide section">
@@ -26,5 +26,11 @@ const projects = getAllProjects();
 
 <style>
   .page-head { padding-block: var(--space-9) var(--space-7); display: grid; gap: var(--space-4); max-width: 60rem; }
+  .education-strip {
+    color: var(--fg-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--rule);
+    max-width: 52rem;
+  }
   .section { padding-block: var(--space-4) var(--space-10); }
 </style>
