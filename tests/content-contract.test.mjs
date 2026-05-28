@@ -48,6 +48,10 @@ test('portfolio case study is about Overseer, not the medium of this site', () =
   assert.match(project, /Overseer/i);
   assert.match(project, /Command bus/i);
   assert.match(project, /Cockpit/i);
+  assert.match(project, /17\.5K durable memories/i);
+  assert.match(project, /65 proposed actions/i);
+  assert.match(project, /mcp\.sentryaithermal\.com/i);
+  assert.match(project, /Commitments I make in iMessage or voice/i);
 });
 
 test('voice agent is direct, not hidden behind the wizard', () => {

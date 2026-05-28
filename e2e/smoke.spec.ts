@@ -34,14 +34,14 @@ test.describe('smoke', () => {
     const rows = page.locator('.proj-row');
     await expect(rows).toHaveCount(4, { timeout: 4000 });
     await expect(page.locator('.proj-row', { hasText: 'Education' })).toHaveCount(0);
-    await expect(page.locator('.proj-row')).toContainText('Overseer Personal Ops Control Plane');
+    await expect(page.locator('.proj-row', { hasText: 'Overseer — Personal AI ops layer' })).toHaveCount(1);
   });
 
   test('a project dossier loads', async ({ page }) => {
     await page.goto('/work');
     const first = page.locator('.proj-row__a').first();
     await first.click();
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('main h1').first()).toBeVisible();
   });
 
   test('agent text mode accepts input', async ({ page }) => {
