@@ -52,6 +52,10 @@ test('portfolio case study is about Overseer, not the medium of this site', () =
   assert.match(project, /65 proposed actions/i);
   assert.match(project, /mcp\.sentryaithermal\.com/i);
   assert.match(project, /Commitments I make in iMessage or voice/i);
+  assert.match(project, /meeting-in-N-minutes push/i);
+  assert.match(project, /stale meeting on a colleague sick-day/i);
+  assert.doesNotMatch(project, /^stack:/m);
+  assert.doesNotMatch(project, /Why it belongs on a CV|## Why it matters/i);
 });
 
 test('voice agent is direct, not hidden behind the wizard', () => {
