@@ -20,10 +20,14 @@ test('home leads with agent and proof instead of navigation doors', () => {
 test('cv copy removes weak or incorrect lines', () => {
   const cv = read('content/cv-source.md');
   assert.doesNotMatch(cv, /Specific figures available in private conversation/i);
+  assert.doesNotMatch(cv, /dollar and percent figures are under NDA/i);
   assert.doesNotMatch(cv, /Color Code|KAI|Myers-Briggs/i);
   assert.doesNotMatch(cv, /operating principles came with me/i);
   assert.doesNotMatch(cv, /as much change management as it is engineering/i);
   assert.doesNotMatch(cv, /trust earned by performance/i);
+  assert.match(cv, /\$1\.5B-plus roofing manufacturing space/i);
+  assert.match(cv, /Cut unplanned downtime roughly 25 percent over an 18-month run/i);
+  assert.match(cv, /roughly 3,500 rotary-wing flight hours/i);
 });
 
 test('army summary fixes duplicated article and lands stronger claim', () => {
@@ -31,6 +35,18 @@ test('army summary fixes duplicated article and lands stronger claim', () => {
   assert.doesNotMatch(army, /an an instructor/i);
   assert.match(army, /Standardization Instructor Pilot/i);
   assert.match(army, /signature put other pilots in the air/i);
+  assert.match(army, /Roughly 3,500 rotary-wing flight hours/i);
+  assert.match(army, /multi-million-dollar test-and-evaluation program/i);
+});
+
+test('paid role pages carry conservative impact numbers', () => {
+  const aiLead = read('content/projects/role-tamko-ai-six-sigma-lead.md');
+  const operations = read('content/projects/role-tamko-operations.md');
+  assert.match(aiLead, /cut unplanned downtime roughly 25 percent over 18 months/i);
+  assert.match(aiLead, /across all nine plants/i);
+  assert.match(operations, /roughly 25 percent reduction in unplanned downtime over 18 months/i);
+  assert.doesNotMatch(aiLead, /Impact numbers are documented internally/i);
+  assert.doesNotMatch(operations, /Dollar and percent figures stay in internal documents/i);
 });
 
 test('work page removes education row and stack chip clouds', () => {

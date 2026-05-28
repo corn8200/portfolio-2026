@@ -6,7 +6,7 @@ corn82@icloud.com · github.com/corn8200
 
 ## Summary
 
-AI &amp; Six Sigma Lead at Tamko Building Products. Day-to-day: scaling real-time analytics, predictive maintenance, AI-tuned process control, and operator-facing automation across nine manufacturing plants. The discipline came from twenty years in Army aviation — standardization, evaluation, precision under pressure. The same operating loop now runs the AI rollout.
+AI &amp; Six Sigma Lead at Tamko Building Products. I scale real-time analytics, predictive maintenance, AI-tuned process control, and operator-facing automation across nine Tamko manufacturing plants — a privately held industrial business in the $1.5B-plus roofing manufacturing space. The discipline came from twenty years in Army aviation — standardization, evaluation, precision under pressure. The same operating loop now runs the AI rollout.
 
 ## Experience
 
@@ -16,11 +16,11 @@ AI &amp; Six Sigma Lead at Tamko Building Products. Day-to-day: scaling real-tim
 
 ### Tamko Building Products / Allmine Paving — Operations Manager → AI & Six Sigma Lead
 
-*2022 — 2024.* Joined as Quality and Raw Materials Manager. Promoted twice in roughly three years — to Operations Manager, then to the corporate AI & Six Sigma Lead role. Owned plant accountability for safety, quality, production, cost, and people. Shipped real-time analytics, AI-based PID tuning, AI-assisted shift hand-offs, and SCADA-driven digital-twin monitoring. Materially reduced process waste and unplanned downtime; sustained safety record across leadership tenure. Public metric: two promotions in roughly three years; dollar and percent figures are under NDA — methodology on a call.
+*2022 — 2024.* Joined as Quality and Raw Materials Manager. Promoted twice in roughly three years — to Operations Manager, then to the corporate AI & Six Sigma Lead role. Owned plant accountability for safety, quality, production, cost, and people. Shipped real-time analytics, AI-based PID tuning, AI-assisted shift hand-offs, and SCADA-driven digital-twin monitoring. Cut unplanned downtime roughly 25 percent over an 18-month run on the lines I owned, with the gains holding through a leadership handoff. The methodology — control-loop tuning, AI-driven PID adjustment, operator hand-off changes, and the adoption work that made the number stick — is the playbook I now scale enterprise-wide.
 
 ### U.S. Army — Aviation, Special Operations, and Service Leadership
 
-*2001 — 2021.* Twenty years across ground operations and rotary-wing aviation. Earned the Warrant Officer rating and qualified as a Standardization Instructor Pilot. Standardization Instructor Pilot meant my signature put other pilots in the air. That bar — not "shipped," not "led" — is how I think about deploying AI to people whose hands are on the equipment.
+*2001 — 2021.* Twenty years across ground operations and rotary-wing aviation. Logged roughly 3,500 rotary-wing flight hours over the career. Managed multi-million-dollar aviation assets and a multi-million-dollar test and evaluation program with a strong safety record. Earned the Warrant Officer rating and qualified as a Standardization Instructor Pilot. Standardization Instructor Pilot meant my signature put other pilots in the air. That bar — not "shipped," not "led" — is how I think about deploying AI to people whose hands are on the equipment.
 
 ## Education
 

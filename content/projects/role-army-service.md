@@ -21,6 +21,8 @@ What that career taught me, in a sentence: standardize, train to the standard, e
 - Ran a multi-million-dollar test and evaluation program on time and on budget with a strong safety record.
 - Deployed across multiple theaters and multiple countries.
 
+Roughly 3,500 rotary-wing flight hours over the career. Multi-million-dollar aviation assets and a multi-million-dollar test-and-evaluation program under accountability.
+
 ## Why it matters for what I do now
 
 People who have done industrial AI long enough will tell you the failure mode is rarely the model — it is the system around the model. Aviation forces you to think in systems. Crews, checklists, contingencies, instructors, evaluators, standards. A model on a manufacturing floor is just another teammate that needs to be integrated into that same operating fabric, with the same discipline.
