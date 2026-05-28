@@ -20,7 +20,7 @@ AI & Six Sigma Lead at Tamko Building Products. I scale real-time analytics, pre
 
 ### U.S. Army — Aviation, Special Operations, and Service Leadership
 
-*2001 — 2021.* Twenty years across ground operations and rotary-wing aviation. Logged roughly 3,500 rotary-wing flight hours over the career. Managed multi-million-dollar aviation assets and a multi-million-dollar test and evaluation program with a strong safety record. Earned the Warrant Officer rating and qualified as a Standardization Instructor Pilot. Standardization Instructor Pilot meant my signature put other pilots in the air. That bar — not "shipped," not "led" — is how I think about deploying AI to people whose hands are on the equipment.
+*2001 — 2021.* Twenty years across ground operations and rotary-wing aviation. Logged roughly 3,500 rotary-wing flight hours over the career. Managed multi-million-dollar aviation assets and a multi-million-dollar test and evaluation program with a strong safety record. Earned the Warrant Officer rating and qualified as a Standardization Instructor Pilot. Standardization Instructor Pilot meant my signature put other pilots in the air. That bar — not “shipped,” not “led” — is how I think about deploying AI to people whose hands are on the equipment.
 
 ## Education
 
@@ -42,7 +42,7 @@ Both completed during active military service. The Unmanned Systems graduate wor
 
 ## How I work
 
-Aviation gave me the loop: standardize, train, evaluate, improve. Manufacturing AI uses the same loop. The model has to earn trust inside the operator's workflow, under pressure, when the easy answer would be to go back to doing it by feel.
+Aviation gave me the loop: standardize, train, evaluate, improve. Manufacturing AI uses the same loop. The model has to earn trust inside the operator’s workflow, under pressure, when the easy answer would be to go back to doing it by feel.
 
 ## Outside work
 
