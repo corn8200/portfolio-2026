@@ -50,6 +50,12 @@ test('paid role pages carry conservative impact numbers', () => {
   assert.doesNotMatch(operations, /Dollar and percent figures stay in internal documents/i);
 });
 
+test('RAG prompt can cite the public downtime percentage', () => {
+  const rag = read('src/lib/rag/index.ts');
+  assert.doesNotMatch(rag, /Do NOT cite specific dollar or percent figures from the CV/i);
+  assert.match(rag, /The public downtime percentage is fair game/i);
+});
+
 test('work page removes education row and stack chip clouds', () => {
   const work = read('src/pages/work/index.astro');
   const list = read('src/components/ProjectList.astro');
