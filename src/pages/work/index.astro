@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import ProjectList from '@components/ProjectList.astro';
 import { getAllProjects } from '@lib/content';
 
-const projects = getAllProjects().filter((p) => p.frontmatter.status !== 'credentialed');
+const projects = getAllProjects().filter((p) => p.frontmatter.status !== 'credentialed' && !p.frontmatter.hidden);
 ---
 <BaseLayout
   title="Work — John Cornelius"

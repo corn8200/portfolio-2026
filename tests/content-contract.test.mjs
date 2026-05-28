@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -53,8 +53,37 @@ test('work page removes education row and stack chip clouds', () => {
   const work = read('src/pages/work/index.astro');
   const list = read('src/components/ProjectList.astro');
   assert.match(work, /status !== 'credentialed'/);
+  assert.match(work, /!p\.frontmatter\.hidden/);
   assert.doesNotMatch(work, /Eight systems in production/);
   assert.doesNotMatch(list, /proj-row__stack/);
+});
+
+test('hidden RAG topic files stay in corpus but out of work routes', () => {
+  const topicFiles = readdirSync(new URL('../content/projects', import.meta.url))
+    .filter((file) => file.startsWith('topic-') && file.endsWith('.md'))
+    .sort();
+  assert.deepEqual(topicFiles, [
+    'topic-ai-rollout-failure-modes.md',
+    'topic-faq.md',
+    'topic-looking-for.md',
+    'topic-multi-agent-workflow.md',
+    'topic-narrative.md',
+    'topic-operating-philosophy.md',
+    'topic-stack-and-taste.md',
+  ]);
+
+  for (const file of topicFiles) {
+    const topic = read(`content/projects/${file}`);
+    assert.match(topic, /^hidden: true$/m);
+    assert.match(topic, /^slug: ".+"$/m);
+    assert.match(topic, /^summary: ".+"$/m);
+  }
+
+  const detail = read('src/pages/work/[slug].astro');
+  const content = read('src/lib/content.ts');
+  assert.match(detail, /getAllProjects\(\)\.filter\(\(p\) => !p\.frontmatter\.hidden\)/);
+  assert.match(detail, /!project \|\| project\.frontmatter\.hidden/);
+  assert.match(content, /hidden\?: boolean/);
 });
 
 test('portfolio case study is about Overseer, not the medium of this site', () => {

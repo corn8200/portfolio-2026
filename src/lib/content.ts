@@ -10,6 +10,7 @@ export type ProjectFrontmatter = {
   year?: string | number;
   status?: string;
   order?: number;
+  hidden?: boolean;
   links?: Record<string, string>;
 };
 

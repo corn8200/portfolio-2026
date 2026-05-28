@@ -5,18 +5,18 @@ import { getAllProjects, getProjectBySlug } from '@lib/content';
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const projects = getAllProjects();
+  const projects = getAllProjects().filter((p) => !p.frontmatter.hidden);
   return projects.map((p) => ({ params: { slug: p.frontmatter.slug } }));
 }
 
 const { slug } = Astro.params;
 const project = slug ? getProjectBySlug(slug) : undefined;
 
-if (!project) {
+if (!project || project.frontmatter.hidden) {
   return new Response('Not Found', { status: 404 });
 }
 
-const navItems = getAllProjects().filter((p) => p.frontmatter.status !== 'credentialed');
+const navItems = getAllProjects().filter((p) => p.frontmatter.status !== 'credentialed' && !p.frontmatter.hidden);
 const idx = navItems.findIndex((p) => p.frontmatter.slug === slug);
 const prev = idx > 0 ? navItems[idx - 1] : null;
 const next = idx >= 0 && idx < navItems.length - 1 ? navItems[idx + 1] : null;
