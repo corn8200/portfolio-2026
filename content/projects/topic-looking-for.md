@@ -11,7 +11,7 @@ links: {}
 
 ## The shape of role I want
 
-A senior operator role where AI is part of the work — either deploying it into an operational environment, or running the operating layer around an AI product. Two flavors fit:
+What John is looking for next is a senior operator role where AI is part of the work — either deploying it into an operational environment, or running the operating layer around an AI product. Two flavors fit:
 
 - **Industrial / regulated / safety-relevant AI deployment** — manufacturing, process industries, defense, healthcare ops. The work is shipping AI into environments where the failure mode matters and the operator on the night shift has to trust it.
 - **AI company operator role** — head of operations, head of platform, ops lead, PM-of-systems, where the company already has an AI product and needs someone who can run the surrounding operational fabric. Customer onboarding mechanics, eval pipelines, deployment posture, the human procedures around the system.
