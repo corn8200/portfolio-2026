@@ -1,15 +1,16 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('smoke', () => {
-  test('home renders hero + nav + work list', async ({ page }) => {
+  test('home renders proof-first CV surface', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/John Cornelius/);
     await expect(page.locator('#hero-name')).toBeVisible();
     await expect(page.locator('#bg-canvas')).toBeAttached();
-    await expect(page.locator('text=Talk to John')).toBeVisible();
-    await expect(page.locator('text=Operator-grade').first()).toBeVisible({ timeout: 4000 }).catch(() => {});
+    await expect(page.locator('text=Industrial AI operator')).toBeVisible();
+    await expect(page.locator('text=plants in the current AI')).toBeVisible();
+    await expect(page.locator('[data-agent-input]')).toBeVisible();
     // nav present
-    for (const label of ['Index', 'Work', 'About', 'Contact']) {
+    for (const label of ['Home', 'Talk', 'CV', 'Work', 'Contact']) {
       await expect(page.locator(`nav >> text=${label}`)).toBeVisible();
     }
   });
@@ -36,10 +37,12 @@ test.describe('smoke', () => {
   test('work index lists at least 6 projects', async ({ page }) => {
     await page.goto('/work');
     const rows = page.locator('.proj-row');
-    await expect(rows).toHaveCount(6 + 1, { timeout: 4000 }).catch(async () => {
+    await expect(rows).toHaveCount(5, { timeout: 4000 }).catch(async () => {
       const count = await rows.count();
-      expect(count).toBeGreaterThanOrEqual(6);
+      expect(count).toBeGreaterThanOrEqual(5);
     });
+    await expect(page.locator('text=Education')).toHaveCount(0);
+    await expect(page.locator('text=Operator AI System')).toBeVisible();
   });
 
   test('a project dossier loads', async ({ page }) => {

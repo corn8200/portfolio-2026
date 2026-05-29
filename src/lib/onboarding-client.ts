@@ -125,7 +125,7 @@ export function mountOnboarding(agentRoot: HTMLElement): void {
   function updateCrumb(): void {
     if (refs.stepCrumb) refs.stepCrumb.textContent = String(current);
     // Update the 3-dot step indicator.
-    for (const dot of wizard.querySelectorAll<HTMLElement>('[data-onboarding-dot]')) {
+    for (const dot of refs.wizard.querySelectorAll<HTMLElement>('[data-onboarding-dot]')) {
       const n = Number(dot.getAttribute('data-onboarding-dot'));
       dot.setAttribute('data-current', n === current ? 'true' : 'false');
       dot.setAttribute('data-done', n < current ? 'true' : 'false');

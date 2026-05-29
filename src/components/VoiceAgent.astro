@@ -1,16 +1,10 @@
 ---
-// Voice + text agent UI mount.
-// Hydrates the conversation surface client-side; the page itself stays SSR.
-// Real endpoints live at /api/ask and /api/voice/* (defined separately).
-import OnboardingWizard from './OnboardingWizard.astro';
+// Voice + text agent UI mount. Real endpoints live at /api/ask and /api/voice/*.
 ---
 <div class="agent" data-agent>
-  <OnboardingWizard />
-
   <div class="agent__chrome">
-    <span class="t-meta">VOICE / TEXT · CITED RAG · CLONED VOICE</span>
+    <span class="t-meta">ASK JOHN · VOICE / TEXT · CITED CV</span>
     <span class="agent__chrome-right">
-      <button type="button" class="agent__edit t-meta" data-onboarding-edit aria-label="Edit your context">Edit context</button>
       <button type="button" class="agent__mute t-meta" data-agent-mute aria-pressed="false">Mute</button>
       <span class="t-meta agent__state" data-agent-state>idle</span>
     </span>
@@ -40,7 +34,7 @@ import OnboardingWizard from './OnboardingWizard.astro';
       class="agent__input"
       type="text"
       autocomplete="off"
-      placeholder="Ask about a project, a decision, a stack choice…"
+      placeholder="Ask about the nine-plant rollout, Army aviation, or fit for a role..."
       data-agent-input
     />
     <button class="agent__btn agent__btn--send" type="submit" data-agent-send>
@@ -56,14 +50,13 @@ import OnboardingWizard from './OnboardingWizard.astro';
   </form>
 
   <p class="agent__hint t-meta">
-    Every answer replays in John's cloned voice (mute to silence).
+    Answers can replay in John's cloned voice; mute keeps it text-only.
     Cite chips <span class="cite-chip">[01]</span> link to the source section.
   </p>
 </div>
 
 <script>
   import { mountAgent } from '@/lib/agent';
-  import '@/lib/onboarding-client';
   const el = document.querySelector('[data-agent]') as HTMLElement | null;
   if (el) mountAgent(el);
 </script>
@@ -109,14 +102,12 @@ import OnboardingWizard from './OnboardingWizard.astro';
   @media (max-width: 540px) { .agent__intro { grid-template-columns: 1fr; } }
 
   .agent__chrome-right { display: inline-flex; align-items: center; gap: var(--space-3); }
-  .agent__mute,
-  .agent__edit {
+  .agent__mute {
     padding: 2px 8px; border-radius: var(--r-pill); border: 1px solid var(--rule-strong);
     cursor: pointer; color: var(--fg-2); background: transparent;
     transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
   }
-  .agent__mute:hover, .agent__mute:focus-visible,
-  .agent__edit:hover, .agent__edit:focus-visible {
+  .agent__mute:hover, .agent__mute:focus-visible {
     color: var(--fg); border-color: var(--fg); outline: none;
   }
   .agent__mute[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }

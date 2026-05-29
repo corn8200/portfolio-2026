@@ -1,26 +1,26 @@
 # John Cornelius
 
-AI & Six Sigma Lead, Tamko Building Products. Based in Harpers Ferry, West Virginia. US-eligible. Open to roles, advisory engagements, and conversations.
+AI & Six Sigma Lead, Tamko Building Products. Based in Harpers Ferry, West Virginia. US-eligible. Open to roles, advisory engagements, and serious conversations.
 
 corn82@icloud.com · github.com/corn8200
 
 ## Summary
 
-AI &amp; Six Sigma Lead at Tamko Building Products. Day-to-day: scaling real-time analytics, predictive maintenance, AI-tuned process control, and operator-facing automation across nine manufacturing plants. The discipline behind it comes from a twenty-year aviation career — moved on from the cockpit; the operating principles came with me.
+AI & Six Sigma Lead at Tamko Building Products. I scale real-time analytics, predictive maintenance, AI-tuned process control, and operator-facing automation across nine manufacturing plants. The discipline behind it comes from a twenty-year Army aviation career: standardize the work, train the standard, evaluate performance, then improve the system.
 
 ## Experience
 
 ### Tamko Building Products — AI & Six Sigma Lead (Corporate)
 
-*2024 — present.* Lead AI and Six Sigma practice across nine plants. Bring proven operational AI patterns out of one subsidiary and into the broader enterprise — real-time analytics, predictive control, digital-twin monitoring, automated reporting, and the human workflow that has to surround each of those for them to stick on a factory floor. The job is as much change management as it is engineering.
+*2024 — present.* Lead AI and Six Sigma practice across nine plants. Bring proven operational AI patterns out of one subsidiary and into the broader enterprise: real-time analytics, predictive control, digital-twin monitoring, automated reporting, and the human workflow that has to surround each of those for them to stick on a factory floor.
 
 ### Tamko Building Products / Allmine Paving — Operations Manager → AI & Six Sigma Lead
 
-*2022 — 2024.* Joined as Quality and Raw Materials Manager. Promoted twice in roughly three years — to Operations Manager, then to the corporate AI & Six Sigma Lead role. Owned plant accountability for safety, quality, production, cost, and people. Shipped real-time analytics, AI-based PID tuning, AI-assisted shift hand-offs, and SCADA-driven digital-twin monitoring. Materially reduced process waste and unplanned downtime; sustained safety record across leadership tenure. Specific figures available in private conversation.
+*2022 — 2024.* Joined as Quality and Raw Materials Manager. Promoted twice in roughly three years: to Operations Manager, then to the corporate AI & Six Sigma Lead role. Owned plant accountability for safety, quality, production, cost, and people. Shipped real-time analytics, AI-based PID tuning, AI-assisted shift hand-offs, and SCADA-driven digital-twin monitoring. Process waste and downtime improvements are documented internally; I can walk through the before/after method in a private conversation.
 
 ### U.S. Army — Aviation, Special Operations, and Service Leadership
 
-*2001 — 2021.* Twenty years across ground operations and rotary-wing aviation. Earned the Warrant Officer rating and qualified as a Standardization Instructor Pilot — the pilot who trains and evaluates other pilots. Deployed across multiple theaters. Managed multi-million-dollar aviation assets and a multi-million-dollar test and evaluation program with a strong safety record. The thread across the career: standardization, precision under pressure, continuous improvement, and trust earned by performance.
+*2001 — 2021.* Twenty years across ground operations and rotary-wing aviation. Earned the Warrant Officer rating and qualified as a Standardization Instructor Pilot: the pilot who trains and evaluates other pilots. Deployed across multiple theaters. Managed multi-million-dollar aviation assets and a multi-million-dollar test and evaluation program with a strong safety record. The through-line is standardization, precision under pressure, and continuous improvement.
 
 ## Education
 
@@ -40,9 +40,9 @@ Both completed during active military service. The Unmanned Systems graduate wor
 
 **Leadership.** Multi-plant operational management. Standardization instructor experience. Test and evaluation program management. Multi-country aviation operations.
 
-## How I work
+## Operating style
 
-Three different instruments, one signal. The Color Code, KAI, and Myers-Briggs assessments I have taken converge on the same picture: motivator and connector first, results-driver second, slight innovator bias, never satisfied with "good enough." Whether that's lining up an aircraft for an instrument approach in zero visibility or rolling AI tooling out to operators who have run a process by feel for thirty years, the operating principle is the same — standardize, train, evaluate, improve.
+I do best where the technical system and the human system have to meet. Whether that is lining up an aircraft for an instrument approach in zero visibility or rolling AI tooling out to operators who have run a process by feel for thirty years, the operating principle is the same: standardize, train, evaluate, improve.
 
 ## Outside work
 

@@ -1,35 +1,39 @@
 ---
-title: "This Site (And What It Demonstrates)"
-slug: "this-site"
-summary: "Astro on Cloudflare with a cloned voice agent, retrieval-augmented Q&A over this CV, custom WebGL hero, resume-mirror, and View Transitions. The site is the demo."
-stack: ["Astro 5", "Cloudflare Pages + Workers", "Vectorize (pgvector-equivalent)", "OpenAI Realtime + Embeddings", "ElevenLabs cloned voice", "Raw WebGL2 + custom GLSL"]
+title: "Operator AI System — Overseer Stack"
+slug: "operator-ai-system"
+summary: "A personal command system that routes voice and iMessage requests, dispatches Mac/VPS agents, tracks approvals, and keeps an audit trail."
+stack: ["Voice + iMessage intake", "Task queue", "MCP bridges", "Agent dispatch", "Audit trail"]
 year: "2026"
 status: "live"
-order: 5
-links: { repo: "https://github.com/corn8200/portfolio-2026", preview: "https://portfolio-2026-123.pages.dev/" }
+order: 4
+links: {}
 ---
 
-## Why a portfolio is a demonstration, not a description
+## The operating problem
 
-Most professional sites describe what someone can do. This one demonstrates it.
+AI work gets fragile when it lives in one chat window. Real operations need intake, routing, state, approvals, logs, and a way to hand work between people and agents without losing the thread.
 
-## What's on this page that proves the point
+That is what the Overseer stack is for.
 
-- **The hero you scrolled past** is a custom WebGL2 fragment shader — a 2D scalar field rendered as topographic isolines, with cursor and scroll velocity reacting in real time. No Three.js, no library. About 120 lines of GLSL ES 300.
-- **The voice agent** speaks in my actual voice. Cloned via ElevenLabs Instant Voice Clone from two voice memos and routed through a Cloudflare Worker. The model answers from this CV via retrieval — every claim it makes is sourced from the page you're reading.
-- **The resume mirror** lets you drop your CV and asks GPT to give you an honest tailored pitch in either direction — why John should hire you, or why you should consider John. PDF or text. Vision-capable. Rate-limited.
-- **Page transitions** use the View Transitions API directly. No cross-fade libraries. The hero canvas persists across routes — only the foreground content swaps.
+## What it does today
 
-## Why this matters
+- Accepts trusted voice and iMessage requests, turns them into command-center jobs, and records a receipt.
+- Dispatches work to Claude and Codex panes on the Mac or VPS, then watches for completion, failure, or pending approvals.
+- Keeps shared task, memory, health, heartbeat, and audit context available to the next agent instead of burying it in a chat transcript.
+- Separates operator approval from execution so the system can move quickly without sending messages, spending money, or touching production by accident.
 
-AI engineering and operations leadership are converging. The teams that will win at deploying AI in industrial settings need people who understand both halves — the process-control discipline that comes from decades of operations, and the engineering reflex to build the tooling rather than wait for a vendor.
+## Architecture at a glance
 
-I've spent the last several years working on both. This page is what that looks like in practice.
+```text
+voice / iMessage / web request
+        |
+        v
+Overseer intake -> command jobs -> approvals -> Mac + VPS agent panes
+        |               |              |
+        v               v              v
+memory + task state   receipts       health / audit trail
+```
 
-## Stack notes for the technically curious
+## Why it belongs on a CV
 
-- **Framework:** Astro 5 SSR on Cloudflare Pages. Server-rendered HTML, hydrated only where interactive.
-- **AI:** OpenAI for embeddings (`text-embedding-3-small`) and reasoning (`gpt-4o-mini`); Realtime API for voice; Whisper for transcription. ElevenLabs `eleven_turbo_v2_5` for streaming TTS.
-- **Storage:** Cloudflare Vectorize (1536-dim cosine) for the embedded CV. KV for rate limits and response caching.
-- **Type:** Inter Variable + JetBrains Mono Variable, self-hosted.
-- **Performance:** Sub-200ms TTFB at edge. WebGL canvas pauses after 90 idle frames to respect the user's battery.
+The same failure modes show up in manufacturing AI: unclear handoffs, no audit trail, weak approval gates, and tooling that works only while the builder is watching it. This system is a small, personal version of the operating layer I like building around AI: clear intake, controlled execution, measurable state, and recovery paths when something breaks.

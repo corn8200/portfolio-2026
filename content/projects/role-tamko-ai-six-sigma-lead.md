@@ -23,4 +23,4 @@ Each plant gets the same playbook in a different order: instrument the process, 
 
 ## Why it scales
 
-The playbook came from one subsidiary first. Two promotions in roughly three years was the company asking me to take it everywhere. Specific impact numbers are documented internally — happy to talk through them in person, but not on a public page.
+The playbook came from one subsidiary first. Two promotions in roughly three years was the company asking me to take it everywhere. Impact figures are documented internally; in a private conversation I can walk through the before/after pattern, the control-loop changes, and the adoption work that made the numbers hold.

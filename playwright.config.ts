@@ -21,7 +21,7 @@ export default defineConfig({
     { name: 'mobile-android',   use: { ...devices['Pixel 7'] } },
   ],
   webServer: process.env.PW_NO_SERVER ? undefined : {
-    command: '/home/ubuntu/bin/npm run dev',
+    command: 'npm run dev',
     url: 'http://localhost:4321',
     timeout: 60_000,
     reuseExistingServer: !process.env.CI,

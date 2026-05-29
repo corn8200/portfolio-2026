@@ -1,13 +1,15 @@
 ---
 const year = new Date().getFullYear();
 const buildTime = new Date().toISOString();
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const showStatus = !['/talk', '/contact'].includes(pathname);
 ---
 <footer class="site-footer">
   <div class="shell-wide site-footer__inner">
     <dl class="site-footer__meta meta-row">
       <dt>built</dt><dd>{buildTime.slice(0, 10)} &middot; Cloudflare Pages</dd>
       <dt>based</dt><dd>Harpers Ferry, West Virginia &middot; US-eligible</dd>
-      <dt>status</dt><dd><span class="dot-live" aria-hidden="true"></span> <span class="t-mono">available for conversations</span></dd>
+      {showStatus && <><dt>status</dt><dd><span class="dot-live" aria-hidden="true"></span> <span class="t-mono">available for conversations</span></dd></>}
     </dl>
     <div class="site-footer__line">
       <span class="t-meta">&copy; {year} John Cornelius</span>
