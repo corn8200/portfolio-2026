@@ -10,6 +10,7 @@ export interface Props {
   description?: string;
   ogImage?: string;
   showCanvas?: boolean;
+  showFooter?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   description = 'AI & Six Sigma Lead at Tamko Building Products. MS Unmanned Systems, BS Aeronautics — Embry-Riddle. Veteran of the 160th Special Operations Aviation Regiment.',
   ogImage = '/og/default.svg',
   showCanvas = false,
+  showFooter = true,
 } = Astro.props;
 
 const fullTitle = title.includes('John Cornelius') ? title : `${title} — John Cornelius`;
@@ -77,7 +79,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://portfolio-2
     <slot />
   </main>
 
-  <SiteFooter />
+  {showFooter && <SiteFooter />}
 
   <noscript>
     <div class="noscript-banner">

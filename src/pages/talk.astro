@@ -4,25 +4,24 @@ import VoiceAgent from '@components/VoiceAgent.astro';
 ---
 <BaseLayout
   title="Talk — John Cornelius"
-  description="Real-time voice or text. Ask anything. Every answer cites which role or project it pulled from."
+  description="Ask John Cornelius by voice or text. Answers are grounded in the CV and cite the source section."
+  showFooter={false}
 >
   <section class="shell talk">
     <header class="page-head">
       <p class="h-eyebrow">/ Conversation</p>
-      <h1 class="h-display">Talk to me.</h1>
+      <h1 class="h-display">Ask John.</h1>
       <p class="t-lead">
-        Voice or text. The voice you hear is mine — cloned via ElevenLabs from
-        two voice memos. Ask about my Army career, my Tamko work, my degrees,
-        or my approach to manufacturing AI. The model is grounded in this CV
-        and cites the section it pulled from.
+        Voice or text, no intake wizard. Ask about Tamko, Army aviation,
+        manufacturing AI, Overseer, or how the background maps to a role.
+        Answers are grounded in this CV and cite the section they came from.
       </p>
     </header>
 
     <VoiceAgent />
 
     <p class="t-meta foot">
-      Voice runs on my own ElevenLabs Instant Voice Clone. Want to know what I sound like before
-      hopping on a call? Hit the voice button.
+      Voice runs through ElevenLabs. Mute keeps the conversation text-only.
     </p>
   </section>
 </BaseLayout>

@@ -15,7 +15,7 @@ Lead AI and Six Sigma practice across nine manufacturing plants at Tamko Buildin
 
 ## What's actually hard
 
-Manufacturing AI fails when it's bolted on. It works when it's embedded — when operators on the floor see the model as a teammate they can rely on, not a black box. My job is the integration layer: the human-AI hand-off, the training, the trust. The tooling is the easy part. The change management is the work.
+Manufacturing AI fails when it's bolted on. It works when it's embedded — when operators on the floor see the model as a teammate they can rely on, not a black box. My job is the integration layer: the human-AI hand-off, the training, the trust. Half the work is the model; half is the operator who has to trust it at 0300 on a Sunday.
 
 ## Pattern
 
@@ -23,4 +23,4 @@ Each plant gets the same playbook in a different order: instrument the process, 
 
 ## Why it scales
 
-The playbook came from one subsidiary first. Two promotions in roughly three years was the company asking me to take it everywhere. Specific impact numbers are documented internally — happy to talk through them in person, but not on a public page.
+The playbook came from one subsidiary first. Two promotions in roughly three years was the company asking me to take it everywhere. Impact numbers are documented internally; methodology is fair game on a call.

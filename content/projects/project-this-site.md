@@ -1,35 +1,33 @@
 ---
-title: "This Site (And What It Demonstrates)"
-slug: "this-site"
-summary: "Astro on Cloudflare with a cloned voice agent, retrieval-augmented Q&A over this CV, custom WebGL hero, resume-mirror, and View Transitions. The site is the demo."
-stack: ["Astro 5", "Cloudflare Pages + Workers", "Vectorize (pgvector-equivalent)", "OpenAI Realtime + Embeddings", "ElevenLabs cloned voice", "Raw WebGL2 + custom GLSL"]
+title: "Overseer Personal Ops Control Plane"
+slug: "overseer-control-plane"
+summary: "A Mac/VPS command bus for Claude, Codex, Cockpit, memory, approvals, and live operator data. It turns agent work into inspected, gated, receipted operations."
+stack: ["FastAPI", "Next.js", "SQLite/Postgres", "MCP", "tmux", "Tailscale"]
 year: "2026"
 status: "live"
 order: 5
-links: { repo: "https://github.com/corn8200/portfolio-2026", preview: "https://portfolio-2026-123.pages.dev/" }
+links: { repo: "https://github.com/corn8200/overseer-gateway" }
 ---
 
-## Why a portfolio is a demonstration, not a description
+## What it is
 
-Most professional sites describe what someone can do. This one demonstrates it.
+Overseer is the personal operations layer I run every day: a command bus, approval gate, memory path, and Cockpit surface for coordinating Claude, Codex, local tools, and live personal data across a Mac and a VPS.
 
-## What's on this page that proves the point
+![Cockpit UI showing calendar, reminders, queue, and actions](/images/cockpit-overseer.png)
 
-- **The hero you scrolled past** is a custom WebGL2 fragment shader — a 2D scalar field rendered as topographic isolines, with cursor and scroll velocity reacting in real time. No Three.js, no library. About 120 lines of GLSL ES 300.
-- **The voice agent** speaks in my actual voice. Cloned via ElevenLabs Instant Voice Clone from two voice memos and routed through a Cloudflare Worker. The model answers from this CV via retrieval — every claim it makes is sourced from the page you're reading.
-- **The resume mirror** lets you drop your CV and asks GPT to give you an honest tailored pitch in either direction — why John should hire you, or why you should consider John. PDF or text. Vision-capable. Rate-limited.
-- **Page transitions** use the View Transitions API directly. No cross-fade libraries. The hero canvas persists across routes — only the foreground content swaps.
+## Architecture sketch
 
-## Why this matters
+Operator -> Cockpit -> Command bus -> Overseer gateway -> Claude/Codex panes -> critic/receipt -> memory.
 
-AI engineering and operations leadership are converging. The teams that will win at deploying AI in industrial settings need people who understand both halves — the process-control discipline that comes from decades of operations, and the engineering reflex to build the tooling rather than wait for a vendor.
+The important part is not that agents can do work. The important part is that the work is routed, reviewed, gated, and receipted. A restart, deploy, outbound message, or secret mutation takes a different path than a read-only inspection or repo patch.
 
-I've spent the last several years working on both. This page is what that looks like in practice.
+## What it does autonomously today
 
-## Stack notes for the technically curious
+- Converts operator requests into bounded execution packets with owner, scope, acceptance criteria, and verification requirements.
+- Routes blockers through Overseer first, keeping John out of routine approval loops while still holding production actions behind explicit gates.
+- Captures compact receipts into memory so future agents inherit the result, not a raw transcript dump.
+- Keeps Cockpit current with calendar, reminders, queue state, messages, health, and action buttons from live personal data.
 
-- **Framework:** Astro 5 SSR on Cloudflare Pages. Server-rendered HTML, hydrated only where interactive.
-- **AI:** OpenAI for embeddings (`text-embedding-3-small`) and reasoning (`gpt-4o-mini`); Realtime API for voice; Whisper for transcription. ElevenLabs `eleven_turbo_v2_5` for streaming TTS.
-- **Storage:** Cloudflare Vectorize (1536-dim cosine) for the embedded CV. KV for rate limits and response caching.
-- **Type:** Inter Variable + JetBrains Mono Variable, self-hosted.
-- **Performance:** Sub-200ms TTFB at edge. WebGL canvas pauses after 90 idle frames to respect the user's battery.
+## Why it matters
+
+This is the same operating problem as manufacturing AI: the model is only useful when the surrounding workflow makes the output trusted, observable, and reversible. Overseer is my home-system version of that pattern.

@@ -4,7 +4,7 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   output: 'server',
   adapter: cloudflare({
-    platformProxy: { enabled: true, experimentalRemote: false },
+    platformProxy: { enabled: true, remoteBindings: false },
     imageService: 'passthrough',
   }),
   site: 'https://cv.jcornelius.net',
@@ -18,9 +18,9 @@ export default defineConfig({
       cssMinify: 'esbuild',
       assetsInlineLimit: 4096,
     },
-    server: { host: '0.0.0.0' },
+    server: { host: '127.0.0.1' },
   },
-  server: { host: '0.0.0.0', port: 4321 },
+  server: { host: '127.0.0.1', port: 4321 },
   build: {
     inlineStylesheets: 'auto',
   },

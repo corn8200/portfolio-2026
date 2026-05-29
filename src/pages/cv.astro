@@ -5,14 +5,6 @@ import { getCvRaw } from '@lib/content';
 // Render CV markdown to clean HTML. Tiny in-page renderer so we don't pull a Markdown lib.
 const md = getCvRaw();
 
-type Block =
-  | { kind: 'h1'; text: string }
-  | { kind: 'h2'; text: string }
-  | { kind: 'h3'; text: string }
-  | { kind: 'p';  text: string }
-  | { kind: 'li'; text: string; ordered: boolean }
-  | { kind: 'blockquote'; text: string };
-
 function parseInline(s: string): string {
   return s
     .replace(/&/g, '&amp;')
@@ -39,6 +31,11 @@ function renderMd(src: string): string {
     if ((m = line.match(/^##\s+(.+)/))) { closeList(); out.push(`<h2>${parseInline(m[1])}</h2>`); continue; }
     if ((m = line.match(/^###\s+(.+)/))) { closeList(); out.push(`<h3>${parseInline(m[1])}</h3>`); continue; }
     if ((m = line.match(/^>\s*(.+)/))) { closeList(); out.push(`<blockquote>${parseInline(m[1])}</blockquote>`); continue; }
+    if ((m = line.match(/^\*([^*]+)\*\.\s+(.+)/))) {
+      closeList();
+      out.push(`<p class="cv-entry-line"><span class="cv-entry-line__rail">${parseInline(m[1])}</span><span>${parseInline(m[2])}</span></p>`);
+      continue;
+    }
     if ((m = line.match(/^[-*]\s+(.+)/))) {
       if (inList !== 'ul') { closeList(); out.push('<ul>'); inList = 'ul'; }
       out.push(`<li>${parseInline(m[1])}</li>`);
@@ -79,7 +76,7 @@ const today = new Date().toISOString().slice(0, 10);
 </BaseLayout>
 
 <style>
-  .cv { padding-block: var(--space-7) var(--space-10); max-width: 52rem; margin-inline: auto; }
+  .cv { padding-block: var(--space-7) var(--space-10); max-width: 70rem; margin-inline: auto; }
 
   .cv__head {
     border-bottom: 1px solid var(--rule);
@@ -134,6 +131,21 @@ const today = new Date().toISOString().slice(0, 10);
     margin: 0 0 var(--space-3);
     max-width: 68ch;
   }
+  .cv :global(.cv-entry-line) {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: baseline;
+    max-width: 70rem;
+  }
+  .cv :global(.cv-entry-line__rail) {
+    color: var(--fg-3);
+    font: 500 var(--fs-xs)/1.55 var(--font-mono);
+    letter-spacing: var(--tracking-xs);
+    text-transform: uppercase;
+    position: sticky;
+    top: 5rem;
+  }
   .cv :global(strong) { color: var(--fg); font-weight: 600; }
   .cv :global(em) { color: var(--fg); }
   .cv :global(code) { font-family: var(--font-mono); font-size: 0.9em; background: var(--bg-2); padding: 1px 6px; border-radius: var(--r-1); color: var(--fg); }
@@ -157,6 +169,12 @@ const today = new Date().toISOString().slice(0, 10);
     text-underline-offset: 3px;
   }
   .cv :global(a:hover) { color: var(--color-accent-press); }
+
+  @media (max-width: 899px) {
+    .cv { max-width: 52rem; }
+    .cv :global(.cv-entry-line) { grid-template-columns: 1fr; gap: var(--space-2); }
+    .cv :global(.cv-entry-line__rail) { position: static; }
+  }
 
   /* ---------- print ---------- */
   @media print {
